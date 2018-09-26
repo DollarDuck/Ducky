@@ -8,7 +8,7 @@ class Plaid extends Component {
     super(props);
   }
   handleOnSuccess(token, metadata) {
-    console.log('token')
+    console.log('token', token)
   }
   handleOnExit(error, metadata) {
     console.log('link: user exited');
