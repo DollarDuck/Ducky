@@ -25,14 +25,11 @@ User.hasMany(Spending)
 Spending.belongsTo(Category)
 Category.hasMany(Spending)
 
-BudgetItems.belongsTo(Budget)
-Budget.hasMany(BudgetItems)
-
 Budget.belongsTo(User)
 User.hasOne(Budget)
 
-BudgetItems.belongsTo(Category)
-Category.hasMany(BudgetItems)
+Budget.belongsToMany(Category, {through: BudgetItems})
+Category.belongsToMany(Budget, {through: BudgetItems})
 
 module.exports = {
   User,

@@ -24,6 +24,9 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
+  income: {
+    type: Sequelize.DECIMAL
+  },
   phoneNumber: {
     type: Sequelize.INTEGER
   }

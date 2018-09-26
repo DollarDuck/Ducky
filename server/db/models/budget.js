@@ -6,9 +6,6 @@ const Budget = db.define('budgets', {
 		type: Sequelize.DECIMAL,
 		allowNull: false
 	},
-	income: {
-		type: Sequelize.DECIMAL
-	},
 	percentSaved: {
 		type: Sequelize.DECIMAL,
 		validate: {
