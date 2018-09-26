@@ -15,7 +15,7 @@ const Bill = db.define('bills', {
 	recurring: {
 		type: Sequelize.STRING,
 		validate: {
-			isIn: [['daily', 'monthly', 'yearly', '']] 
+			isIn: [['quarterly', 'monthly', 'yearly', '']] 
 		}
 	},
 	paid: {
