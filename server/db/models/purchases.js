@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Purchases = db.define('purchases', {
+const Purchase = db.define('purchases', {
 	amount: {
 		type: Sequelize.DECIMAL,
 		allowNull: false
@@ -22,4 +22,4 @@ const Purchases = db.define('purchases', {
   }
 })
 
-module.exports = Purchases
+module.exports = Purchase
