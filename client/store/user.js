@@ -56,6 +56,16 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const createUser = (stateChange) => {
+  console.log('boo')
+  return async (dispatch) => {
+    const response = await axios.post('api/users', stateChange)
+    const newUser = response.data
+    dispatch(getUser(newUser))
+    history.push('/users')
+  }
+}
+
 /**
  * REDUCER
  */
