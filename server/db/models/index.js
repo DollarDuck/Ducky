@@ -38,6 +38,9 @@ Category.hasMany(BudgetItems)
 Purchase.belongsTo(User)
 User.hasMany(Purchase)
 
+Bill.belongsTo(User)
+User.hasMany(Bill)
+
 module.exports = {
   User,
   Bill,
