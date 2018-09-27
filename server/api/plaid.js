@@ -34,7 +34,7 @@ router.post('/saveToken', async (req, res, next) => {
 			res.sendStatus(200)
 		}
 	})
-	
+
 })
 
 router.get('/transactionsbyBank/:bank', async (req, res, next) => {
@@ -53,7 +53,10 @@ router.get('/userTokens/:userId', async (req, res, next) => {
 					userId: req.params.userId
 				}
 			})
-			res.json(tokens)
+			// console.log('TOKENS', tokens)
+			req.session.accessTokens = tokens
+			console.log('req user where set', req.session)
+			res.sendStatus(201)
 		} catch (error) {
 			next(error)
 		}
@@ -62,7 +65,7 @@ router.get('/userTokens/:userId', async (req, res, next) => {
 router.post('/saveTransactions', async (req, res, next) => {
 	const transactions = req.body.transactions
 	let returnTransactions = []
-	for(let i = 0; i < transactions[0].length; ++i) {
+	for(let i = 0; i < transactions.length; ++i) {
 		let currentTransaction = transactions[0][i]
 		let transaction = await Transaction.create({
 			name: currentTransaction.name,
@@ -77,12 +80,12 @@ router.post('/saveTransactions', async (req, res, next) => {
 })
 
 
-router.post('/transactions/:userId', async (req, res, next) => {
+router.get('/transactions/:userId', async (req, res, next) => {
 	const userId = req.params.userId
-	console.log('req body', req.body)
 	if(parseInt(req.user.id) === parseInt(userId)) {
 		try {
-			const tokens = req.body.tokens
+			console.log('user', req.session)
+			const tokens = req.session.accessTokens
 			const transactions = []
 			const today = new Date();
 			let dd = today.getDate();
@@ -102,17 +105,18 @@ router.post('/transactions/:userId', async (req, res, next) => {
   			const startDate = yyyy+ '-' + mm2 + '-' + dd
 			for(let i=0; i<tokens.length; ++i) {
 				let currentToken = tokens[i].token
-				await client.getTransactions(currentToken, startDate, endDate, {
+				client.getTransactions(currentToken, startDate, endDate, {
     				count: 250,
    					offset: 0,
  				}, function(error, transactionsResponse) {
     				if (error) {
       					next(error);
     				} else {
-      					transactions.push(transactionsResponse.transactions)
+							transactions.push(transactionsResponse.transactions)
     				}
   				});
-			}
+				}
+				console.log('here', transactions)
 			res.json(transactions)
 		} catch (error) {
 			next(error)

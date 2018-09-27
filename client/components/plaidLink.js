@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import PlaidLink from 'react-plaid-link';
 import axios from 'axios'
 import {connect} from 'react-redux'
-const {getTransactions} = require('../../secrets')
+import {getTransactions} from '../store/plaid'
 
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  transactions: state.transactions
+})
+
+const mapDispatchToProps = dispatch => ({
+  getTransactions: userId => dispatch(getTransactions(userId))
 })
 
 
@@ -16,11 +21,10 @@ class Plaid extends Component {
   }
   handleClick = async () => {
     const userId = this.props.user.id
-    const transactions = await getTransactions(userId)
-    console.log(transactions)
+    await this.props.getTransactions(userId)
+    console.log('transaction state', this.props.transactions)
   }
   render() {
-    console.log(getTransactions)
     return (
       <div>
       <button type="button" onClick={this.handleClick}>Generate transactions</button>
@@ -38,6 +42,6 @@ class Plaid extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Plaid)
+export default connect(mapStateToProps, mapDispatchToProps)(Plaid)
 
 
