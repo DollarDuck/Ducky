@@ -10,12 +10,12 @@ const Bill = db.define('bills', {
 		type: Sequelize.STRING
 	},
 	dueDate: {
-		type: Sequelize.DATE
+		type: Sequelize.DATEONLY
 	},
 	recurring: {
 		type: Sequelize.STRING,
 		validate: {
-			isIn: [['quarterly', 'monthly', 'yearly', '']] 
+			isIn: [['quarterly', 'monthly', 'yearly', '']]
 		}
 	},
 	paid: {
