@@ -4,6 +4,8 @@ const Budget = require('./budget')
 const BudgetItems = require('./budgetItems')
 const Category = require('./categories')
 const Spending = require('./spending')
+const AccessToken = require('./access')
+const Transaction = require('./transactions')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -34,11 +36,19 @@ User.hasOne(Budget)
 BudgetItems.belongsTo(Category)
 Category.hasMany(BudgetItems)
 
+AccessToken.belongsTo(User)
+User.hasMany(AccessToken)
+
+Transaction.belongsTo(User)
+User.hasMany(Transaction)
+
 module.exports = {
   User,
   Bill,
   Budget,
   BudgetItems,
   Category,
-  Spending
+  Spending,
+  AccessToken,
+  Transaction
 }
