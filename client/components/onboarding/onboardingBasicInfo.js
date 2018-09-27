@@ -83,7 +83,7 @@ class Onboarding extends Component {
       <br />
       <Button type='submit' disabled={!this.state.checked}>Submit</Button>
     </Form>
-    {(!this.state.checked) ? <p>you must agree to the terms before you can submit.</p> : <p> </p> }
+    {(!this.state.checked && this.state.phoneNumber !== '') ? <p>you must agree to the terms before you can submit.</p> : <p> </p> }
     </div>
     )
   }
