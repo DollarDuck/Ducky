@@ -1,7 +1,48 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Bill} = require('../server/db/models')
+
+const bills = [{
+  name: 'Chicago Electric',
+  type: 'Electric',
+  dueDate: '2018-10-23',
+  recurring: '',
+  paid: true,
+  userId: 1
+}, {
+  name: 'Chicago Water',
+  type: 'Water',
+  dueDate: '2018-10-29',
+  recurring: 'monthly',
+  paid: true,
+  userId: 1
+}, {
+  name: 'Comcast',
+  type: 'Internet',
+  dueDate: '2018-11-01',
+  recurring: 'monthly',
+  paid: false,
+  userId: 2
+}, {
+  name: 'Apartments LLC',
+  type: 'Rent',
+  dueDate: '2018-11-03',
+  recurring: 'quarterly',
+  paid: false,
+  userId: 2
+}, {
+  name: 'The Electric Company',
+  type: 'Electric',
+  dueDate: '2018-11-15',
+  recurring: 'yearly',
+  paid: false,
+  userId: 1
+}]
+
+
+
+
 
 async function seed() {
   await db.sync({force: true})
@@ -11,8 +52,8 @@ async function seed() {
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'})
   ])
+  await Promise.all(bills.map(bill => Bill.create(bill)))
 
-  console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
 
