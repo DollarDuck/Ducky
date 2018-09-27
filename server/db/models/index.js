@@ -48,11 +48,9 @@ User.hasMany(Transaction)
 Purchase.belongsTo(User)
 User.hasMany(Purchase)
 
-<<<<<<< HEAD
-=======
+
 Bill.belongsTo(User)
 User.hasMany(Bill)
->>>>>>> master
 
 module.exports = {
   User,
@@ -60,6 +58,7 @@ module.exports = {
   Budget,
   BudgetItems,
   Category,
+  Spending,
   AccessToken,
   Transaction,
   Purchase
