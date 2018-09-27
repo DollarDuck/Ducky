@@ -105,6 +105,7 @@ router.get('/transactions/:userId', async (req, res, next) => {
   			const startDate = yyyy+ '-' + mm2 + '-' + dd
 			for(let i=0; i<tokens.length; ++i) {
 				let currentToken = tokens[i].token
+				console.log('******', currentToken, startDate, endDate)
 				client.getTransactions(currentToken, startDate, endDate, {
     				count: 250,
    					offset: 0,
