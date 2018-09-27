@@ -47,7 +47,6 @@ router.get('/transactionsbyBank/:bank', async (req, res, next) => {
 })
 
 router.get('/userTokens/:userId', async (req, res, next) => {
-		console.log('userId', req.params.userId)
 		try {
 			const tokens = await AccessToken.findAll({
 				where: {

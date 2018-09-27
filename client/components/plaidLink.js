@@ -4,6 +4,7 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 const {getTransactions} = require('../../secrets')
 
+
 const mapStateToProps = state => ({
   user: state.user
 })
@@ -19,6 +20,7 @@ class Plaid extends Component {
     console.log(transactions)
   }
   render() {
+    console.log(getTransactions)
     return (
       <div>
       <button type="button" onClick={this.handleClick}>Generate transactions</button>
