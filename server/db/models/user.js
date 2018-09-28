@@ -26,6 +26,9 @@ const User = db.define('user', {
   },
   phoneNumber: {
     type: Sequelize.INTEGER
+  },
+  lastUpdated: {
+    type: Sequelize.DATE
   }
 })
 

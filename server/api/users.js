@@ -25,7 +25,17 @@ router.post('/', async (req, res, next) => {
       phoneNumber
     })
     res.json(newUser)
+  }
+  catch(err) {
+    next(err)
+  }
+})
 
+router.put('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.update({ lastUpdated: Date.now()}, { where: {id: req.params.userId}, returning: true
+    })
+    res.json(user)
   } catch (err) {
     next(err)
   }

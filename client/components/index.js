@@ -6,5 +6,9 @@
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
+<<<<<<< HEAD
 export {default as Onboarding} from './onboarding/onboardingBasicInfo'
 export {default as OnboardingBudget} from './onboarding/onboardingBudget'
+=======
+export {default as Plaid} from './plaidLink'
+>>>>>>> 660da43055a3fe0f0277324eb7932fdc504b17de
