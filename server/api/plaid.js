@@ -30,7 +30,7 @@ router.post('/saveToken', async (req, res, next) => {
       const newAccess = await AccessToken.create({
         token: accessToken,
         itemId: itemId,
-        userId: req.user.id,
+        userId: req.body.userId,
         bank: bank
       })
       res.sendStatus(200)
@@ -64,7 +64,6 @@ router.get('/userTokens/:userId', async (req, res, next) => {
 router.post('/transactions/:userId', async (req, res, next) => {
   const userId = req.params.userId
   const lastUpdateDate = req.body.lastUpdateDate
-  if (Number(req.user.id) === Number(userId)) {
     try {
       console.log('user', req.session)
       const tokens = req.session.accessTokens
@@ -97,9 +96,6 @@ router.post('/transactions/:userId', async (req, res, next) => {
     } catch (error) {
       console.error(error)
     }
-  } else {
-    res.send('Unauthorized!')
-  }
 })
 
 router.post('/saveTransactions', async (req, res, next) => {
@@ -113,6 +109,7 @@ router.post('/saveTransactions', async (req, res, next) => {
       amount: currentTransaction.amount,
     },
     defaults: {
+      userId: req.body.userId,
       date: currentTransaction.date,
       accountId: currentTransaction.account_id
     }})

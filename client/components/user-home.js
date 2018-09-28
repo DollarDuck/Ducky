@@ -2,17 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getTransactions} from '../store/plaid'
+import {updateUser} from '../store/user'
 
 /**
  * COMPONENT
  */
 
 class UserHome extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     if(this.props.user.lastUpdated) {
       const lastUpdateDate = this.props.user.lastUpdated
       const userId = this.props.user.id
       this.props.getTransactions(userId, lastUpdateDate)
+      this.props.updateUser(userId)
     }
   }
   render() {
@@ -37,7 +39,8 @@ const mapState = state => {
 }
 
 const mapDispatch = dispatch => ({
-  getTransactions: (userId, lastUpdateDate) => dispatch(getTransactions(userId, lastUpdateDate))
+  getTransactions: (userId, lastUpdateDate) => dispatch(getTransactions(userId, lastUpdateDate)),
+  updateUser: (userId) => dispatch(updateUser(userId))
 })
 
 export default connect(mapState, mapDispatch)(UserHome)

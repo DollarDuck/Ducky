@@ -85,7 +85,9 @@ class OnboardingBudget extends Component {
           </h3>
           <Doughnut data={{labels: ['Savings ('+Math.round(100*(desiredSavings/income))+'%)', 'Rent (' + Math.round(100*rent/income) + '%)', 'Food ('+Math.round(100*(food/income))+'%)', 'Other ('+Math.round(100*other/income)+'%)'], datasets: [{data: [desiredSavings, rent, food, other], backgroundColor: ['#52E577', '#F7464A', '#C61296', '#99347E']}]}} options={{legend: {position: 'bottom'}}} height='50%' />
           <br />
-          <Button type='button' onClick={(event) => this.handleOk(this.state, event)}>Ok, got it </Button>
+          <Button type='button' onClick={(event) => {
+            this.props.history.push('/onboarding/step3')
+            this.props.handleOk(this.state, event)}}>Ok, got it </Button>
       </div>
       }
       {/* END OF WHAT'S RENDERED IF INCOME ENTERED */}
@@ -102,6 +104,7 @@ class OnboardingBudget extends Component {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleOk: (stateChange) => {
+
       dispatch(createBudget(stateChange, ownProps.history))
     }
   }
