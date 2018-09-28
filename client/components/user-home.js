@@ -1,12 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {getTransactions} from '../store/plaid'
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {email} = props
+
+class UserHome extends React.Component {
+  componentWillMount() {
+    console.log('here!!', this.props.user)
+    if(this.props.user.lastUpdated) {
+      const lastUpdateDate = this.props.user.lastUpdated
+      const userId = this.props.user.id
+      console.log('here', lastUpdateDate, userId)
+      this.props.getTransactions(userId, lastUpdateDate)
+    }
+  }
+  render() {
+  const {user, email} = this.props
 
   return (
     <div>
@@ -14,17 +26,23 @@ export const UserHome = props => {
     </div>
   )
 }
+}
 
 /**
  * CONTAINER
  */
 const mapState = state => {
   return {
+    user: state.user,
     email: state.user.email
   }
 }
 
-export default connect(mapState)(UserHome)
+const mapDispatch = dispatch => ({
+  getTransactions: (userId, lastUpdateDate) => dispatch(getTransactions(userId, lastUpdateDate))
+})
+
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES

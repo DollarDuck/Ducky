@@ -61,13 +61,15 @@ router.get('/userTokens/:userId', async (req, res, next) => {
   }
 })
 
-router.get('/transactions/:userId', async (req, res, next) => {
+router.post('/transactions/:userId', async (req, res, next) => {
   const userId = req.params.userId
+  const lastUpdateDate = req.body.lastUpdateDate
+  console.log('here', lastUpdateDate)
   if (Number(req.user.id) === Number(userId)) {
     try {
       console.log('user', req.session)
       const tokens = req.session.accessTokens
-      const [endDate, startDate] = formatDate()
+      const [endDate, startDate] = formatDate(lastUpdateDate)
 			let transactions = []
       for (let i = 0; i < tokens.length; ++i) {
         let currentToken = tokens[i].token
@@ -106,14 +108,17 @@ router.post('/saveTransactions', async (req, res, next) => {
   let returnTransactions = []
   for (let i = 0; i < transactions.length; ++i) {
     let currentTransaction = transactions[i]
-    let transaction = await Transaction.create({
+    let transaction = await Transaction.findOrCreate({
+      where: {
       name: currentTransaction.name,
       amount: currentTransaction.amount,
+    },
+    defaults: {
       date: currentTransaction.date,
-      accountId: currentTransaction.account_id,
-      pending: currentTransaction.pending
-    })
-    returnTransactions.push(transaction.dataValues)
+      accountId: currentTransaction.account_id
+    }})
+    console.log('transaction', transaction)
+    if(transaction.dataValues) returnTransactions.push(transaction.dataValues)
   }
   res.json(returnTransactions)
 })

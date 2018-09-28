@@ -3,6 +3,8 @@ import PlaidLink from 'react-plaid-link';
 import axios from 'axios'
 import {connect} from 'react-redux'
 import {getTransactions} from '../store/plaid'
+import {updateUser} from '../store/user'
+import {get30DaysAgo} from '../../utils'
 
 
 const mapStateToProps = state => ({
@@ -11,7 +13,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getTransactions: userId => dispatch(getTransactions(userId))
+  getTransactions: (userId, lastUpdateDate) => dispatch(getTransactions(userId, lastUpdateDate)),
+  updateUser: userId => dispatch(updateUser(userId))
 })
 
 
@@ -21,8 +24,12 @@ class Plaid extends Component {
   }
   handleClick = async () => {
     const userId = this.props.user.id
-    await this.props.getTransactions(userId)
-    console.log('transaction state', this.props.transactions)
+    const lastUpdateDate = this.props.user.lastUpdated ? this.props.user.lastUpdated : get30DaysAgo()
+    console.log('lastUpdateDate', lastUpdateDate)
+    await this.props.getTransactions(userId, lastUpdateDate)
+    await this.props.updateUser(userId)
+    console.log('user', this.props.user)
+    console.log('transactions', this.props.transactions)
   }
   render() {
     return (
