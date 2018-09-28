@@ -116,7 +116,6 @@ router.post('/saveTransactions', async (req, res, next) => {
       date: currentTransaction.date,
       accountId: currentTransaction.account_id
     }})
-    console.log('transaction', transaction)
     if(transaction.dataValues) returnTransactions.push(transaction.dataValues)
   }
   res.json(returnTransactions)
