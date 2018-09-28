@@ -16,6 +16,21 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.post('/', async (req, res, next) => {
+  const {email, password, phoneNumber} = req.body
+  try {
+    const newUser = await User.create({
+      email,
+      password,
+      phoneNumber
+    })
+    res.json(newUser)
+  }
+  catch(err) {
+    next(err)
+  }
+})
+
 router.put('/:userId', async (req, res, next) => {
   try {
     const user = await User.update({ lastUpdated: Date.now()}, { where: {id: req.params.userId}, returning: true

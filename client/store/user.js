@@ -58,6 +58,18 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const createUser = (stateChange) => {
+  return async (dispatch) => {
+    const response = await axios.post('api/users', stateChange)
+    const newUser = response.data
+    const userId = newUser.id
+    dispatch(getUser(newUser))
+
+    //after user submits basic info, it then goes to step2 with userId in url so we know where to post budget
+    history.push('/onboarding/step2/' + userId)
+  }
+}
+
 export const updateUser = userId => async dispatch => {
   try {
     const res = await axios.put(`/api/users/${userId}`)
