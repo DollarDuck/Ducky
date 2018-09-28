@@ -64,7 +64,6 @@ router.get('/userTokens/:userId', async (req, res, next) => {
 router.post('/transactions/:userId', async (req, res, next) => {
   const userId = req.params.userId
   const lastUpdateDate = req.body.lastUpdateDate
-  console.log('here', lastUpdateDate)
   if (Number(req.user.id) === Number(userId)) {
     try {
       console.log('user', req.session)
