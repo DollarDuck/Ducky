@@ -2,32 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {Menu, Header} from 'semantic-ui-react'
 import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>BOILERMAKER</h1>
+  <Menu borderless>
+    <Menu.Item header>Ducky</Menu.Item>
     <nav>
       {isLoggedIn ? (
-        <div>
+        <Menu.Menu position='right'>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-           <Link to="/plaid">Link your account</Link>
-
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
+          <Menu.Item as={Link} to="/plaid">Link your account</Menu.Item>
+          <Menu.Item name='Me' as={Link} to='/home'/>
+          <Menu.Item name='Home' as={Link} to='/me'/>
+          <Menu.Item name='Logout' href='#' onClick={handleClick} />
+        </Menu.Menu>
       ) : (
-        <div>
+        <Menu.Menu position='right'>
           {/* The navbar will show these links before you log in */}
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
-        </div>
+        </Menu.Menu>
       )}
     </nav>
     <hr />
-  </div>
+  </Menu>
 )
 
 /**
