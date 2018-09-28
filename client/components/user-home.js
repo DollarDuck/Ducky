@@ -12,7 +12,6 @@ class UserHome extends React.Component {
     if(this.props.user.lastUpdated) {
       const lastUpdateDate = this.props.user.lastUpdated
       const userId = this.props.user.id
-      console.log('here', lastUpdateDate, userId)
       this.props.getTransactions(userId, lastUpdateDate)
     }
   }
