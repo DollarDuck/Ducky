@@ -7,7 +7,10 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <Menu borderless>
-    <Menu.Item header>Ducky</Menu.Item>
+    <Menu.Item>
+      <img src='/duck.svg' />
+    </Menu.Item>
+    <Menu.Item><Header as='h2'>Ducky</Header></Menu.Item>
     <nav>
       {isLoggedIn ? (
         <Menu.Menu position='right'>
