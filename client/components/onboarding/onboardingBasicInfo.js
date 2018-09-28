@@ -32,11 +32,6 @@ class Onboarding extends Component {
   }
 
 
-  // handleSubmit = (event) => {
-  //   event.preventDefault()
-  //   console.log(this.state)
-
-  // }
 
   handleMessage = event => {
     let stateChange = {};

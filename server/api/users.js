@@ -19,11 +19,13 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   const {email, password, phoneNumber} = req.body
   try {
-    await User.create({
+    const newUser = await User.create({
       email,
       password,
       phoneNumber
     })
+    res.json(newUser)
+
   } catch (err) {
     next(err)
   }
