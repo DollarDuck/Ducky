@@ -9,7 +9,6 @@ import {getTransactions} from '../store/plaid'
 
 class UserHome extends React.Component {
   componentWillMount() {
-    console.log('here!!', this.props.user)
     if(this.props.user.lastUpdated) {
       const lastUpdateDate = this.props.user.lastUpdated
       const userId = this.props.user.id
