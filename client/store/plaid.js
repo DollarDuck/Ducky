@@ -10,6 +10,7 @@ export const getTransactions = (userId, lastUpdateDate) => async dispatch => {
   const res = await axios.post(`/api/plaid/transactions/${userId}`, {lastUpdateDate: lastUpdateDate})
   console.log('transactions', res.data)
   const transactions = res.data
+  console.log(transactions)
   const transactionsInDB = await axios.post('/api/plaid/saveTransactions', {transactions: transactions})
   dispatch(gotInitialTransactions(transactionsInDB.data))
  } catch (err) {
