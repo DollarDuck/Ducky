@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Form, Button, Checkbox} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {createUser} from '../../store/index'
-
+import {auth} from '../../store'
 import OnboardingSteps from './onboardingSteps'
 
 class Onboarding extends Component {
