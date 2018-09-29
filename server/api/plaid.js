@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {AccessToken, Transaction} = require('../db/models')
+const {AccessToken, Transaction, Balance} = require('../db/models')
 const axios = require('axios')
 const plaid = require('plaid')
 const {formatDate} = require('../../utils')
@@ -116,4 +116,56 @@ router.post('/saveTransactions', async (req, res, next) => {
     if(transaction.dataValues) returnTransactions.push(transaction.dataValues)
   }
   res.json(returnTransactions)
+})
+
+router.post('/balances/:userId', async (req, res, next) => {
+  const userId = req.params.userId
+  try {
+    console.log('user', req.session)
+    const tokens = req.session.accessTokens
+    let balances = [];
+    for (let i = 0; i < tokens.length; ++i) {
+      let currentToken = tokens[i].token
+      await client.getBalance(
+        currentToken,
+        function(error, balanceResponse) {
+          if (error) {
+            next(error)
+          } else {
+            balances = balances.concat(balanceResponse.accounts)
+            if (i === tokens.length - 1) {
+              res.json(balances)
+            }
+          }
+        }
+      )
+    }
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+
+router.post('/saveBalances', async (req, res, next) => {
+  const balances = req.body.balances
+  console.log('BALANCES SAVING')
+  let returnBalances = []
+  for (let i = 0; i < balances.length; ++i) {
+    let currentBalance = balances[i]
+    let balance = await Balance.findOrCreate({
+      where: {
+        amount: currentBalance.balances.current,
+        amountAvailable: currentBalance.balances.available,
+        name: currentBalance.name,
+        officialName: currentBalance.official_name,
+        subtype: currentBalance.subtype,
+        type: currentBalance.type
+    },
+    defaults: {
+      userId: req.body.userId,
+      accountId: currentBalance.account_id
+    }})
+    if(balance.dataValues) returnBalances.push(balance.dataValues)
+  }
+  res.json(returnBalances)
 })

@@ -7,6 +7,7 @@ const Spending = require('./spending')
 const AccessToken = require('./access')
 const Transaction = require('./transactions')
 const Purchase = require('./purchases')
+const Balance = require('./balances')
 
 
 /**
@@ -45,6 +46,9 @@ User.hasMany(AccessToken)
 Transaction.belongsTo(User)
 User.hasMany(Transaction)
 
+Balance.belongsTo(User)
+User.hasMany(Balance)
+
 Purchase.belongsTo(User)
 User.hasMany(Purchase)
 
@@ -61,5 +65,6 @@ module.exports = {
   Spending,
   AccessToken,
   Transaction,
-  Purchase
+  Purchase,
+  Balance
 }
