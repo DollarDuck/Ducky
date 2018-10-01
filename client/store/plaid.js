@@ -5,7 +5,7 @@ const GOT_BANKS = 'GOT_BANKS'
 const GOT_ACCOUNT_BALANCES = 'GOT_ACCOUNT_BALANCES'
 
 
-const gotBanks = banks => ({type: GOT_BANKS, banks})
+const gotBankInfo = accounts => ({type: GOT_BANKS, accounts})
 const gotInitialTransactions = transactions => ({type: GOT_TRANSACTIONS, transactions})
 
 const gotInitialAccountBalances = balances => ({type: GOT_ACCOUNT_BALANCES, balances})
@@ -19,7 +19,6 @@ export const getTransactions = (userId, lastUpdateDate, token, institutionName) 
   }
   await axios.get(`/api/plaid/userTokens/${userId}`)
   const res = await axios.post(`/api/plaid/transactions/${userId}`, {lastUpdateDate: lastUpdateDate})
-  console.log('transactions', res.data)
   const transactions = res.data
   const transactionsInDB = await axios.post('/api/plaid/saveTransactions', {transactions: transactions, userId: userId})
   dispatch(gotInitialTransactions(transactionsInDB.data))
@@ -29,16 +28,16 @@ export const getTransactions = (userId, lastUpdateDate, token, institutionName) 
 }
 
 
-export const getAllBanks = (userId) => {
-      console.log('here', userId)
+export const getAllBankInfo = (userId) => {
+  console.log('here')
   return async dispatch => {
-    let res = await axios.get(`/api/plaid/banks/${userId}`)
-    dispatch(gotBanks(res.data))
+    let res = await axios.get(`/api/plaid/bankInfo/${userId}`)
+    console.log('res here', res)
+    dispatch(gotBankInfo(res.data))
 }
 }
 export const getBalances = (userId, token, institutionName) => async dispatch => {
   try {
-    console.log('balance thunk')
     if(token && institutionName) {
       await axios.post('/api/plaid/saveToken', {token: token, institution: institutionName, userId: userId})
     }
@@ -52,15 +51,14 @@ export const getBalances = (userId, token, institutionName) => async dispatch =>
     dispatch(gotInitialAccountBalances(balancesInDB.data))
   } catch(err) {
     console.error(err)
->>>>>>> master
   }
 }
 
 
-<<<<<<< HEAD
-export const getTransactionsByBank = (userId, bank) => {
+export const getTransactionsByBank = (userId, accountId) => {
   return async dispatch => {
-    let res = await axios.get(`/api/plaid/transactionsbyBank/${userId}`, {bank: bank})
+    console.log('account Id', accountId)
+    let res = await axios.post(`/api/plaid/transactionsbyBank/${userId}`, {accountId: accountId})
     dispatch(gotInitialTransactions(res.data))
   }
 }
@@ -73,20 +71,14 @@ export const getTransactionsByUser = (userId) => {
   }
 }
 
-export default function(state = {transactions: [], banks: []}, action) {
+export default function(state = {transactions: [], accounts: [], balances: []}, action) {
   switch (action.type) {
     case GOT_TRANSACTIONS:
       return {...state, transactions: action.transactions}
     case GOT_BANKS:
-      return {...state, banks: action.banks}
-=======
-export default function(state = [], action) {
-  switch (action.type) {
-    case GOT_TRANSACTIONS:
-      return action.transactions
+      return {...state, accounts: action.accounts}
     case GOT_ACCOUNT_BALANCES:
-      return action.balances
->>>>>>> master
+      return {...state, balances: action.balances}
     default:
       return state
   }

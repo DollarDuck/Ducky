@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {getTransactionsByUser, getAllBanks, getTransactionsByBank} from '../store/plaid'
+import {getTransactionsByUser, getAllBankInfo, getTransactionsByBank} from '../store/plaid'
 import {Menu, Header, Dropdown} from 'semantic-ui-react'
 import {reformatDate, reformatAmount} from '../../utils'
 
@@ -9,14 +9,19 @@ class Transactions extends React.Component {
 	componentDidMount() {
 		const userId = this.props.match.params.userId
 		this.props.getTransactions(userId)
-		this.props.getAllBanks(userId)
+		this.props.getAllBankInfo(userId)
 	}
-	handleSelect = event => {
+	handleSelect = (event,data) => {
 		const userId = this.props.match.params.userId
-		this.props.getTransactionsByBank(event.target.value, userId)
+		if(data.value === 'allBanks') {
+			this.props.getTransactions(userId)
+		} else {
+			this.props.getTransactionsByBank(userId, data.value)
+		}
 	}
 	render() {
-		if(this.props.transactions.length && this.props.banks.length) {
+		if(this.props.transactions.length && this.props.accounts.length) {
+			const accounts = this.props.accounts.concat([{text: 'All Accounts', value: 'allBanks'}])
 			return (
 				<div>
 				 <Menu borderless> 
@@ -31,7 +36,7 @@ class Transactions extends React.Component {
 			   	<h3 />
 			   	<div className="ui one column stackable center aligned page grid">
 			   		<div className="column twelve wide">
-		   			Bank: <Dropdown placeholder='All Banks' selection options={this.props.banks} onChange={this.handleSelect}/>
+		   			Bank: <Dropdown placeholder='All Banks' selection options={accounts} onChange={this.handleSelect}/>
 		   		</div>
 		   		</div>
 		   		<h3 />
@@ -70,13 +75,13 @@ class Transactions extends React.Component {
 
 const mapDispatch = dispatch => ({
 	getTransactions: (userId) => dispatch(getTransactionsByUser(userId)),
-	getAllBanks: userId => dispatch(getAllBanks(userId)),
-	getTransactionsByBank: (bank, userId) => dispatch(getTransactionsByBank(bank, userId))
+	getAllBankInfo: userId => dispatch(getAllBankInfo(userId)),
+	getTransactionsByBank: (userId, accountId) => dispatch(getTransactionsByBank(userId, accountId))
 })
 
 const mapState = state => ({
 	transactions: state.transactions.transactions,
-	banks: state.transactions.banks
+	accounts: state.transactions.accounts
 })
 
 export default connect(mapState, mapDispatch)(Transactions)

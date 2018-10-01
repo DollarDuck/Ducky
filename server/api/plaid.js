@@ -48,28 +48,31 @@ router.post('/saveToken', async (req, res, next) => {
   })
 })
 
-router.get('/banks/:userId', async (req, res, next) => {
-  const accessTokens = await AccessToken.findAll({
+router.get('/bankInfo/:userId', async (req, res, next) => {
+  const accountInfo = await Balance.findAll({
     where: {
       userId: req.params.userId
     }
   })
-  const banks = []
-  for(let i = 0; i < accessTokens.length; ++i) {
-    banks.push({text: accessTokens[i].dataValues.bank, value: accessTokens[i].dataValues.bank})
+  console.log('account info', accountInfo)
+  let accounts = []
+  for(let i = 0; i < accountInfo.length; ++i) {
+    accounts.push({text: accountInfo[i].dataValues.name, value: accountInfo[i].dataValues.accountId})
   }
-  res.json(banks)
+  res.json(accounts)
 })
 
 router.post('/transactionsbyBank/:userId', async (req, res, next) => {
-  const bank = req.body.bank
-  const accessTokenObj = await AccessToken.findOne({
+  const accountId = req.body.accountId
+  console.log('req body', req.body)
+  console.log('userId', req.params.userId)
+  const transactions = await Transaction.findAll({
     where: {
-      bank: bank,
+      accountId: accountId,
       userId: req.params.userId
     }
   })
-  const accessToken = accessTokenObj.token
+  res.json(transactions)
    })
 
 router.get('/userTokens/:userId', async (req, res, next) => {
@@ -185,11 +188,11 @@ router.post('/saveBalances', async (req, res, next) => {
         name: currentBalance.name,
         officialName: currentBalance.official_name,
         subtype: currentBalance.subtype,
-        type: currentBalance.type
+        type: currentBalance.type,
+        accountId: currentBalance.account_id
     },
     defaults: {
       userId: req.body.userId,
-      accountId: currentBalance.account_id
     }})
     if(balance.dataValues) returnBalances.push(balance.dataValues)
   }
