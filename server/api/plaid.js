@@ -13,6 +13,16 @@ var client = new plaid.Client(
   {version: '2018-05-22'}
 )
 
+router.get('/allTransactions/:userId', async (req, res, next) => {
+  const transactions = await Transaction.findAll({
+    where: {
+      userId: req.params.userId
+    }
+  })
+  res.json(transactions)
+})
+
+
 router.post('/saveToken', async (req, res, next) => {
   const publicToken = req.body.token
   const bank = req.body.institution
@@ -38,14 +48,29 @@ router.post('/saveToken', async (req, res, next) => {
   })
 })
 
-router.get('/transactionsbyBank/:bank', async (req, res, next) => {
-  const transactions = await Transaction.findAll({
+router.get('/banks/:userId', async (req, res, next) => {
+  const accessTokens = await AccessToken.findAll({
     where: {
-      bank: req.params.bank
+      userId: req.params.userId
     }
   })
-  res.json(transactions)
+  const banks = []
+  for(let i = 0; i < accessTokens.length; ++i) {
+    banks.push({text: accessTokens[i].dataValues.bank, value: accessTokens[i].dataValues.bank})
+  }
+  res.json(banks)
 })
+
+router.post('/transactionsbyBank/:userId', async (req, res, next) => {
+  const bank = req.body.bank
+  const accessTokenObj = await AccessToken.findOne({
+    where: {
+      bank: bank,
+      userId: req.params.userId
+    }
+  })
+  const accessToken = accessTokenObj.token
+   })
 
 router.get('/userTokens/:userId', async (req, res, next) => {
   try {
@@ -65,7 +90,6 @@ router.post('/transactions/:userId', async (req, res, next) => {
   const userId = req.params.userId
   const lastUpdateDate = req.body.lastUpdateDate
     try {
-      console.log('user', req.session)
       const tokens = req.session.accessTokens
       const [endDate, startDate] = formatDate(lastUpdateDate)
 			let transactions = []
@@ -100,6 +124,7 @@ router.post('/transactions/:userId', async (req, res, next) => {
 
 router.post('/saveTransactions', async (req, res, next) => {
   const transactions = req.body.transactions
+  console.log('transactions here', transactions)
   let returnTransactions = []
   for (let i = 0; i < transactions.length; ++i) {
     let currentTransaction = transactions[i]
@@ -107,11 +132,12 @@ router.post('/saveTransactions', async (req, res, next) => {
       where: {
       name: currentTransaction.name,
       amount: currentTransaction.amount,
+      userId: req.body.userId,
+     accountId: currentTransaction.account_id
+
     },
     defaults: {
-      userId: req.body.userId,
       date: currentTransaction.date,
-      accountId: currentTransaction.account_id
     }})
     if(transaction.dataValues) returnTransactions.push(transaction.dataValues)
   }

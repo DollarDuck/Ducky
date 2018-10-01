@@ -9,7 +9,7 @@ import {auth} from '../store'
 
 const mapStateToProps = state => ({
   user: state.user,
-  transactions: state.transactions
+  transactions: state.transactions.transactions
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -29,8 +29,8 @@ class Plaid extends Component {
 
   handleOnSuccess = async (token, metadata) => {
     const userId = this.props.user.id
-    const lastUpdateDate = this.props.user.lastUpdated ? this.props.user.lastUpdated : get30DaysAgo()
-    console.log('here!', userId, lastUpdateDate)
+    console.log('metadata', metadata)
+    const lastUpdateDate = get30DaysAgo()
     await this.props.getTransactions(userId, lastUpdateDate, token, metadata.institution.name)
     await this.props.updateUser(userId)
     this.setState({ accountLinked: true})

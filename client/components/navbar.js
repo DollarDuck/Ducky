@@ -15,7 +15,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       {isLoggedIn ? (
         <Menu.Menu position='right'>
           {/* The navbar will show these links after you log in */}
-
+          <Menu.Item name="Link your account" as={Link} to='/plaid' />
           <Menu.Item name='Me' as={Link} to='/home'/>
           <Menu.Item name='Home' as={Link} to='/me'/>
           <Menu.Item name='Logout' href='#' onClick={handleClick} />
@@ -25,7 +25,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           {/* The navbar will show these links before you log in */}
           <Link to="/login">Login</Link>
           <Link to="/onboarding">Sign Up</Link>
-          <Link to="/signup">Sign Up</Link>
         </Menu.Menu>
       )}
     </nav>
