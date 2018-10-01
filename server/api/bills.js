@@ -12,3 +12,13 @@ router.get('/:userId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post('/', async (req, res, next) => {
+  try {
+    const {name, type, recurring, dueDate, userId} = req.body
+    const bill = await Bill.create({name, type, recurring, dueDate, userId})
+    res.json(bill)
+  } catch (err) {
+    next(err)
+  }
+})
