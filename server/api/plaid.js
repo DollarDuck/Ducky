@@ -64,8 +64,6 @@ router.get('/bankInfo/:userId', async (req, res, next) => {
 
 router.post('/transactionsbyBank/:userId', async (req, res, next) => {
   const accountId = req.body.accountId
-  console.log('req body', req.body)
-  console.log('userId', req.params.userId)
   const transactions = await Transaction.findAll({
     where: {
       accountId: accountId,
@@ -127,10 +125,8 @@ router.post('/transactions/:userId', async (req, res, next) => {
 
 router.post('/saveTransactions', async (req, res, next) => {
   const transactions = req.body.transactions
-  console.log('transactions here', transactions)
   let returnTransactions = []
   for (let i = 0; i < transactions.length; ++i) {
-    console.log('here!')
     let currentTransaction = transactions[i]
     let category = await Category.findOrCreate({
       where: {
