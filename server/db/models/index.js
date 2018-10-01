@@ -46,6 +46,9 @@ User.hasMany(AccessToken)
 Transaction.belongsTo(User)
 User.hasMany(Transaction)
 
+Transaction.belongsTo(Category)
+Category.hasMany(Transaction)
+
 Balance.belongsTo(User)
 User.hasMany(Balance)
 
