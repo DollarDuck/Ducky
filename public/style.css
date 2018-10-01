@@ -20,3 +20,7 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.centered {
+	position: center;
+}
