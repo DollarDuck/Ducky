@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {AccessToken, Transaction} = require('../db/models')
+const {AccessToken, Transaction, Balance} = require('../db/models')
 const axios = require('axios')
 const plaid = require('plaid')
 const {formatDate} = require('../../utils')
@@ -12,6 +12,16 @@ var client = new plaid.Client(
   plaid.environments[process.env.PLAID_ENV],
   {version: '2018-05-22'}
 )
+
+router.get('/allTransactions/:userId', async (req, res, next) => {
+  const transactions = await Transaction.findAll({
+    where: {
+      userId: req.params.userId
+    }
+  })
+  res.json(transactions)
+})
+
 
 router.post('/saveToken', async (req, res, next) => {
   const publicToken = req.body.token
@@ -30,7 +40,7 @@ router.post('/saveToken', async (req, res, next) => {
       const newAccess = await AccessToken.create({
         token: accessToken,
         itemId: itemId,
-        userId: req.user.id,
+        userId: req.body.userId,
         bank: bank
       })
       res.sendStatus(200)
@@ -38,14 +48,32 @@ router.post('/saveToken', async (req, res, next) => {
   })
 })
 
-router.get('/transactionsbyBank/:bank', async (req, res, next) => {
+router.get('/bankInfo/:userId', async (req, res, next) => {
+  const accountInfo = await Balance.findAll({
+    where: {
+      userId: req.params.userId
+    }
+  })
+  console.log('account info', accountInfo)
+  let accounts = []
+  for(let i = 0; i < accountInfo.length; ++i) {
+    accounts.push({text: accountInfo[i].dataValues.name, value: accountInfo[i].dataValues.accountId})
+  }
+  res.json(accounts)
+})
+
+router.post('/transactionsbyBank/:userId', async (req, res, next) => {
+  const accountId = req.body.accountId
+  console.log('req body', req.body)
+  console.log('userId', req.params.userId)
   const transactions = await Transaction.findAll({
     where: {
-      bank: req.params.bank
+      accountId: accountId,
+      userId: req.params.userId
     }
   })
   res.json(transactions)
-})
+   })
 
 router.get('/userTokens/:userId', async (req, res, next) => {
   try {
@@ -64,9 +92,7 @@ router.get('/userTokens/:userId', async (req, res, next) => {
 router.post('/transactions/:userId', async (req, res, next) => {
   const userId = req.params.userId
   const lastUpdateDate = req.body.lastUpdateDate
-  if (Number(req.user.id) === Number(userId)) {
     try {
-      console.log('user', req.session)
       const tokens = req.session.accessTokens
       const [endDate, startDate] = formatDate(lastUpdateDate)
 			let transactions = []
@@ -97,13 +123,11 @@ router.post('/transactions/:userId', async (req, res, next) => {
     } catch (error) {
       console.error(error)
     }
-  } else {
-    res.send('Unauthorized!')
-  }
 })
 
 router.post('/saveTransactions', async (req, res, next) => {
   const transactions = req.body.transactions
+  console.log('transactions here', transactions)
   let returnTransactions = []
   for (let i = 0; i < transactions.length; ++i) {
     let currentTransaction = transactions[i]
@@ -111,12 +135,66 @@ router.post('/saveTransactions', async (req, res, next) => {
       where: {
       name: currentTransaction.name,
       amount: currentTransaction.amount,
+      userId: req.body.userId,
+     accountId: currentTransaction.account_id
+
     },
     defaults: {
       date: currentTransaction.date,
-      accountId: currentTransaction.account_id
     }})
     if(transaction.dataValues) returnTransactions.push(transaction.dataValues)
   }
   res.json(returnTransactions)
+})
+
+router.post('/balances/:userId', async (req, res, next) => {
+  const userId = req.params.userId
+  try {
+    console.log('user', req.session)
+    const tokens = req.session.accessTokens
+    let balances = [];
+    for (let i = 0; i < tokens.length; ++i) {
+      let currentToken = tokens[i].token
+      await client.getBalance(
+        currentToken,
+        function(error, balanceResponse) {
+          if (error) {
+            next(error)
+          } else {
+            balances = balances.concat(balanceResponse.accounts)
+            if (i === tokens.length - 1) {
+              res.json(balances)
+            }
+          }
+        }
+      )
+    }
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+
+router.post('/saveBalances', async (req, res, next) => {
+  const balances = req.body.balances
+  console.log('BALANCES SAVING')
+  let returnBalances = []
+  for (let i = 0; i < balances.length; ++i) {
+    let currentBalance = balances[i]
+    let balance = await Balance.findOrCreate({
+      where: {
+        amount: currentBalance.balances.current,
+        amountAvailable: currentBalance.balances.available,
+        name: currentBalance.name,
+        officialName: currentBalance.official_name,
+        subtype: currentBalance.subtype,
+        type: currentBalance.type,
+        accountId: currentBalance.account_id
+    },
+    defaults: {
+      userId: req.body.userId,
+    }})
+    if(balance.dataValues) returnBalances.push(balance.dataValues)
+  }
+  res.json(returnBalances)
 })

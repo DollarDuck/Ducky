@@ -264,3 +264,7 @@ main {
   border-image: linear-gradient(45deg, #860202 0%,#ee2c2c 40%);
   border-image-slice: 1;
 }
+
+.centered {
+	position: center;
+}
