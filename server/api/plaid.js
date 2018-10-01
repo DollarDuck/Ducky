@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {AccessToken, Transaction, Balance} = require('../db/models')
+const {AccessToken, Transaction, Balance, Category} = require('../db/models')
 const axios = require('axios')
 const plaid = require('plaid')
 const {formatDate} = require('../../utils')
@@ -64,8 +64,6 @@ router.get('/bankInfo/:userId', async (req, res, next) => {
 
 router.post('/transactionsbyBank/:userId', async (req, res, next) => {
   const accountId = req.body.accountId
-  console.log('req body', req.body)
-  console.log('userId', req.params.userId)
   const transactions = await Transaction.findAll({
     where: {
       accountId: accountId,
@@ -127,10 +125,16 @@ router.post('/transactions/:userId', async (req, res, next) => {
 
 router.post('/saveTransactions', async (req, res, next) => {
   const transactions = req.body.transactions
-  console.log('transactions here', transactions)
   let returnTransactions = []
   for (let i = 0; i < transactions.length; ++i) {
     let currentTransaction = transactions[i]
+    let category = await Category.findOrCreate({
+      where: {
+        name: currentTransaction.category[0]
+      }
+    })
+    console.log('category', category)
+    console.log('id?', category[0].dataValues)
     let transaction = await Transaction.findOrCreate({
       where: {
       name: currentTransaction.name,
@@ -141,6 +145,7 @@ router.post('/saveTransactions', async (req, res, next) => {
     },
     defaults: {
       date: currentTransaction.date,
+      categoryId: category[0].dataValues.id
     }})
     if(transaction.dataValues) returnTransactions.push(transaction.dataValues)
   }
@@ -150,7 +155,6 @@ router.post('/saveTransactions', async (req, res, next) => {
 router.post('/balances/:userId', async (req, res, next) => {
   const userId = req.params.userId
   try {
-    console.log('user', req.session)
     const tokens = req.session.accessTokens
     let balances = [];
     for (let i = 0; i < tokens.length; ++i) {
@@ -177,7 +181,6 @@ router.post('/balances/:userId', async (req, res, next) => {
 
 router.post('/saveBalances', async (req, res, next) => {
   const balances = req.body.balances
-  console.log('BALANCES SAVING')
   let returnBalances = []
   for (let i = 0; i < balances.length; ++i) {
     let currentBalance = balances[i]
