@@ -1,3 +1,6 @@
 /*******************************
          Site Overrides
 *******************************/
+.ui.button !important {
+  background-color: #C1F6F8;
+}
