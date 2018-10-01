@@ -31,7 +31,6 @@ class Plaid extends Component {
 
   handleOnSuccess = async (token, metadata) => {
     const userId = this.props.user.id
-    console.log('metadata', metadata)
     const lastUpdateDate = get30DaysAgo()
     await this.props.getTransactions(userId, lastUpdateDate, token, metadata.institution.name)
     await this.props.getBalances(userId, token, metadata.institution.name)
@@ -39,7 +38,6 @@ class Plaid extends Component {
     this.setState({ accountLinked: true})
   }
   render() {
-    console.log(this.props)
     if(!this.state.accountLinked) {
     return (
       <div>
