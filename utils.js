@@ -26,4 +26,19 @@ function get30DaysAgo() {
   return todayMinus30dObj
 }
 
-module.exports = {formatDate, get30DaysAgo}
+function reformatDate(date) {
+  const year = date.slice(0,4)
+  const month = date.slice(5,7)
+  const day = date.slice(8,10)
+  return `${month}/${day}/${year}`
+}
+
+function reformatAmount(amt) {
+  amt = amt.toString()
+  if(amt[0] === '-') amt = amt[0] + '$' + amt.slice(1)
+  else amt = '$' + amt
+  if(amt[amt.length-2] === '.') amt = amt + '0'
+  return amt;
+}
+
+module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount}

@@ -6,35 +6,35 @@ const {User, Bill} = require('../server/db/models')
 const bills = [{
   name: 'Chicago Electric',
   type: 'Electric',
-  dueDate: '2018-10-23',
+  dueDate: '10-23-2018',
   recurring: '',
   paid: true,
   userId: 1
 }, {
   name: 'Chicago Water',
   type: 'Water',
-  dueDate: '2018-10-29',
+  dueDate: '10-29-2018',
   recurring: 'monthly',
   paid: true,
   userId: 1
 }, {
   name: 'Comcast',
   type: 'Internet',
-  dueDate: '2018-11-01',
+  dueDate: '11-01-2018',
   recurring: 'monthly',
   paid: false,
   userId: 2
 }, {
   name: 'Apartments LLC',
   type: 'Rent',
-  dueDate: '2018-11-03',
+  dueDate: '11-03-2018',
   recurring: 'quarterly',
   paid: false,
   userId: 2
 }, {
   name: 'The Electric Company',
   type: 'Electric',
-  dueDate: '2018-11-15',
+  dueDate: '11-15-2018',
   recurring: 'yearly',
   paid: false,
   userId: 1

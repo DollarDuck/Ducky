@@ -19,7 +19,8 @@ const Bill = db.define('bills', {
 		}
 	},
 	paid: {
-		type: Sequelize.BOOLEAN
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
 	}
 }
 )
