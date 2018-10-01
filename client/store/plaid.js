@@ -32,7 +32,6 @@ export const getAllBankInfo = (userId) => {
   console.log('here')
   return async dispatch => {
     let res = await axios.get(`/api/plaid/bankInfo/${userId}`)
-    console.log('res here', res)
     dispatch(gotBankInfo(res.data))
 }
 }
@@ -43,11 +42,9 @@ export const getBalances = (userId, token, institutionName) => async dispatch =>
     }
     await axios.get(`/api/plaid/userTokens/${userId}`)
     const res = await axios.post(`/api/plaid/balances/${userId}`)
-    console.log('balances', res.data)
     const balances = res.data
+    console.log('balances here', balances)
     const balancesInDB = await axios.post('/api/plaid/saveBalances', {balances: balances, userId: userId})
-    console.log('about to dipsatch balances')
-    console.log(balancesInDB)
     dispatch(gotInitialAccountBalances(balancesInDB.data))
   } catch(err) {
     console.error(err)
@@ -66,7 +63,6 @@ export const getTransactionsByBank = (userId, accountId) => {
 export const getTransactionsByUser = (userId) => {
   return async dispatch => {
     let res = await axios.get(`/api/plaid/allTransactions/${userId}`)
-    console.log('res', res)
     dispatch(gotInitialTransactions(res.data))
   }
 }
