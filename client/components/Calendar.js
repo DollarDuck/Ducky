@@ -11,11 +11,6 @@ class Calendar extends React.Component {
       today: new Date()
     }
   }
-  // state = {
-  //   currentMonth: new Date(),
-  //   selectedDate: new Date(),
-  //   today: new Date()
-  //   }
 
     renderHeader() {
       const dateFormat = "MMMM YYYY"
@@ -59,7 +54,6 @@ class Calendar extends React.Component {
     const startDate = dateFns.startOfWeek(monthStart)
     const endDate = dateFns.endOfWeek(monthEnd)
     const bills = this.props.bills
-    console.log('bills', bills)
 
     const dateFormat = "D"
     const rows = []
@@ -71,7 +65,6 @@ class Calendar extends React.Component {
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         formattedDate = dateFns.format(day, dateFormat)
-        console.log('formatted Date', formattedDate)
         const cloneDay = day
         days.push(
           <div
@@ -85,7 +78,7 @@ class Calendar extends React.Component {
               : ""
             }`}
             key={day}
-            onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
+            // onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>

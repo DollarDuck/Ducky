@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { getBills } from '../store/bills'
-import { Button, Container, Table, Icon, Grid } from 'semantic-ui-react'
+import { Button, Container, Table, Icon, Grid, Divider } from 'semantic-ui-react'
 import Calendar from './Calendar'
 
 class Bills extends React.Component {
@@ -11,14 +12,15 @@ class Bills extends React.Component {
   }
 
   render() {
-    const {bills} = this.props
+    const {bills, user} = this.props
     const dueDates = {}
     bills.forEach(bill => {
       dueDates[bill.dueDate.slice(-2)] = [bill.name, bill.paid]
     })
     return (
       <Container>
-        <Button circular floated='right' icon='plus' />
+        <Divider hidden />
+        <Button as={Link} to={`/bills/addbill/${user.id}`} circular floated='right' icon='plus' />
         <Grid centered>
         <Calendar bills={dueDates}/>
 
