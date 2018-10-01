@@ -13,9 +13,6 @@ const Transaction = db.define('transactions', {
 	},
 	accountId: {
 		type: Sequelize.STRING
-	},
-	pending: {
-		type: Sequelize.BOOLEAN
 	}
 })
 
