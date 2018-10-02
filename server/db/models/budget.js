@@ -14,7 +14,8 @@ const Budget = db.define('budgets', {
 		validate: {
 			max: 100,
 			min: 0
-		}
+		},
+		defaultValue: 15
 	},
 	mtdSpending: {
 		type: Sequelize.DECIMAL,
