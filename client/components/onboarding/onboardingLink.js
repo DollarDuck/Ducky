@@ -9,7 +9,7 @@ export default class OnboardingLink extends Component {
     return(
       <div>
         <OnboardingSteps step='step3'/>
-        <Plaid />
+        <Plaid isOnboarding={true}/>
     </div>
     )
   }
