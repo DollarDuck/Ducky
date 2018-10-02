@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Button, Checkbox, Label} from 'semantic-ui-react'
+import {Form, Button, Checkbox, Label, Grid} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {Doughnut} from 'react-chartjs-2';
 // import {createBudget} from '../../store/index'
@@ -40,7 +40,6 @@ class OnboardingBudget extends Component {
 
   render() {
     const incomeEnteredBoolean = this.state.incomeEnteredBoolean
-    console.log(this.state.incomeEntered)
     const desiredSavings = this.state.desiredSavings
     const income = this.state.income
     const rent = Math.round(0.33*(income-desiredSavings))
@@ -50,12 +49,15 @@ class OnboardingBudget extends Component {
 
     return(
       <div>
+        <Grid centered width={15} columns={1}>
         <OnboardingSteps step='step2'/>
         <Form>
+        <Grid.Column width={4}>
       <Form.Field>
         <label>Enter Your Post-Tax Monthly Income</label>
         <input placeholder='$' name='income' onMouseLeave={this.incomeEntered}/>
       </Form.Field>
+      </Grid.Column>
       <br />
 
       {/* BEGINNING OF WHAT'S RENDERED IF INCOME ENTERED */}
@@ -64,7 +66,7 @@ class OnboardingBudget extends Component {
         <h5> Of your ${this.state.income}, we'd recommend you save at least ${Math.round(0.15*this.state.income)} per month which equates to 15% of your salary
         </h5>
         <br />
-        <Label color='green'>Use the slider to adjust your desired savirgs amount</Label>
+        <Label fluid color='green'>Use the slider to adjust your desired savirgs amount</Label>
         <br />
         <br />
 
@@ -85,7 +87,7 @@ class OnboardingBudget extends Component {
           </h3>
           <Doughnut data={{labels: ['Savings ('+Math.round(100*(desiredSavings/income))+'%)', 'Rent (' + Math.round(100*rent/income) + '%)', 'Food ('+Math.round(100*(food/income))+'%)', 'Other ('+Math.round(100*other/income)+'%)'], datasets: [{data: [desiredSavings, rent, food, other], backgroundColor: ['#52E577', '#F7464A', '#C61296', '#99347E']}]}} options={{legend: {position: 'bottom'}}} height='50%' />
           <br />
-          <Button type='button' onClick={(event) => {
+          <Button fluid color="green" type='button' onClick={(event) => {
             this.props.history.push('/onboarding/step3')
             this.props.handleOk(this.state, event)}}>Ok, got it </Button>
       </div>
@@ -96,6 +98,7 @@ class OnboardingBudget extends Component {
 
 
     </Form>
+    </Grid>
     </div>
     )
   }
