@@ -48,7 +48,7 @@ class NewBillForm extends React.Component {
               name="type"
               onChange={this.handleChange}
             />
-            <Form.Select required inline
+            <Form.Select fluid required inline
               label="Recurring"
               options={options}
               placeholder="Please choose one"

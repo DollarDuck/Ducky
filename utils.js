@@ -17,6 +17,16 @@ const formatDate = (lastUpdateDate) => {
   return [endDate, startDate]
 }
 
+function convertPhoneNumber(number) {
+  if(number.indexOf('-') > -1) {
+    number = number.split('-').join('')
+  } else if(number.indexOf('(') > -1) {
+    number = number.split('(').join('')
+    number = number.split(')').join('')
+  }
+  return number 
+}
+
 function get30DaysAgo() {
   let today = new Date()
   let todayInMilliseconds = today.getTime()
@@ -41,4 +51,4 @@ function reformatAmount(amt) {
   return amt;
 }
 
-module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount}
+module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber}

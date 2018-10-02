@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import {createUser} from '../../store/index'
 import {auth} from '../../store'
 import OnboardingSteps from './onboardingSteps'
+import {convertPhoneNumber} from '../../../utils'
 
 class Onboarding extends Component {
   constructor(props) {
@@ -88,6 +89,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleSubmit: (stateChange, event) => {
       event.preventDefault();
+      stateChange.phoneNumber = convertPhoneNumber(stateChange.phoneNumber)
       dispatch(createUser(stateChange, ownProps.history))
     }
   }

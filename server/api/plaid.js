@@ -186,8 +186,6 @@ router.post('/saveBalances', async (req, res, next) => {
     let currentBalance = balances[i]
     let balance = await Balance.findOrCreate({
       where: {
-        amount: currentBalance.balances.current,
-        amountAvailable: currentBalance.balances.available,
         name: currentBalance.name,
         officialName: currentBalance.official_name,
         subtype: currentBalance.subtype,
@@ -196,7 +194,21 @@ router.post('/saveBalances', async (req, res, next) => {
     },
     defaults: {
       userId: req.body.userId,
+      amount: currentBalance.balances.current,
+      amountAvailable: currentBalance.balances.available,
     }})
+    if(!balance[1]) {
+      let balance = await Balance.update({
+        amount: currentBalance.balances.current,
+        amountAvailable: currentBalance.balances.available,
+      }, {where: {
+        accountId: currentBalance.account_id,
+        userId: req.body.userId
+      },
+      returning: true
+    })
+    balance = balance[1][0]
+    }
     if(balance.dataValues) returnBalances.push(balance.dataValues)
   }
   res.json(returnBalances)

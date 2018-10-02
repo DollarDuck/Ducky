@@ -6,6 +6,8 @@ import {getTransactions, getBalances} from '../store/plaid'
 import {updateUser} from '../store/user'
 import {get30DaysAgo} from '../../utils'
 import {auth} from '../store'
+import {NavLink} from 'react-router-dom'
+import {Label} from 'semantic-ui-react'
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -41,20 +43,49 @@ class Plaid extends Component {
     if(!this.state.accountLinked) {
     return (
       <div>
-      <PlaidLink
-        clientName="Plaid Client"
-        env="sandbox"
-        product={['auth', 'transactions']}
-        publicKey="2e86ad2a3b3a35d15f0112504ac7d3"
-        apiVersion="v2"
-        onSuccess={this.handleOnSuccess}>
-        Link your bank account
-      </PlaidLink>
-      <a href="/home">Skip this step</a>
-      </div>
-    );
-  } else {
-    return <h3>Bank account submitted</h3>
+        <h1 />
+          <div className="ui one column stackable center aligned page grid">
+            <div className="column twelve wide">
+              <div className="ui fluid white card" >
+                <div className="height">
+                  <h1 />
+                  <h1 />
+                  <h1 />
+                  <PlaidLink
+                  clientName="Plaid Client"
+                  env="sandbox"
+                  product={['auth', 'transactions']}
+                  publicKey="2e86ad2a3b3a35d15f0112504ac7d3"
+                  apiVersion="v2"
+                  onSuccess={this.handleOnSuccess}>
+                  <Label color="blue"><h2>Link your bank account</h2></Label>
+                  </PlaidLink>
+                  <h3 />
+                  <NavLink to="/home"><h3>Skip this step</h3></NavLink>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+            <div>
+        <h1 />
+        <div className="ui one column stackable center aligned page grid">
+         <div className="column twelve wide">
+         <div className="ui fluid white card" >
+         <div className="height">
+                 <h1 />
+        <h1 />
+        <h1 />
+        <Label color="blue"><h2>Bank account submitted</h2></Label>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        )
   }
 }
 

@@ -14,9 +14,12 @@ class Bills extends React.Component {
   render() {
     const {bills, user} = this.props
     const dueDates = {}
+    const currentDay = new Date()
+    const currentMonth = currentDay.getMonth()+1
     bills.forEach(bill => {
-      dueDates[bill.dueDate.slice(-2)] = [bill.name, bill.paid]
+      if(bill.dueDate.slice(5,7) == currentMonth) dueDates[bill.dueDate.slice(-2)] = [bill.name, bill.paid]
     })
+
     return (
       <Container>
         <Divider hidden />
@@ -36,7 +39,9 @@ class Bills extends React.Component {
           </Table.Header>
 
           <Table.Body>
-            {bills.map(bill => (
+            {bills.map((bill) => {
+              if(bill.dueDate.slice(5,7) == currentMonth) {
+              return (
               <Table.Row key={bill.id}>
                 <Table.Cell>
                   {bill.paid
@@ -47,7 +52,10 @@ class Bills extends React.Component {
                 <Table.Cell>{bill.type}</Table.Cell>
                 <Table.Cell>{bill.dueDate}</Table.Cell>
               </Table.Row>
-            ))}
+            )
+            }
+          }
+            )}
           </Table.Body>
         </Table>
         </Grid>
