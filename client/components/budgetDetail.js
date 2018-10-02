@@ -27,9 +27,10 @@ class BudgetDetail extends Component {
     console.log(transactions)
 
     if (transactions.length > 0) {
-      console.log('here')
+      console.log('here', this.state.month)
       donutData = parseTransData(transactions, this.state.month)
       showDonut = true;
+      console.log(donutData, showDonut)
     }
 
   return(
@@ -82,20 +83,21 @@ function parseTransData(transArray, monthDateObj) {
 
   console.log(yymm)
   for (let i=0; i<transArray.length; i++) {
+    console.log('length', transArray.length)
     console.log('transArray[i]', transArray[i])
 
     if (transArray[i].date.slice(0,7) !== yymm) {
       console.log('broken')
-      break;
-    }
-
-    if (!totals[transArray[i].category.name]) {
+    } else if (!totals[transArray[i].category.name]) {
       console.log('adding new prop')
       totals[transArray[i].category.name] = Number(transArray[i].amount)
-    } else
+    } else {
       console.log('updating property')
       totals[transArray[i].category.name] += Number(transArray[i].amount)
+    }
   }
+
+  console.log("totals", totals)
 
   return objToDonutObjArray(totals)
 

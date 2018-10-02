@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Onboarding, OnboardingBudget, Plaid, Dashboard, Bills, NewBillForm, OnboardingLink, Balances, Transactions, BudgetDetail} from './components'
+import {Login, Signup, UserHome, Onboarding, OnboardingBudget, Plaid, Dashboard, Bills, NewBillForm, OnboardingLink, Balances, Transactions, BudgetDetail, EditUser, UserProfile} from './components'
 import {me} from './store'
 
 
@@ -29,6 +29,7 @@ class Routes extends Component {
         <Route path="/bills/:userId" component={Bills} />
         <Route path="/transactions/:userId" component={Transactions} />
         <Route path="/plaid" component={Plaid} />
+        <Route path="/editUser/:userId" component={EditUser} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -36,6 +37,7 @@ class Routes extends Component {
             <Route path='/spending/:userId' component={BudgetDetail} />
             <Route path="/home" component={UserHome} />
             <Route path="/me" component={Dashboard} />
+            <Route path="/userProfile" component={UserProfile} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
