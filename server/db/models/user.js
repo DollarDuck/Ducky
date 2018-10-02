@@ -29,6 +29,12 @@ const User = db.define('user', {
   },
   lastUpdated: {
     type: Sequelize.DATE
+  },
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
   }
 })
 
