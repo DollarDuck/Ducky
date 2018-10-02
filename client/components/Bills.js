@@ -14,11 +14,12 @@ class Bills extends React.Component {
   render() {
     const {bills, user} = this.props
     const dueDates = {}
-    bills.forEach(bill => {
-      dueDates[bill.dueDate.slice(-2)] = [bill.name, bill.paid]
-    })
     const currentDay = new Date()
     const currentMonth = currentDay.getMonth()+1
+    bills.forEach(bill => {
+      if(bill.dueDate.slice(5,7) == currentMonth) dueDates[bill.dueDate.slice(-2)] = [bill.name, bill.paid]
+    })
+
     return (
       <Container>
         <Divider hidden />
