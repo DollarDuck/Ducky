@@ -20,6 +20,9 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+.height {
+  min-height: 400px;
+}
 
 /* FONT IMPORTS */
 
