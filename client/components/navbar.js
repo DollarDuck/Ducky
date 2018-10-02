@@ -19,6 +19,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Menu.Item name='Me' as={Link} to='/home'/>
           <Menu.Item name='Home' as={Link} to='/me'/>
           <Menu.Item name='Logout' href='#' onClick={handleClick} />
+          <Menu.Item name='Profile' to="/userProfile" as={Link}>Profile</Menu.Item>
         </Menu.Menu>
       ) : (
         <Menu.Menu position='right'>
