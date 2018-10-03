@@ -23,7 +23,7 @@ class Dashboard extends React.Component {
         <h1 />
         <h1 />
         <Card.Group>
-          <Card as={Link} to="/me">
+          <Card as={Link} to="/budget">
             <Card.Content>
               <Card.Header >Budgeting</Card.Header>
               <Image src='/budget.jpg' />
