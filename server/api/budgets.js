@@ -18,7 +18,6 @@ router.get('/', async (req, res, next) => {
 
 router.post('/:userId', async (req, res, next) => {
   console.log('create budget api')
-  console.log(req.body)
   const {desiredSavings, income, userId} = req.body
   const DBincome = Number(income)
   const amount = Number(desiredSavings)
@@ -40,20 +39,46 @@ router.post('/:userId', async (req, res, next) => {
   }
 })
 
-router.get('/CatIdByName', async(req, res, next) => {
-  const {catName} = req.body
+router.get('/allCategories', async(req, res, next) => {
+  try {
+    const categories = await Category.findAll()
+    console.log(categories)
+    res.json(categories)
+  }
+  catch (err) {
+    next(err)
+  }
+})
 
+router.get('/CatIdByName/:catName', async(req, res, next) => {
   try {
     const catId = await Category.findOne({
       where: {
-        name: "Food and Drink"
+        name: req.params.catName
       }
     })
-    console.log(catId)
     res.json(catId.dataValues.id)
   } catch (err) {
     next(err)
   }
 })
 
-// router.post('/budgetItem/:categoryId/:amount/'), async(req, res, next) {}
+router.post('/initialItem/:categoryId/:amount/:budgetId/:mtdSpending', async(req, res, next) => {
+  const {categoryId, amount, mtdSpending, budgetId} = req.params
+  console.log(req.params)
+  try {
+    const newBudgetItem = await BudgetItems.create({
+      categoryId: Number(categoryId),
+      amount: Number(amount),
+      mtdSpending: Number(mtdSpending),
+      budgetId: Number(budgetId)
+    })
+    res.send(newBudgetItem)
+
+  } catch (err) {
+    next(err)
+  }
+
+
+
+})
