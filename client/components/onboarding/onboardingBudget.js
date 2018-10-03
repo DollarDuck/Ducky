@@ -60,7 +60,7 @@ class OnboardingBudget extends Component {
         <Form>
         <Grid.Column width={5}>
       <Form.Field>
-        <label>Enter Your Post-Tax Monthly Incomee</label>
+        <label>Enter Your Post-Tax Monthly Income</label>
         <input placeholder='$' name='income' onMouseLeave={this.incomeEntered}/>
       </Form.Field>
       </Grid.Column>
@@ -72,7 +72,7 @@ class OnboardingBudget extends Component {
         <h5> Of your ${this.state.income}, we'd recommend you save at least ${Math.round(0.15*this.state.income)} per month which equates to 15% of your salary
         </h5>
         <br />
-        <Label fluid color='green'>Use the slider to adjust your desired savirgs amount</Label>
+        <Label fluid color='green'>Use the slider to adjust your desired savings amount</Label>
         <br />
         <br />
 
