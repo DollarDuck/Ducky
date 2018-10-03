@@ -13,19 +13,24 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <Menu.Item><Header as='h2'>Ducky</Header></Menu.Item>
     <nav>
       {isLoggedIn ? (
-        <Menu.Menu position='right'>
+        <Menu.Menu right fluid position='right'>
           {/* The navbar will show these links after you log in */}
-          <Menu.Item as={Link} to="/plaid">Link your account</Menu.Item>
-          <Menu.Item name='Me' as={Link} to='/home'/>
-          <Menu.Item name='Home' as={Link} to='/me'/>
-          <Menu.Item name='Logout' href='#' onClick={handleClick} />
-          <Menu.Item name='Profile' to="/userProfile" as={Link}>Profile</Menu.Item>
+          <div className="min-width" >
+          <Menu.Item name='Home' position="right" as={Link} to='/me'/>
+          </div>
+          <div className="max-width" />
+          <div className="min-width">
+          <Menu.Item name='Profile' position="right" to="/userProfile" as={Link}>Profile</Menu.Item>
+          </div>
+          <div className="min-width">
+          <Menu.Item name='Logout' href='#' position="right" onClick={handleClick} />
+          </div>
         </Menu.Menu>
       ) : (
         <Menu.Menu position='right'>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/onboarding">Sign Up</Link>
+          <Menu.Item name='Login' as={Link} to='/login'/>
+          <Menu.Item name='Sign Up' as={Link} to='/onboarding'/>
         </Menu.Menu>
       )}
     </nav>

@@ -36,12 +36,7 @@ router.post('/', async (req, res, next) => {
 
 router.put('/userInfo/:userId', async (req, res, next) => {
   try {
-    const user = await User.update({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      phoneNumber: req.body.phoneNumber
-    }, {
+    const user = await User.update(req.body, {
       where: {
         id: req.params.userId
     },

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Button, Checkbox, Label, Card, Container} from 'semantic-ui-react'
+import {Form, Button, Checkbox, Label, Card, Container, Menu, Header, Grid} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {Bar} from 'react-chartjs-2';
 import {getDBBalances} from '../store/balances'
@@ -15,7 +15,6 @@ class Balances extends Component {
 
   render() {
     const balances = this.props.balances || false
-    console.log(balances)
     let chartData
     let showDepositBarChart = false
     let showCreditBarChart = false
@@ -23,15 +22,22 @@ class Balances extends Component {
       chartData = processBalances(balances)
       showDepositBarChart = (chartData.depository.data.length > 0)
       showCreditBarChart = (chartData.credit.data.length > 0)
-
-      console.log("x", chartData.depository.data)
     }
-    console.log(balances)
-
+    if(balances.length > 0) {
     return (
       <div>
-
-      <h1> balances </h1>
+      <div>
+        <h3 />
+         <Menu borderless>
+             <Menu.Item position="right"></Menu.Item>
+             <Menu.Item position="right"></Menu.Item>
+            <Menu.Item position="right"><Header as='h1'>Accounts</Header></Menu.Item>
+            <Menu.Item position="right">
+              <img src='/duck.svg' />
+            </Menu.Item>
+            <hr />
+          </Menu>
+        </div>
 
       <div>
       { (showDepositBarChart) &&
@@ -180,7 +186,28 @@ class Balances extends Component {
       }
       </div>
       </div>
-    )}
+    )
+  } else {
+    return (
+      <div>
+         <Menu borderless>
+             <Menu.Item position="right"></Menu.Item>
+             <Menu.Item position="right"></Menu.Item>
+            <Menu.Item position="right"><Header as='h1'>Accounts</Header></Menu.Item>
+            <Menu.Item position="right">
+              <img src='/duck.svg' />
+            </Menu.Item>
+            <hr />
+          </Menu>
+          <h3 />
+         <Grid centered width={7}>
+      <h3>Currently, you have no linked bank accounts. You'll want to enter your user profile to add in a bank account.</h3>
+      </Grid>
+      </div>
+    )
+  }
+
+}
 }
 
 const mapDispatchToProps = dispatch => {

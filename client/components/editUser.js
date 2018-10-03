@@ -46,7 +46,6 @@ class EditUser extends Component {
       <h1 />
       <Grid centered>
       <Grid.Column centered width={5}>
-      <div className="max-width">
       <Card fluid centered color="white">
       <Label size="massive" color="blue">Edit User Information</Label>
       <h1 />
@@ -75,7 +74,6 @@ class EditUser extends Component {
       <Button fluid color="blue" type='submit'>Submit</Button>
       </Form>
       </Card>
-      </div>
       </Grid.Column>
       </Grid>
       </div>
