@@ -4,12 +4,7 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const budget = await Budget.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: ['id', 'email']
-    })
+    const budget = await Budget.findAll({})
     res.json(budget)
   } catch (err) {
     next(err)
@@ -17,12 +12,10 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/:userId', async (req, res, next) => {
-  console.log('create budget api')
   const {desiredSavings, income, userId} = req.body
   const DBincome = Number(income)
   const amount = Number(desiredSavings)
   const percentSaved = Math.round(100*Number(desiredSavings)/Number(income))
-  console.log(amount, DBincome, percentSaved, userId)
 
   try {
     const budget = await Budget.create({
@@ -42,7 +35,6 @@ router.post('/:userId', async (req, res, next) => {
 router.get('/allCategories', async(req, res, next) => {
   try {
     const categories = await Category.findAll()
-    console.log(categories)
     res.json(categories)
   }
   catch (err) {
@@ -65,7 +57,6 @@ router.get('/CatIdByName/:catName', async(req, res, next) => {
 
 router.post('/initialItem/:categoryId/:amount/:budgetId/:mtdSpending', async(req, res, next) => {
   const {categoryId, amount, mtdSpending, budgetId} = req.params
-  console.log(req.params)
   try {
     const newBudgetItem = await BudgetItems.create({
       categoryId: Number(categoryId),
@@ -74,11 +65,25 @@ router.post('/initialItem/:categoryId/:amount/:budgetId/:mtdSpending', async(req
       budgetId: Number(budgetId)
     })
     res.send(newBudgetItem)
-
   } catch (err) {
     next(err)
   }
+})
 
+router.put('/budgetItems/:categoryId', async (req, res, next) => {
+  try {
+    const {billAmount, userId, addBill} = req.body
+    const {dataValues} = await Budget.findOne({where: {userId}})
 
+    const [budgetItem, wasCreated] = await BudgetItems.findOrCreate({where: {categoryId: req.params.categoryId, budgetId: dataValues.id}, defaults: {amount: billAmount}})
 
+    if (!wasCreated && addBill) {
+      const [numRows, newBudget] = await BudgetItems.update({amount: Number(budgetItem.amount) + Math.floor(Number(billAmount))}, {where: {categoryId: 1, budgetId: dataValues.id}, returning: true, plain: true})
+      res.json(newBudget)
+    } else {
+      res.json(budgetItem)
+    }
+  } catch (err) {
+    next(err)
+  }
 })

@@ -21,6 +21,10 @@ const Bill = db.define('bills', {
 	paid: {
 		type: Sequelize.BOOLEAN,
 		defaultValue: false
+	},
+	amount: {
+		type: Sequelize.DECIMAL,
+		allowNull: false
 	}
 }
 )

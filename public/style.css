@@ -21,7 +21,6 @@ nav a {
 }
 
 form div {
-  margin: 1em;
   display: inline-block;
 }
 
@@ -324,4 +323,14 @@ main {
 
 .ui.button {
   background-color: #C1F6F8;
+}
+
+.ui.grid>* {
+  padding: 0;
+}
+
+.calendar.icon {
+  border: none;
+  --text-color: black;
+  line-height: 1;
 }
