@@ -79,6 +79,16 @@ export const updateUser = userId => async dispatch => {
   }
 }
 
+export const updateUserInfo = userInfo => async dispatch => {
+  try {
+    console.log('userInfo', userInfo)
+    const res = await axios.put(`/api/users/userInfo/${userInfo.id}`, userInfo)
+    dispatch(updatedUser(res.data[1][0]))
+  } catch(err) {
+    console.log(err)
+  }
+}
+
 /**
  * REDUCER
  */
