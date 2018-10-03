@@ -9,12 +9,13 @@ const Budget = db.define('budgets', {
 	income: {
 		type: Sequelize.DECIMAL
 	},
-	percentSaved: {
+	percentIncomeSaved: {
 		type: Sequelize.DECIMAL,
 		validate: {
 			max: 100,
 			min: 0
-		}
+		},
+		defaultValue: 15
 	},
 	mtdSpending: {
 		type: Sequelize.DECIMAL,

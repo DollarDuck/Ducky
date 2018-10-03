@@ -17,6 +17,15 @@ const formatDate = (lastUpdateDate) => {
   return [endDate, startDate]
 }
 
+function convertIncome(income) {
+  let returnStr = ''
+  console.log('here', income)
+  for(let i=0; i< income.length; ++i) {
+    if(income[i] !== ',' && income[i] !== '$') returnStr += income[i]
+  }
+  return Number(returnStr)
+}
+
 function convertPhoneNumber(number) {
   if(number.indexOf('-') > -1) {
     number = number.split('-').join('')
@@ -51,4 +60,4 @@ function reformatAmount(amt) {
   return amt;
 }
 
-module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber}
+module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome}

@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Form, Button, Checkbox, Label, Grid} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {Doughnut} from 'react-chartjs-2';
+import {convertIncome} from '../../../utils'
 // import {createBudget} from '../../store/index'
 
 import OnboardingSteps from './onboardingSteps'
@@ -23,10 +24,12 @@ class OnboardingBudget extends Component {
 
   //function is run when user finishes entering income
   incomeEntered = (event) => {
+    const income = convertIncome(event.target.value)
+    console.log('income', income)
     this.setState({
       incomeEnteredBoolean: true,
-      income: event.target.value,
-      desiredSavings: Math.round(event.target.value*0.15)
+      income: income,
+      desiredSavings: Math.round(income*0.15)
     })
   }
 
@@ -42,6 +45,7 @@ class OnboardingBudget extends Component {
     const incomeEnteredBoolean = this.state.incomeEnteredBoolean
     const desiredSavings = this.state.desiredSavings
     const income = this.state.income
+    console.log('income here too', income)
     const rent = Math.round(0.33*(income-desiredSavings))
     const food = Math.round(0.15*(income-desiredSavings))
     const other = income - desiredSavings - rent - food
@@ -50,7 +54,9 @@ class OnboardingBudget extends Component {
     return(
       <div>
         <Grid centered width={15} columns={1}>
+        <Grid.Column>
         <OnboardingSteps step='step2'/>
+        </Grid.Column>
         <Form>
         <Grid.Column width={4}>
       <Form.Field>
