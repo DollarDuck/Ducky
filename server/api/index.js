@@ -13,7 +13,7 @@ router.use('/bills', require('./bills'))
 router.use('/balances', require('./balances'))
 
 
-// router.use('/budgets', require('./budgets'))
+router.use('/budgets', require('./budgets'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')

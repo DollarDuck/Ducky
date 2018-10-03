@@ -76,13 +76,8 @@ class Onboarding extends Component {
         <input placeholder='xxx-xxx-xxxx' name='phoneNumber' onChange={this.handleMessage}/>
       </Form.Field>
       <br />
-      <Form.Field className="padding-left">
-        <Checkbox label='I agree to the Terms and Conditions' onClick={this.toggleTerms}/>
-      </Form.Field>
-      <br />
-      <Button fluid color="blue" type='submit' disabled={!this.state.checked}>Submit</Button>
+      <Button fluid color="blue" type='submit'>Submit</Button>
     </Form>
-    {(!this.state.checked && this.state.phoneNumber !== '') ? <p>you must agree to the terms before you can submit.</p> : <p> </p> }
     </Card>
     </div>
     )

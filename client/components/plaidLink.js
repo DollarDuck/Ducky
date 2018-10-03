@@ -63,7 +63,7 @@ class Plaid extends Component {
                   <Label color="blue"><h2>Link your bank account</h2></Label>
                   </PlaidLink>
                   <h3 />
-                  {this.props.isOnboarding ? <NavLink to="/home"><h3>Skip this step</h3></NavLink> : ''}
+                  {this.props.isOnboarding ? <NavLink to="/me"><h3>Skip this step</h3></NavLink> : ''}
                 </div>
               </div>
             </div>
