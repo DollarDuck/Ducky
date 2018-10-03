@@ -271,3 +271,15 @@ main {
 .centered {
 	position: center;
 }
+
+.ui.dropdown {
+  max-height: 40px;
+}
+
+.ui.dropdown.default.text {
+  margin: 0px;
+}
+
+.ui.button {
+  background-color: #C1F6F8;
+}

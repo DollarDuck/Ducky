@@ -2,11 +2,11 @@ import axios from 'axios'
 
 const GOT_BILLS = 'GOT_BILLS'
 const ADDED_BILL = 'ADDED_BILL'
-// const EDITED_BILL = 'EDITED_BILL'
+const EDITED_BILL = 'EDITED_BILL'
 
 const gotBills = bills => ({type: GOT_BILLS, bills})
 const addedBill = bill => ({type: ADDED_BILL, bill})
-// const editedBill = bill => ({type: EDITED_BILL, bill})
+const editedBill = bill => ({type: EDITED_BILL, bill})
 
 export const getBills = userId => async dispatch => {
   try {
@@ -26,14 +26,15 @@ export const addBill = bill => async dispatch => {
   }
 }
 
-// export const editBill = bill => async dispatch => {
-//   try {
-//     const { data } = await axios.put('/api/bills/', bill)
-//     dispatch(editedBill(data))
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
+export const editBill = bill => async dispatch => {
+  try {
+    const { data } = await axios.put(`/api/bills/${bill.id}`, bill)
+    console.log('++++++bill data++++++++', data)
+    dispatch(editedBill(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 export default (state = [], action) => {
   switch (action.type) {
@@ -41,8 +42,8 @@ export default (state = [], action) => {
       return action.bills
     case ADDED_BILL:
       return [...state, action.bill]
-    // case EDITED_BILL:
-    //   return
+    case EDITED_BILL:
+      return [...state.filter(bill => bill.id !== action.bill.id), action.bill]
     default:
       return state
   }

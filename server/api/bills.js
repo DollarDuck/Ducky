@@ -22,3 +22,13 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/:billId', async (req, res, next) => {
+  try {
+    const {paid} = req.body
+    const [numRows, bill] = await Bill.update({paid: paid}, {where: {id: req.params.billId}, returning: true, plain: true})
+    res.json(bill)
+  } catch (err) {
+    next(err)
+  }
+})

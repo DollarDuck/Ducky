@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { getBills } from '../store/bills'
+import { getBills, editBill } from '../store/bills'
 import { Button, Container, Table, Icon, Grid, Divider } from 'semantic-ui-react'
 import Calendar from './Calendar'
 
@@ -9,6 +9,11 @@ class Bills extends React.Component {
 
   componentDidMount() {
     this.props.getBills(Number(this.props.match.params.userId))
+  }
+
+  toggleBill(bill) {
+    bill.paid = !bill.paid
+    this.props.editBill(bill)
   }
 
   render() {
@@ -43,7 +48,7 @@ class Bills extends React.Component {
               if(bill.dueDate.slice(5,7) == currentMonth) {
               return (
               <Table.Row key={bill.id}>
-                <Table.Cell>
+                <Table.Cell onClick={() => this.toggleBill(bill)}>
                   {bill.paid
                   ? <Icon name='checkmark' />
                   : <Icon name='x' />}
@@ -70,7 +75,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    getBills: userId => dispatch(getBills(userId))
+    getBills: userId => dispatch(getBills(userId)),
+    editBill: bill => dispatch(editBill(bill))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bills)
