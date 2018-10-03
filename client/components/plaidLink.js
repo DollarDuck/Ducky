@@ -7,7 +7,7 @@ import {updateUser} from '../store/user'
 import {get30DaysAgo} from '../../utils'
 import {auth} from '../store'
 import {NavLink} from 'react-router-dom'
-import {Label} from 'semantic-ui-react'
+import {Label, Dimmer, Loader} from 'semantic-ui-react'
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -26,12 +26,14 @@ class Plaid extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      startLoading: false,
       accountLinked: false
     }
 
   }
 
   handleOnSuccess = async (token, metadata) => {
+    this.setState({startLoading: true})
     const userId = this.props.user.id
     const lastUpdateDate = get30DaysAgo()
     await this.props.getTransactions(userId, lastUpdateDate, token, metadata.institution.name)
@@ -40,7 +42,7 @@ class Plaid extends Component {
     this.setState({ accountLinked: true})
   }
   render() {
-    if(!this.state.accountLinked) {
+    if(!this.state.startLoading) {
     return (
       <div>
         <h1 />
@@ -61,7 +63,7 @@ class Plaid extends Component {
                   <Label color="blue"><h2>Link your bank account</h2></Label>
                   </PlaidLink>
                   <h3 />
-                  {this.props.isOnboarding ? <NavLink to="/home"><h3>Skip this step</h3></NavLink> : ''}
+                  {this.props.isOnboarding ? <NavLink to="/me"><h3>Skip this step</h3></NavLink> : ''}
                 </div>
               </div>
             </div>
@@ -69,6 +71,28 @@ class Plaid extends Component {
         </div>
       );
     } else {
+      console.log('here', this.state.accountLinked, this.state.startLoading)
+      if(!this.state.accountLinked) {
+        return(
+        <div>
+        <h1 />
+        <div className="ui one column stackable center aligned page grid">
+         <div className="column twelve wide">
+         <div className="ui fluid white card" >
+         <div className="height">
+          <h1>here</h1>
+        <h1 />
+        <h1 />
+        <Dimmer active inverted>
+        <Loader>Analyzing data...</Loader>
+        </Dimmer>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        )
+      } else {
       return (
             <div>
         <h1 />
@@ -88,7 +112,7 @@ class Plaid extends Component {
         )
   }
 }
-
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Plaid)

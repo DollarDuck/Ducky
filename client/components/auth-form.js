@@ -2,36 +2,40 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
+import {Grid, Form, Label, Card, Button} from 'semantic-ui-react'
 
 /**
  * COMPONENT
  */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
-
-  return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
-  )
+      return(
+      <div>
+      <h1 />
+      <Grid centered>
+      <Grid.Column centered width={5}>
+      <Card fluid centered color="white">
+      <Label size="massive" color="blue">Login</Label>
+      <h1 />
+      <Form onSubmit={handleSubmit} name={name}>
+      <Form.Field className="padding-large">
+        <label>Email:</label>
+        <input placeholder='Email' name='email'/>
+      </Form.Field>
+      <br />
+      <Form.Field className="padding-large">
+        <label>Password:</label>
+        <input placeholder='password' name='password' type='password'/>
+      </Form.Field>     
+      <br />
+      <br />
+      <Button fluid color="blue" type='submit'>Submit</Button>
+      </Form>
+      </Card>
+      </Grid.Column>
+      </Grid>
+      </div>
+    )
 }
 
 /**

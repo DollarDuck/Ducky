@@ -35,7 +35,6 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path='/balances' component={Balances} />
             <Route path='/spending/:userId' component={BudgetDetail} />
-            <Route path="/home" component={UserHome} />
             <Route path="/me" component={Dashboard} />
             <Route path="/userProfile" component={UserProfile} />
           </Switch>

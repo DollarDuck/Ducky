@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {getTransactionsByUser, getAllBankInfo, getTransactionsByBank} from '../store/plaid'
-import {Menu, Header, Dropdown, Label} from 'semantic-ui-react'
+import {Menu, Header, Dropdown, Label, Grid} from 'semantic-ui-react'
 import {reformatDate, reformatAmount} from '../../utils'
 
 class Transactions extends React.Component {
@@ -27,7 +27,7 @@ class Transactions extends React.Component {
 				 <Menu borderless>
 				     <Menu.Item position="right"></Menu.Item>
 				     <Menu.Item position="right"></Menu.Item>
-				    <Menu.Item position="right"><Header as='h1'>Accounts</Header></Menu.Item>
+				    <Menu.Item position="right"><Header as='h1'>Spending</Header></Menu.Item>
 				    <Menu.Item position="right">
 				      <img src='/duck.svg' />
 				    </Menu.Item>
@@ -39,7 +39,6 @@ class Transactions extends React.Component {
 		   			Bank: <Dropdown placeholder='All Banks' selection options={accounts} onChange={this.handleSelect}/>
 						 <br />
 						 <br />
-						 <Link to="/balances"><Label color='teal'>See your account balances</Label></Link>
 		   		</div>
 		   		</div>
 		   		<h3 />
@@ -71,7 +70,21 @@ class Transactions extends React.Component {
 				</div>
 			)
 		} else return (
-			<h3>Currently, you have no transactions or linked bank accounts</h3>
+			<div>
+				 <Menu borderless>
+				     <Menu.Item position="right"></Menu.Item>
+				     <Menu.Item position="right"></Menu.Item>
+				    <Menu.Item position="right"><Header as='h1'>Spending</Header></Menu.Item>
+				    <Menu.Item position="right">
+				      <img src='/duck.svg' />
+				    </Menu.Item>
+				    <hr />
+			   	</Menu>
+			   	<h3 />
+			   <Grid centered width={7}>
+			<h3>Currently, you have no transactions or linked bank accounts. You'll want to enter your user profile to add in a bank account.</h3>
+			</Grid>
+			</div>
 		);
 	}
 }

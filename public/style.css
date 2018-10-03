@@ -11,6 +11,10 @@ label {
   display: block;
 }
 
+nav {
+  min-width: 900px;
+}
+
 nav a {
   display: inline-block;
   margin: 1em;
@@ -20,6 +24,15 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.min-width {
+  max-width: 300px;
+}
+
+.max-width {
+  min-width: 700px;
+}
+
 .height {
   min-height: 400px;
 }
