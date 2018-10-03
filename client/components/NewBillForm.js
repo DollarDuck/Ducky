@@ -25,6 +25,7 @@ class NewBillForm extends React.Component {
     const dueDate = date.slice(6) + date.slice(3, 5) + date.slice(0, 2)
     this.props.addBill({...this.state, dueDate, userId: this.props.user.id})
     this.setState({ type: '', name: '' })
+    this.props.history.push(`/bills/${this.props.user.id}`)
   }
 
   render() {
@@ -35,28 +36,28 @@ class NewBillForm extends React.Component {
         <Divider />
         <Grid centered>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Input required inline
+          <Form.Group inline >
+            <Form.Input required
               label="Company"
               placeholder="Company"
               name="name"
               onChange={this.handleChange}
             />
-            <Form.Input required inline
+            <Form.Input required
               label="Type"
               placeholder="e.g. Water, Electric..."
               name="type"
               onChange={this.handleChange}
             />
-            <Form.Select fluid required inline
+            <Form.Select compact inline fluid required
               label="Recurring"
               options={options}
-              placeholder="Please choose one"
+              placeholder="Frequency"
               name="recurring"
               onChange={this.handleChange}
             />
           </Form.Group>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={Object.keys(this.state).length < 4}>Submit</Button>
           <Header as="h5">Due date*</Header>
           <Form.Field required>
             <DateInput
