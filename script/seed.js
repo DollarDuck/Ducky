@@ -1,7 +1,15 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Bill} = require('../server/db/models')
+const {User, Bill, Category} = require('../server/db/models')
+
+const categories = [{
+  name: 'Housing'
+}, {
+  name: 'Other'
+}, {
+  name: 'Food and Drink'
+}]
 
 const bills = [{
   name: 'Chicago Electric',
@@ -9,6 +17,7 @@ const bills = [{
   dueDate: '10-23-2018',
   recurring: '',
   paid: true,
+  amount: 23.12,
   userId: 1
 }, {
   name: 'Chicago Water',
@@ -16,6 +25,7 @@ const bills = [{
   dueDate: '10-29-2018',
   recurring: 'monthly',
   paid: true,
+  amount: 14.69,
   userId: 1
 }, {
   name: 'Comcast',
@@ -23,6 +33,7 @@ const bills = [{
   dueDate: '11-01-2018',
   recurring: 'monthly',
   paid: false,
+  amount: 65.24,
   userId: 2
 }, {
   name: 'Apartments LLC',
@@ -30,6 +41,7 @@ const bills = [{
   dueDate: '11-03-2018',
   recurring: 'quarterly',
   paid: false,
+  amount: 800,
   userId: 2
 }, {
   name: 'The Electric Company',
@@ -37,6 +49,7 @@ const bills = [{
   dueDate: '11-15-2018',
   recurring: 'yearly',
   paid: false,
+  amount: 32.45,
   userId: 1
 }]
 
@@ -53,6 +66,7 @@ async function seed() {
     User.create({firstName: 'Murphy', lastName: 'James', phoneNumber: '9732126484', email: 'murphy@email.com', password: '123'})
   ])
   await Promise.all(bills.map(bill => Bill.create(bill)))
+  await Promise.all(categories.map(category => Category.create(category)))
 
   console.log(`seeded successfully`)
 }
