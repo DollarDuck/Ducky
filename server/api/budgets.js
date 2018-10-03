@@ -70,11 +70,19 @@ router.post('/initialItem/:categoryId/:amount/:budgetId/:mtdSpending', async(req
   }
 })
 
-router.put('/:budgetId', async (req, res, next) => {
+router.put('/budgetItems/:categoryId', async (req, res, next) => {
   try {
-    const {} = req.body
-    const [numRows, budget] = await Budget.update({paid: paid}, {where: {id: req.params.budgetId}, returning: true, plain: true})
-    res.json(budget)
+    const {billAmount, userId, addBill} = req.body
+    const {dataValues} = await Budget.findOne({where: {userId}})
+
+    const [budgetItem, wasCreated] = await BudgetItems.findOrCreate({where: {categoryId: req.params.categoryId, budgetId: dataValues.id}, defaults: {amount: billAmount}})
+
+    if (!wasCreated && addBill) {
+      const [numRows, newBudget] = await BudgetItems.update({amount: Number(budgetItem.amount) + Math.floor(Number(billAmount))}, {where: {categoryId: 1, budgetId: dataValues.id}, returning: true, plain: true})
+      res.json(newBudget)
+    } else {
+      res.json(budgetItem)
+    }
   } catch (err) {
     next(err)
   }

@@ -13,19 +13,25 @@ const options = [
 ]
 
 class NewBillForm extends React.Component {
-  state = {}
+  state = { checked: false }
 
   handleChange = (evt, {name, value}) => {
     this.setState({[name]: value})
     console.log(this.state)
   }
 
+  toggle = () => this.setState({ checked: !this.state.checked })
+
   handleSubmit = async () => {
     event.preventDefault()
     const date = this.state.date
     const dueDate = date.slice(6) + date.slice(3, 5) + date.slice(0, 2)
     await this.props.addBill({...this.state, dueDate, userId: this.props.user.id})
-    await this.props.updateBudget(this.state.amount)
+    await this.props.updateBudget({
+      billAmount: this.state.amount,
+      userId: this.props.user.id,
+      addBill: this.state.checked
+    })
     this.setState({ type: '', name: '' })
     this.props.history.push(`/bills/${this.props.user.id}`)
   }
@@ -66,7 +72,8 @@ class NewBillForm extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Group>
-            <Button type="submit" disabled={Object.keys(this.state).length < 5}>Submit</Button>
+            <Form.Checkbox label='Add this bill to my budget' onChange={this.toggle} checked={this.state.checked}/>
+            <Button type="submit" disabled={Object.keys(this.state).length < 6}>Submit</Button>
           <Header as="h5">Due date*</Header>
           <Form.Field required>
             <DateInput

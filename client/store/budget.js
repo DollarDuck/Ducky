@@ -20,6 +20,16 @@ const defaultBudget = {}
 const getBudget = userId => ({type: GET_BUDGET, userId})
 const updatedBudget = budget => ({type: UPDATED_BUDGET, budget})
 
+const getCategoryId = async categoryName => {
+  const {data} = await axios.get('/api/budgets/allCategories')
+    const categories = data
+    for (let i = 0; i < categories.length; i++) {
+      if (categories[i].name === categoryName) {
+        return categories[i].id
+      }
+    }
+    return false
+}
 
 
 /**
@@ -52,9 +62,9 @@ export const createBudget = (stateChange) => {
   }
 }
 
-export const updateBudget = budget => async dispatch => {
+export const updateBudget = billAmount => async dispatch => {
   try {
-    const { data } = await axios.put(`/api/budgets/budgetItems/${budget.id}`, budget)
+    const { data } = await axios.put(`/api/budgets/budgetItems/2`, billAmount)
     dispatch(updatedBudget(data))
   } catch (err) {
     console.error(err)
