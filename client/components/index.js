@@ -19,3 +19,7 @@ export {default as Transactions} from './transactions'
 export {default as BudgetDetail} from './budgetDetail'
 export {default as UserProfile} from './userProfile'
 export {default as EditUser} from './editUser'
+
+
+export {default as GradSchoolInput} from './lifeEvents/gradSchool/input'
+
