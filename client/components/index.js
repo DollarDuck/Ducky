@@ -15,5 +15,7 @@ export {default as Balances} from './balances'
 export {default as Bills} from './Bills'
 export {default as NewBillForm} from './NewBillForm'
 export {default as Transactions} from './transactions'
+
+export {default as BudgetDetail} from './budgetDetail'
 export {default as UserProfile} from './userProfile'
 export {default as EditUser} from './editUser'

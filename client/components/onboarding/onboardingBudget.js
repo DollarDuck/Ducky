@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Button, Checkbox, Label, Grid} from 'semantic-ui-react'
+import {Form, Button, Checkbox, Label, Grid, Icon, Message} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {Doughnut} from 'react-chartjs-2';
-// import {createBudget} from '../../store/index'
+import {createBudget} from '../../store/budget'
 
 import OnboardingSteps from './onboardingSteps'
 
@@ -14,7 +14,8 @@ class OnboardingBudget extends Component {
       // Boolean turn to true once user enter income
       incomeEnteredBoolean: false,
       income: 0,
-      desiredSavings: 0
+      desiredSavings: 0,
+      userId: 0
     })
     this.incomeEntered = this.incomeEntered.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -23,11 +24,14 @@ class OnboardingBudget extends Component {
 
   //function is run when user finishes entering income
   incomeEntered = (event) => {
+    const userId = this.props.user.id
     this.setState({
       incomeEnteredBoolean: true,
       income: event.target.value,
-      desiredSavings: Math.round(event.target.value*0.15)
+      desiredSavings: Math.round(event.target.value*0.15),
+      userId: userId
     })
+    console.log(this.state)
   }
 
   //handles change to user input in income field
@@ -39,6 +43,7 @@ class OnboardingBudget extends Component {
   }
 
   render() {
+    console.log(this.props)
     const incomeEnteredBoolean = this.state.incomeEnteredBoolean
     const desiredSavings = this.state.desiredSavings
     const income = this.state.income
@@ -51,8 +56,9 @@ class OnboardingBudget extends Component {
       <div>
         <Grid centered width={15} columns={1}>
         <OnboardingSteps step='step2'/>
+        <br />
         <Form>
-        <Grid.Column width={4}>
+        <Grid.Column width={5}>
       <Form.Field>
         <label>Enter Your Post-Tax Monthly Income</label>
         <input placeholder='$' name='income' onMouseLeave={this.incomeEntered}/>
@@ -66,7 +72,7 @@ class OnboardingBudget extends Component {
         <h5> Of your ${this.state.income}, we'd recommend you save at least ${Math.round(0.15*this.state.income)} per month which equates to 15% of your salary
         </h5>
         <br />
-        <Label fluid color='green'>Use the slider to adjust your desired savirgs amount</Label>
+        <Label fluid color='green'>Use the slider to adjust your desired savings amount</Label>
         <br />
         <br />
 
@@ -82,6 +88,21 @@ class OnboardingBudget extends Component {
               value={desiredSavings}
             />
         <br />
+        {(desiredSavings < 0.01 * income) &&
+        <Message>
+           <p> <Icon name='frown' size='huge'/>
+         You need to same something for a rainy day! </p>
+          </Message>
+
+        }
+
+        {(desiredSavings > 0.39 * income) &&
+          <Message>
+            <p> We only allow a maximum of 40%. If you are able to save more than 40% and still eat and sleep, you probably don't need this app.
+              </p>
+            </Message>
+        }
+
           <h3>
           Saving ${desiredSavings} per month would equate to saving {Math.round(100*desiredSavings/this.state.income)}% of your salary. Here is what a sample savings plan looks like (you will be able to adjust it later).
           </h3>
@@ -104,14 +125,22 @@ class OnboardingBudget extends Component {
   }
 }
 
+const mapState = state => {
+  return {
+    user: state.user
+  }
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleOk: (stateChange) => {
+      console.log('state change')
+      console.log(stateChange)
 
       dispatch(createBudget(stateChange, ownProps.history))
     }
   }
 }
-export default connect(null, mapDispatchToProps)(OnboardingBudget)
+export default connect(mapState, mapDispatchToProps)(OnboardingBudget)
 
 
