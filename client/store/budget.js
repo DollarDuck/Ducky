@@ -5,6 +5,7 @@ import history from '../history'
  * ACTION TYPES
  */
 const GET_BUDGET = 'GET_BUDGET'
+const UPDATED_BUDGET = 'UPDATED_BUDGET'
 
 /**
  * INITIAL STATE
@@ -14,8 +15,7 @@ const defaultBudget = {}
 /**
  * ACTION CREATORS
  */
-
-
+const updatedBudget = budget => ({type: UPDATED_BUDGET, budget})
 const getBudget = budget => ({type: GET_BUDGET, budget})
 
 export const getBudgetFromServer = userId => {
@@ -39,8 +39,19 @@ export const updateBudgetItems = updateInfo => {
     await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.savings, categoryId: 8})
     const newBudget = await axios.get(`/api/budgets/${updateInfo.userId}`)
     dispatch(getBudget(newBudget.data))
-    history.push('/home')
+    history.push('/me')
   }
+}
+
+const getCategoryId = async categoryName => {
+  const {data} = await axios.get('/api/budgets/allCategories')
+    const categories = data
+    for (let i = 0; i < categories.length; i++) {
+      if (categories[i].name === categoryName) {
+        return categories[i].id
+      }
+    }
+    return false
 }
 
 
@@ -64,6 +75,15 @@ export const createBudget = (stateChange) => {
     history.push('/onboarding/step3/'+userId)
   }
 }
+
+export const updateBudget = billAmount => async dispatch => {
+  try {
+    const { data } = await axios.put(`/api/budgets/budgetItems/2`, billAmount)
+    dispatch(updatedBudget(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
 /**
  * REDUCER
  */
@@ -72,17 +92,10 @@ export const createBudget = (stateChange) => {
    switch (action.type) {
      case GET_BUDGET:
       return action.budget
+    case UPDATED_BUDGET:
+      return action.budget
      default:
       return state
    }
  }
 
-
- function getCatId(catArr, catName) {
-   for(let i=0; i<catArr.length; i++) {
-     if (catArr[i].name === catName) {
-       return catArr[i].id
-     }
-   }
-   return false
- }

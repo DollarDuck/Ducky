@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Card, Image, Grid } from 'semantic-ui-react'
+import { Container, Card, Image, Grid, Divider } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {getTransactions, getBalances} from '../store/plaid'
@@ -17,10 +17,14 @@ class Dashboard extends React.Component {
     }
   }
   render() {
-    const {user} = this.props
+    const {user, bills} = this.props
+    const dueDates = {}
+    bills.forEach(bill => {
+      dueDates[bill.dueDate.slice(-2)] = [bill.name, bill.paid]
+    })
     return (
-      <Container center aligned>
-        <h1 />
+      <Container>
+        <Divider hidden/>
         <h1 />
         <Card.Group>
           <Card as={Link} to="/budget">
@@ -29,7 +33,7 @@ class Dashboard extends React.Component {
               <Image src='/budget.jpg' />
             </Card.Content>
           </Card>
-          <Card as={Link} to={`/transactions/${user.id}`}>
+          <Card as={Link} to={`/spending/${user.id}`}>
             <Card.Content>
               <Card.Header>Spending</Card.Header>
               <Image src='/spending.jpg' />
@@ -68,7 +72,8 @@ class Dashboard extends React.Component {
 const mapState = state => {
   return {
     user: state.user,
-    email: state.user.email
+    email: state.user.email,
+    bills: state.bills
   }
 }
 

@@ -162,7 +162,6 @@ const mapState = state => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleOk: (stateChange) => {
-      console.log(stateChange)
       dispatch(createBudget(stateChange, ownProps.history))
     }
   }
