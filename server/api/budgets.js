@@ -18,7 +18,7 @@ router.get('/:userId', async (req, res, next) => {
       where: {
         userId: req.params.userId
       },
-      include: [{model: BudgetItems}]
+      include: [BudgetItems]
     })
     res.json(budget)
   } catch (error) {

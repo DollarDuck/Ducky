@@ -2,14 +2,14 @@ const formatDate = (lastUpdateDate) => {
   const today = new Date();
   let dd = today.getDate();
   let mm = today.getMonth()+1; //January is 0!
-  
+
   if(dd.toString().length < 2) {
     dd = "0" + dd
   }
   if(mm.toString().length < 2) {
     mm = "0" + mm
   }
-  
+
   const yyyy = today.getFullYear();
   const endDate = yyyy+ '-' + mm + '-' + dd
   const startDate = lastUpdateDate.slice(0,10)
@@ -33,7 +33,7 @@ function convertPhoneNumber(number) {
     number = number.split('(').join('')
     number = number.split(')').join('')
   }
-  return number 
+  return number
 }
 
 function get30DaysAgo() {
@@ -60,4 +60,27 @@ function reformatAmount(amt) {
   return amt;
 }
 
-module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome}
+const getCategoryName = categoryId => {
+	switch (categoryId) {
+		case 1:
+			return 'Monthly Expenses'
+		case 3:
+			return 'Shops'
+		case 4:
+			return 'Travel'
+		case 6:
+			return 'Recreation'
+		case 7:
+			return 'Other'
+		case 8:
+      return 'Savings'
+    case 9:
+      return 'Food and Drink'
+    case 10:
+      return 'Big Purchases'
+		default:
+			return 'Other'
+	}
+}
+
+module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName}
