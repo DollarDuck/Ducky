@@ -27,7 +27,7 @@ class Dashboard extends React.Component {
         <Divider hidden/>
         <h1 />
         <Card.Group>
-          <Card as={Link} to="/me">
+          <Card as={Link} to="/budget">
             <Card.Content>
               <Card.Header >Budgeting</Card.Header>
               <Divider />

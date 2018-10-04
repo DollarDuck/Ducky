@@ -1,6 +1,5 @@
 const router = require('express').Router()
-const {AccessToken, Transaction, Balance, Category} = require('../db/models')
-const axios = require('axios')
+const {AccessToken, Transaction, Balance, Category, BudgetItems, Budget} = require('../db/models')
 const plaid = require('plaid')
 const {formatDate} = require('../../utils')
 module.exports = router
@@ -56,7 +55,6 @@ router.get('/bankInfo/:userId', async (req, res, next) => {
       userId: req.params.userId
     }
   })
-  console.log('account info', accountInfo)
   let accounts = []
   for(let i = 0; i < accountInfo.length; ++i) {
     accounts.push({text: accountInfo[i].dataValues.name, value: accountInfo[i].dataValues.accountId})
@@ -127,6 +125,7 @@ router.post('/transactions/:userId', async (req, res, next) => {
 
 router.post('/saveTransactions', async (req, res, next) => {
   const transactions = req.body.transactions
+  const userId = req.body.userId
   let returnTransactions = []
   for (let i = 0; i < transactions.length; ++i) {
     let currentTransaction = transactions[i]
@@ -135,6 +134,22 @@ router.post('/saveTransactions', async (req, res, next) => {
         name: currentTransaction.category[0]
       }
     })
+    const budget = await Budget.findAll({
+      where: {
+        userId: userId
+      }
+    })
+    const budgetId = budget[0].dataValues.id
+    const budgetItem = await BudgetItems.findAll({
+      where: {
+        budgetId: budgetId,
+        categoryId: category[0].dataValues.id
+      }
+    })
+    if(budgetItem[0]) {
+      let currentAmount = Number(budgetItem[0].dataValues.mtdSpending) + Number(currentTransaction.amount)
+      BudgetItems.update({ mtdSpending: currentAmount}, { where: { id: budgetItem[0].dataValues.id}})
+    }
     let transaction = await Transaction.findOrCreate({
       where: {
       name: currentTransaction.name,
