@@ -80,7 +80,6 @@ class Balances extends Component {
               callbacks: {
                 label: function(tooltipItem, data) {
                 let value = data.datasets[0].data[tooltipItem.index];
-                console.log('hello')
                 if (value>=1000) {
                   let backEnd = '00' + (value-1000*Math.floor(value/1000))
                   let backEnd3digit = backEnd.slice(backEnd.length-3, backEnd.length)
@@ -157,7 +156,6 @@ class Balances extends Component {
                   callbacks: {
                     label: function(tooltipItem, data) {
                     let value = data.datasets[0].data[tooltipItem.index];
-                    console.log('hello')
                     if (value>=1000) {
                       let backEnd = '00' + (value-1000*Math.floor(value/1000))
                       let backEnd3digit = backEnd.slice(backEnd.length-3, backEnd.length)

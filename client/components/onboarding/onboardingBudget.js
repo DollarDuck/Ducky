@@ -47,7 +47,6 @@ class OnboardingBudget extends Component {
     const incomeEnteredBoolean = this.state.incomeEnteredBoolean
     const desiredSavings = this.state.desiredSavings
     const income = this.state.income
-    console.log('income here too', income)
     const rent = Math.round(0.33*(income-desiredSavings))
     const food = Math.round(0.15*(income-desiredSavings))
     const other = income - desiredSavings - rent - food

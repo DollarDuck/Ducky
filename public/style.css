@@ -325,6 +325,10 @@ main {
   background-color: #C1F6F8;
 }
 
+.ui.tabular.menu .active.item {
+  background-color: #FDF5D7;
+}
+
 .ui.grid>* {
   padding: 0;
 }

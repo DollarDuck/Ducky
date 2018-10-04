@@ -13,7 +13,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <Menu.Item><Header as='h2'>Ducky</Header></Menu.Item>
     <nav>
       {isLoggedIn ? (
-        <Menu.Menu right fluid position='right'>
+        <Menu.Menu position='right'>
           {/* The navbar will show these links after you log in */}
           <div className="min-width" >
           <Menu.Item name='Home' position="right" as={Link} to='/me'/>

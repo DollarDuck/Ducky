@@ -13,8 +13,8 @@ const AuthForm = props => {
       <div>
       <h1 />
       <Grid centered>
-      <Grid.Column centered width={5}>
-      <Card fluid centered color="white">
+      <Grid.Column width={5}>
+      <Card fluid centered>
       <Label size="massive" color="blue">Login</Label>
       <h1 />
       <Form onSubmit={handleSubmit} name={name}>
@@ -26,7 +26,7 @@ const AuthForm = props => {
       <Form.Field className="padding-large">
         <label>Password:</label>
         <input placeholder='password' name='password' type='password'/>
-      </Form.Field>     
+      </Form.Field>
       <br />
       <br />
       <Button fluid color="blue" type='submit'>Submit</Button>

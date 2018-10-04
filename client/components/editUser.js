@@ -45,8 +45,8 @@ class EditUser extends Component {
       <div>
       <h1 />
       <Grid centered>
-      <Grid.Column centered width={5}>
-      <Card fluid centered color="white">
+      <Grid.Column width={5}>
+      <Card fluid centered>
       <Label size="massive" color="blue">Edit User Information</Label>
       <h1 />
       <Form onSubmit={this.handleSubmit}>
