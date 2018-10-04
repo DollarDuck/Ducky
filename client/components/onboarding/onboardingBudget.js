@@ -16,7 +16,13 @@ class OnboardingBudget extends Component {
       incomeEnteredBoolean: false,
       income: 0,
       desiredSavings: 0,
-      userId: 0
+      userId: 0,
+      monthlyExpenses: 0,
+      food: 0,
+      shopping: 0,
+      travel: 0,
+      recreation: 0,
+      other: 0
     })
     this.incomeEntered = this.incomeEntered.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -27,30 +33,53 @@ class OnboardingBudget extends Component {
   incomeEntered = (event) => {
     const userId = this.props.user.id
     const income = convertIncome(event.target.value)
+    const savings = Math.round(income*0.15)
+    const monthlyExpenses = Math.round(0.4*(income-savings))
+    const food = Math.round(0.05*(income-savings))
+    const shopping = Math.round(0.1*(income-savings))
+    const travel = Math.round(0.1*(income-savings))
+    const recreation = Math.round(0.1*(income-savings))
+    const other = income - savings - shopping - travel - monthlyExpenses - recreation - food
     this.setState({
       incomeEnteredBoolean: true,
       income: income,
-      desiredSavings: Math.round(income*0.15),
-      userId: userId
+      desiredSavings: savings,
+      userId: userId,
+      monthlyExpenses: monthlyExpenses,
+      food: food,
+      shopping: shopping,
+      travel: travel,
+      recreation: recreation,
+      other: other
     })
   }
 
   //handles change to user input in income field
   handleChange = (event) => {
+    const income = this.state.income
     const savings = event.target.value
+    const monthlyExpenses = Math.round(0.4*(income-savings))
+    const food = Math.round(0.05*(income-savings))
+    const shopping = Math.round(0.1*(income-savings))
+    const travel = Math.round(0.1*(income-savings))
+    const recreation = Math.round(0.1*(income-savings))
+    const other = income - savings - shopping - travel - monthlyExpenses - recreation - food
     this.setState({
-      desiredSavings: savings
+      desiredSavings: savings,
+      monthlyExpenses: monthlyExpenses,
+      food: food,
+      shopping: shopping,
+      travel: travel,
+      recreation: recreation,
+      other: other
     })
+    console.log('state', this.state)
   }
-
   render() {
+    const state = this.state
     const incomeEnteredBoolean = this.state.incomeEnteredBoolean
     const desiredSavings = this.state.desiredSavings
     const income = this.state.income
-    const rent = Math.round(0.33*(income-desiredSavings))
-    const food = Math.round(0.15*(income-desiredSavings))
-    const other = income - desiredSavings - rent - food
-
     return(
       <div>
         <Grid centered width={15} columns={1}>
@@ -107,7 +136,7 @@ class OnboardingBudget extends Component {
           <h3>
           Saving ${desiredSavings} per month would equate to saving {Math.round(100*desiredSavings/this.state.income)}% of your salary. Here is what a sample savings plan looks like (you will be able to adjust it later).
           </h3>
-          <Doughnut data={{labels: ['Savings ('+Math.round(100*(desiredSavings/income))+'%)', 'Rent (' + Math.round(100*rent/income) + '%)', 'Food ('+Math.round(100*(food/income))+'%)', 'Other ('+Math.round(100*other/income)+'%)'], datasets: [{data: [desiredSavings, rent, food, other], backgroundColor: ['#52E577', '#F7464A', '#C61296', '#99347E']}]}} options={{legend: {position: 'bottom'}}} height='50%' />
+          <Doughnut data={{labels: ['Savings ('+Math.round(100*(state.desiredSavings/income))+'%)', 'Monthly Expenses (' + Math.round(100*state.monthlyExpenses/income) + '%)', 'Food ('+Math.round(100*(state.food/income))+'%)', 'Shopping (' + Math.round(100*state.shopping/income) + '%)', 'Recreation (' + Math.round(100*state.recreation/income) + '%)', 'Travel (' + Math.round(100*state.travel/income) + '%)', 'Other ('+Math.round(100*state.other/income)+'%)'], datasets: [{data: [state.desiredSavings, state.monthlyExpenses, state.food, state.shopping, state.recreation, state.travel, state.other], backgroundColor: ['#52E577', '#F7464A', '#C61296', '#99347E', '#4d94ff', '#000000', '#ffcc80']}]}} options={{legend: {position: 'bottom'}}} height='50%' />
           <br />
           <Button fluid color="green" type='button' onClick={(event) => {
             this.props.history.push('/onboarding/step3')
@@ -117,8 +146,6 @@ class OnboardingBudget extends Component {
       {/* END OF WHAT'S RENDERED IF INCOME ENTERED */}
 
       <br />
-
-
     </Form>
     </Grid>
     </div>

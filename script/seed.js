@@ -4,12 +4,28 @@ const db = require('../server/db')
 const {User, Bill, Category} = require('../server/db/models')
 
 const categories = [{
-  name: 'Housing'
+  name: 'Monthly Expenses',
+  id: 1
 }, {
-  name: 'Other'
+  name: 'Other',
+  id: 7
 }, {
-  name: 'Food and Drink'
-}]
+  name: 'Food and Drink',
+  id: 9
+},
+{ name: 'Payment',
+id: 2,
+},
+{name: 'Shops',
+id: 3},
+{name: 'Travel',
+id: 4},
+{name: 'Transfer',
+id: 5},
+{name: 'Recreation',
+id: 6},
+{name: 'Savings',
+id: 8}]
 
 const bills = [{
   name: 'Chicago Electric',

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, Onboarding, OnboardingBudget, Plaid, Dashboard, Bills, NewBillForm, OnboardingLink, Balances, EditUser, UserProfile, SpendingMenu} from './components'
+import {Budget, EditBudget, Login, Signup, Onboarding, OnboardingBudget, Plaid, Dashboard, Bills, NewBillForm, OnboardingLink, Balances, Transactions, BudgetDetail, EditUser, UserProfile, SpendingMenu} from './components'
 import {me} from './store'
 
 
@@ -30,6 +30,8 @@ class Routes extends Component {
 
         <Route path="/plaid" component={Plaid} />
         <Route path="/editUser/:userId" component={EditUser} />
+        <Route path="/budget" component={Budget} />
+        <Route path="/editBudget/:budgetId" component={EditBudget} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
