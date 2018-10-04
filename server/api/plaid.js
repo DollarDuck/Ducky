@@ -135,8 +135,6 @@ router.post('/saveTransactions', async (req, res, next) => {
         name: currentTransaction.category[0]
       }
     })
-    console.log('category', category)
-    console.log('id?', category[0].dataValues)
     let transaction = await Transaction.findOrCreate({
       where: {
       name: currentTransaction.name,

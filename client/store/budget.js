@@ -34,7 +34,6 @@ export const createBudget = (stateChange) => {
     // Default Budget Items
     const resCat = await axios.get('/api/budgets/allCategories')
     const categories = resCat.data
-    console.log("categories array", categories)
 
     let foodId = getCatId(categories, 'Food and Drink')
     let  housingId = getCatId(categories, 'Housing')
@@ -43,14 +42,10 @@ export const createBudget = (stateChange) => {
     let housingAmount = Math.round((Number(stateChange.income)-stateChange.desiredSavings)*0.33)
     let otherAmount = Number(stateChange.income)-stateChange.desiredSavings- housingAmount-foodAmount
 
-    console.log(foodId, foodAmount, budgetId)
-
 
     const food = await axios.post('/api/budgets/initialItem/'+foodId+'/'+foodAmount+'/'+budgetId+'/0')
     const housing = await axios.post('/api/budgets/initialItem/'+housingId+'/'+housingAmount+'/'+budgetId+'/0')
     const other = await axios.post('/api/budgets/initialItem/'+otherId+'/'+otherAmount+'/'+budgetId+'/0')
-
-    console.log(food.data)
 
 
     history.push('/onboarding/step3/'+userId)

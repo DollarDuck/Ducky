@@ -29,7 +29,6 @@ export const addBill = bill => async dispatch => {
 export const editBill = bill => async dispatch => {
   try {
     const { data } = await axios.put(`/api/bills/${bill.id}`, bill)
-    console.log('++++++bill data++++++++', data)
     dispatch(editedBill(data))
   } catch (err) {
     console.error(err)
