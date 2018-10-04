@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getBills, editBill, deleteBill } from '../store/bills'
-import { Button, Container, Table, Icon, Grid, Divider } from 'semantic-ui-react'
+import { Button, Container, Table, Icon, Grid, Divider, Header, Image } from 'semantic-ui-react'
 import Calendar from './Calendar'
 
 class Bills extends React.Component {
@@ -28,6 +28,11 @@ class Bills extends React.Component {
     return (
       <Container>
         <Divider hidden />
+        <Header size='huge' textAlign='center' >Bills
+        <Image src='/duck.svg' size='medium' className='padded'/>
+        </Header>
+        <Divider />
+        <Divider hidden/>
         <Button as={Link} to={`/bills/addbill/${user.id}`} circular floated='right' icon='plus' />
         <Grid centered>
         <Calendar bills={dueDates}/>
@@ -67,6 +72,7 @@ class Bills extends React.Component {
             )}
           </Table.Body>
         </Table>
+        <Divider hidden />
         </Grid>
       </Container>
     )
