@@ -25,7 +25,9 @@ id: 5},
 {name: 'Recreation',
 id: 6},
 {name: 'Savings',
-id: 8}]
+id: 8},
+{name: 'Big Purchases',
+id: 10}]
 
 const bills = [{
   name: 'Chicago Electric',
