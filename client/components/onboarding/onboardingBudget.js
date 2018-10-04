@@ -50,7 +50,6 @@ class OnboardingBudget extends Component {
     const rent = Math.round(0.33*(income-desiredSavings))
     const food = Math.round(0.15*(income-desiredSavings))
     const other = income - desiredSavings - rent - food
-    console.log(income, rent, food, other)
 
     return(
       <div>

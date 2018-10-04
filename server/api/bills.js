@@ -15,8 +15,8 @@ router.get('/:userId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const {name, type, recurring, dueDate, userId} = req.body
-    const bill = await Bill.create({name, type, recurring, dueDate, userId})
+    const {name, type, recurring, dueDate, userId, amount} = req.body
+    const bill = await Bill.create({name, type, recurring, dueDate, amount, userId})
     res.json(bill)
   } catch (err) {
     next(err)
@@ -28,6 +28,15 @@ router.put('/:billId', async (req, res, next) => {
     const {paid} = req.body
     const [numRows, bill] = await Bill.update({paid: paid}, {where: {id: req.params.billId}, returning: true, plain: true})
     res.json(bill)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:billId', async (req, res, next) => {
+  try {
+    await Bill.destroy({where: {id: req.params.billId}})
+    res.json(Number(req.params.billId))
   } catch (err) {
     next(err)
   }

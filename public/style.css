@@ -21,7 +21,6 @@ nav a {
 }
 
 form div {
-  margin: 1em;
   display: inline-block;
 }
 
@@ -328,4 +327,14 @@ main {
 
 .ui.tabular.menu .active.item {
   background-color: #FDF5D7;
+}
+
+.ui.grid>* {
+  padding: 0;
+}
+
+.calendar.icon {
+  border: none;
+  --text-color: black;
+  line-height: 1;
 }

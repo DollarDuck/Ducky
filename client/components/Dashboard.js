@@ -17,7 +17,11 @@ class Dashboard extends React.Component {
     }
   }
   render() {
-    const {user} = this.props
+    const {user, bills} = this.props
+    const dueDates = {}
+    bills.forEach(bill => {
+      dueDates[bill.dueDate.slice(-2)] = [bill.name, bill.paid]
+    })
     return (
       <Container>
         <Divider hidden/>
@@ -68,7 +72,8 @@ class Dashboard extends React.Component {
 const mapState = state => {
   return {
     user: state.user,
-    email: state.user.email
+    email: state.user.email,
+    bills: state.bills
   }
 }
 

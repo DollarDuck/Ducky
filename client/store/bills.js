@@ -3,10 +3,12 @@ import axios from 'axios'
 const GOT_BILLS = 'GOT_BILLS'
 const ADDED_BILL = 'ADDED_BILL'
 const EDITED_BILL = 'EDITED_BILL'
+const DELETED_BILL = 'DELETED_BILL'
 
 const gotBills = bills => ({type: GOT_BILLS, bills})
 const addedBill = bill => ({type: ADDED_BILL, bill})
 const editedBill = bill => ({type: EDITED_BILL, bill})
+const deletedBill = billId => ({type: DELETED_BILL, billId})
 
 export const getBills = userId => async dispatch => {
   try {
@@ -35,6 +37,16 @@ export const editBill = bill => async dispatch => {
   }
 }
 
+export const deleteBill = billId => async dispatch => {
+  try {
+    const { data } = await axios.delete(`/api/bills/${billId}`)
+    console.log('bill data', data)
+    dispatch(deletedBill(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export default (state = [], action) => {
   switch (action.type) {
     case GOT_BILLS:
@@ -43,6 +55,8 @@ export default (state = [], action) => {
       return [...state, action.bill]
     case EDITED_BILL:
       return [...state.filter(bill => bill.id !== action.bill.id), action.bill]
+    case DELETED_BILL:
+    return [...state.filter(bill => bill.id !== action.billId)]
     default:
       return state
   }

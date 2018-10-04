@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { getBills, editBill } from '../store/bills'
+import { getBills, editBill, deleteBill } from '../store/bills'
 import { Button, Container, Table, Icon, Grid, Divider } from 'semantic-ui-react'
 import Calendar from './Calendar'
 
@@ -40,6 +40,8 @@ class Bills extends React.Component {
               <Table.HeaderCell>Company</Table.HeaderCell>
               <Table.HeaderCell>Type</Table.HeaderCell>
               <Table.HeaderCell>Due</Table.HeaderCell>
+              <Table.HeaderCell>Amount</Table.HeaderCell>
+              <Table.HeaderCell />
             </Table.Row>
           </Table.Header>
 
@@ -56,6 +58,8 @@ class Bills extends React.Component {
                 <Table.Cell>{bill.name}</Table.Cell>
                 <Table.Cell>{bill.type}</Table.Cell>
                 <Table.Cell>{bill.dueDate}</Table.Cell>
+                <Table.Cell>{bill.amount}</Table.Cell>
+                <Table.Cell onClick={() => this.props.deleteBill(bill.id)}><Icon name='calendar times outline' /></Table.Cell>
               </Table.Row>
             )
             }
@@ -76,7 +80,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getBills: userId => dispatch(getBills(userId)),
-    editBill: bill => dispatch(editBill(bill))
+    editBill: bill => dispatch(editBill(bill)),
+    deleteBill: billId => dispatch(deleteBill(billId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bills)
