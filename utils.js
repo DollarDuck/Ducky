@@ -36,6 +36,13 @@ function convertPhoneNumber(number) {
   return number
 }
 
+function getMonthYear(currentTransaction) {
+  console.log('current Transaction', currentTransaction)
+  const month = currentTransaction.slice(5,7)
+  const year = currentTransaction.slice(8,10)
+  return [month, year]
+}
+
 function get30DaysAgo() {
   let today = new Date()
   let todayInMilliseconds = today.getTime()
@@ -83,4 +90,4 @@ const getCategoryName = categoryId => {
 	}
 }
 
-module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName}
+module.exports = {getMonthYear, formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName}

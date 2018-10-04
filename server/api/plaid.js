@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const {AccessToken, Transaction, Balance, Category, BudgetItems, Budget} = require('../db/models')
+const {AccessToken, Transaction, Balance, Category, BudgetItems, Budget, MtdSpending} = require('../db/models')
 const plaid = require('plaid')
-const {formatDate} = require('../../utils')
+const {formatDate, getMonthYear} = require('../../utils')
 module.exports = router
 
 var client = new plaid.Client(
@@ -129,23 +129,23 @@ router.post('/saveTransactions', async (req, res, next) => {
   let returnTransactions = []
   for (let i = 0; i < transactions.length; ++i) {
     let currentTransaction = transactions[i]
+    const [month, year] = getMonthYear(currentTransaction)
     let category = await Category.findOrCreate({
       where: {
         name: currentTransaction.category[0]
       }
     })
-    const budget = await Budget.findAll({
+    const mtdSpending = await MtdSpending.findOrCreate({
       where: {
-        userId: userId
-      }
+        month: month,
+        year: year,
+        userId: userId,
+        categoryId: category.dataValues.id
+      },
+      defaults: {amount: 0}
     })
-    const budgetId = budget[0].dataValues.id
-    const budgetItem = await BudgetItems.findAll({
-      where: {
-        budgetId: budgetId,
-        categoryId: category[0].dataValues.id
-      }
-    })
+    const amount = Number(mtdSpending[0].dataValues.amount) + Number(currentTransaction.amount)
+    await MtdSpending.update({amount: amount})
     if(budgetItem[0]) {
       let currentAmount = Number(budgetItem[0].dataValues.mtdSpending) + Number(currentTransaction.amount)
       BudgetItems.update({ mtdSpending: currentAmount}, { where: { id: budgetItem[0].dataValues.id}})
