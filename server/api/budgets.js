@@ -16,8 +16,56 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.post('/:userId', async (req, res, next) => {
-  console.log('create budget api')
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const budget = await Budget.findAll({
+      where: {
+        userId: req.params.userId
+      },
+      include: [{model: BudgetItems}]
+    })
+    res.json(budget)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/updateAmount', async (req, res, next) => {
+  const {budgetId, amount} = req.body
+  try {
+    const updatedBudget = await Budget.update({
+      amount: amount
+    }, {
+      where: {
+        id: budgetId
+      }
+    })
+    res.json(updatedBudget)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/budgetItems/updateAmount', async (req, res, next) => {
+  const {budgetId, amount, categoryId} = req.body
+  console.log('req.body', budgetId, amount, categoryId)
+  try {
+    const updatedBudget = await BudgetItems.update({
+      amount: amount
+    }, {
+      where: {
+        budgetId: budgetId,
+        categoryId: categoryId
+      },
+      returning: true
+    })
+    res.json(updatedBudget)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/', async (req, res, next) => {
   const {desiredSavings, income, userId} = req.body
   const DBincome = Number(income)
   const amount = Number(desiredSavings)
@@ -63,8 +111,8 @@ router.get('/CatIdByName/:catName', async(req, res, next) => {
   }
 })
 
-router.post('/initialItem/:categoryId/:amount/:budgetId/:mtdSpending', async(req, res, next) => {
-  const {categoryId, amount, mtdSpending, budgetId} = req.params
+router.post('/initialItem/', async(req, res, next) => {
+  const {categoryId, amount, mtdSpending, budgetId} = req.body
   console.log(req.params)
   try {
     const newBudgetItem = await BudgetItems.create({

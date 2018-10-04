@@ -20,8 +20,9 @@ class Budget extends React.Component {
 		this.props.getBudget(userId)
 	}
 	render() {
-		if(this.props.budget.budgetItems) {
-			const budget = this.props.budget
+		if(this.props.budget[0]) {
+			const budget = this.props.budget[0]
+			console.log('budget!', budget)
 			return (
 				<div>
 				 <Menu borderless>
@@ -33,7 +34,7 @@ class Budget extends React.Component {
 				    </Menu.Item>
 				    <hr />
 			   	</Menu>
-			   	<NavLink to="/editBudget"><Button color="blue">Edit Budget</Button></NavLink>
+			   	<NavLink to={`/editBudget/${budget.id}`}><Button color="blue">Edit Budget</Button></NavLink>
 			   		<h3>Income: {budget.income}</h3>
 			   		<h3>Percent saved per month: {budget.percentIncomeSaved}</h3>
 			   		<h3>Month to Date Spending: {budget.mtdSpending}</h3>

@@ -1,10 +1,23 @@
 import React from 'react'
 import {Form, Grid, Card, Button, Label} from 'semantic-ui-react'
 import {connect} from 'react-redux'
+import {updateBudgetItems} from '../store/budget'
+
+const mapState = state => ({
+  user: state.user
+})
+
+const mapDispatch = dispatch => ({
+  updateBudgetItems: (updateInfo) => dispatch(updateBudgetItems(updateInfo))
+})
 
 class EditBudget extends React.Component {
 	handleSubmit = (event) => {
+    const budgetId = this.props.match.params.budgetId
+    const userId = this.props.user.id
 		const formInfo = {
+      budgetId: budgetId,
+      userId: userId,
 			totalAmount: Number(event.target.totalAmount.value),
 			monthlyExpenses: Number(event.target.monthlyExpenses.value),
 			shops: Number(event.target.shops.value),
@@ -14,7 +27,7 @@ class EditBudget extends React.Component {
 			foodAndDrink: Number(event.target.foodAndDrink.value)
 		}
 		formInfo.other = formInfo.totalAmount - formInfo.monthlyExpenses - formInfo.shops - formInfo.travel - formInfo.recreation - formInfo.savings - formInfo.foodAndDrink
-		
+		this.props.updateBudgetItems(formInfo)
 	}
 	render () {
 		return (
@@ -77,4 +90,4 @@ class EditBudget extends React.Component {
 	}
 }
 
-export default EditBudget
+export default connect(mapState, mapDispatch)(EditBudget)
