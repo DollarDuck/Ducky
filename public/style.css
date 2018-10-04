@@ -338,3 +338,11 @@ main {
   --text-color: black;
   line-height: 1;
 }
+
+#navBar {
+  margin-left: 50% !important;
+}
+
+.padded {
+  margin: 1rem;
+}

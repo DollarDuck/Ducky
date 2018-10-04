@@ -30,36 +30,42 @@ class Dashboard extends React.Component {
           <Card as={Link} to="/budget">
             <Card.Content>
               <Card.Header >Budgeting</Card.Header>
-              <Image src='/budget.jpg' />
+              <Divider />
+              <Image src='/coins.jpeg' />
             </Card.Content>
           </Card>
           <Card as={Link} to={`/spending/${user.id}`}>
             <Card.Content>
               <Card.Header>Spending</Card.Header>
-              <Image src='/spending.jpg' />
+              <Divider />
+              <Image src='/money.jpeg' />
             </Card.Content>
           </Card>
           <Card as={Link} to={`/bills/${user.id}`}>
             <Card.Content>
               <Card.Header>Bills Due</Card.Header>
-              <Image src='/billsdue.jpg' />
+              <Divider />
+              <Image src='/calendar.jpeg' />
             </Card.Content>
           </Card>
           <Card as={Link} to={'/balances'}>
             <Card.Content>
               <Card.Header>Account Balances</Card.Header>
+              <Divider />
               <Image src='/account-balances.jpg' />
             </Card.Content>
           </Card>
           <Card as={Link} to={`/purchaseplanner/${user.id}`}>
             <Card.Content>
               <Card.Header>Purchase Planner</Card.Header>
+              <Divider />
               <Image src='/purchase planner.jpg' />
             </Card.Content>
           </Card>
           <Card as={Link} to={`/lifeevents/${user.id}`}>
             <Card.Content>
               <Card.Header>Life Events</Card.Header>
+              <Divider />
               <Image src='/lifeevents.jpg' />
             </Card.Content>
           </Card>
