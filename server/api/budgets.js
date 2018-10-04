@@ -61,6 +61,27 @@ router.put('/budgetItems/updateAmount', async (req, res, next) => {
   }
 })
 
+router.put('/budgetItem/other', async (req, res, next) => {
+  const {budgetId, amountDec, categoryId} = req.body
+  console.log('req.body', req.body)
+  const budget = await BudgetItems.findOne({where: {
+    budgetId: budgetId,
+    categoryId: categoryId
+  }})
+  console.log('budget found', budget)
+  const updatedAmount = Number(budget.dataValues.amount) - Number(amountDec)
+  console.log('updatedAmount', updatedAmount)
+  const newBudget = await BudgetItems.update({
+    amount: updatedAmount
+  }, {
+    where: {
+      id: budget.dataValues.id
+    },
+    returning: true
+  })
+  res.json(newBudget)
+})
+
 router.post('/', async (req, res, next) => {
   const {desiredSavings, income, userId} = req.body
   const DBincome = Number(income)
