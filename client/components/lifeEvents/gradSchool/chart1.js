@@ -1,109 +1,94 @@
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-
+import {commaFormat, dataProcessor, convertIncome} from '../../../../utils'
+import {Message, Label, Button, Icon} from 'semantic-ui-react'
 import {Bar} from 'react-chartjs-2';
+
+const year = (new Date()).getFullYear()
 
 class Chart1 extends Component {
 
   render() {
-
-    const data = this.props.data
-    const chartData = dataProcessor(data)
+    const chartData = dataProcessor(this.props.data)
     console.log(chartData)
-    console.log(data)
 
     return (
       <div>
-        <p>
-        currentSalary: 0,
-        csGrowth: 3,
-        expectedSalary: 0,
-        esGrowth: 3,
-        yearsOfSchool: 3,
-        retirementAge: 65,
-        age: 25,
-        tuition: 0,
-        livingExpenses: 0,
-        discountRate: 5,
-        </p>
-
-
         <Bar
-
         data = {{
           labels: chartData.years,
           datasets: [{
+            backgroundColor: 'green',
             label: 'Current Salary',
             data: chartData.dataCs
           },
           {
-            label: 'Expected Salary',
+            backgroundColor: '#4E8BED',
+            label: 'With Grad School',
             data: chartData.dataEs
           }],
-          backgroundColor: ['green', 'blue']
         }}
+        options= {options}
+        height='50%'
         />
+        <br />
 
-
-
-
+        {chartData.breakeven && <Message> After spending {commaFormat(((chartData.tuition*chartData.yearsOfSchool)))} on tuition, you will make your tuition in increased salary in year {chartData.breakeven+year} on an undiscounted basis.
+        </Message>}
+        {!chartData.breakeven && <Message> Doesn't look like a great investment for you. You don't recoup your investment even when we exclude the time value of money.</Message>}
 </div>
-
     )
-
-
   }
 }
-
-
 export default Chart1
 
-
-function dataProcessor(dataObj) {
-  let currentSalary = Number(dataObj.currentSalary)
-  let csGrowth = Number(dataObj.csGrowth)
-  let expectedSalary = Number(dataObj.expectedSalary)
-  let esGrowth = Number(dataObj.esGrowth)
-  let yearsOfSchool = Number(dataObj.yearsOfSchool)
-  let retirementAge = Number(dataObj.retirementAge)
-  let age = Number(dataObj.age)
-  let tuition = Number(dataObj.tuition)
-  let livingExpenses = Number(dataObj.livingExpenses)
-  let discountRate = Number(dataObj.discountRate)
-  let currentSalaryArray = [];
-  let expectedSalaryArray = [];
-  let yearArray = [];
-  let i=1;
-  let workingYears = retirementAge - age
-  let salary
-  let returnObj = {}
-
-
-  while (i < workingYears) {
-
-    yearArray.push(i)
-
-    salary = currentSalary * Math.pow((1+csGrowth / 100), i)
-    currentSalaryArray.push(Math.round(salary))
-
-    if(i <= yearsOfSchool) {
-      expectedSalaryArray.push(0)
-    } else {
-      salary = expectedSalary * Math.pow((1+esGrowth / 100), i-yearsOfSchool)
-      expectedSalaryArray.push(Math.round(salary))
-    }
-    i += 1
-
+const options = {
+  title: {
+    display: true,
+    text: 'Your salary projection until retirement age',
+    fontColor: 'black',
+    fontSize: 20
+  },
+  scales: {
+    xAxes: [{
+      scaleLabel: {
+        display: true,
+        labelString: 'Age (years)'
+      },
+      ticks: {
+        fontColor: 'black',
+      },
+      stacked: false
+    }],
+    yAxes: [{
+      ticks: {
+        callback: function(value, index, values) {
+          return commaFormat(value)
+        },
+        fontColor: 'black',
+        beginAtZero: true,
+        fontSize: 15
+      },
+      stacked: false
+    }]
+  },
+  tooltips: {
+    callbacks: {
+      title: function(){
+        return ''
+      },
+      beforeLabel: function(tooltipItem, data) {
+        return 'Year '+(year+1+tooltipItem.index) + ' salary (' + data.datasets[tooltipItem.datasetIndex].label+')'
+      },
+      label: function(tooltipItem, data) {
+        console.log(tooltipItem)
+        let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+        console.log(data)
+        console.log(value)
+        return commaFormat(100*Math.round(value/100))
+      },
+    },
+    bodyFontSize: 14
   }
-
-  returnObj.dataCs = currentSalaryArray
-  returnObj.dataEs = expectedSalaryArray
-  returnObj.years = yearArray
-
-  return returnObj
-
-
-
-
 }
