@@ -19,7 +19,6 @@ const formatDate = (lastUpdateDate) => {
 
 function convertIncome(income) {
   let returnStr = ''
-  console.log('here', income)
   for(let i=0; i< income.length; ++i) {
     if(income[i] !== ',' && income[i] !== '$') returnStr += income[i]
   }
@@ -34,6 +33,12 @@ function convertPhoneNumber(number) {
     number = number.split(')').join('')
   }
   return number
+}
+
+function getMonthYear(currentTransaction) {
+  const month = Number(currentTransaction.date.slice(5,7))
+  const year = Number(currentTransaction.date.slice(0,4))
+  return [month, year]
 }
 
 function get30DaysAgo() {
@@ -83,4 +88,4 @@ const getCategoryName = categoryId => {
 	}
 }
 
-module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName}
+module.exports = {getMonthYear, formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName}

@@ -6,10 +6,6 @@ const BudgetItems = db.define('budgetItems', {
 		type: Sequelize.DECIMAL,
 		allowNull: false
 	},
-	mtdSpending: {
-		type: Sequelize.DECIMAL,
-		allowNull: false
-	}
 })
 
 module.exports = BudgetItems

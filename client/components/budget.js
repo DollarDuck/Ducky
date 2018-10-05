@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getBudgetFromServer} from '../store/budget'
+import {getSpending} from '../store/spending'
 import {Menu, Header, Button, Container, Divider, Icon, Image} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {Bar, HorizontalBar} from 'react-chartjs-2'
@@ -12,40 +13,51 @@ class Budget extends React.Component {
     date: new Date()
   }
 
-  nextMonth = () => {
+  nextMonth = async () => {
     this.setState({
       date: dateFns.addMonths(this.state.date, 1)
     })
+      await this.props.getBudget(Number(this.props.match.params.userId))
+    const currentMonth = this.state.date.getMonth() + 1
+    const currentYear = this.state.date.getFullYear()
+    const budgetItems = this.props.budget[0].budgetItems
+    this.props.getSpending(Number(this.props.match.params.userId), currentMonth, currentYear, budgetItems)
   }
 
-  prevMonth = () => {
+  prevMonth = async () => {
     this.setState({
       date: dateFns.subMonths(this.state.date, 1)
     })
+    await this.props.getBudget(Number(this.props.match.params.userId))
+    const currentMonth = this.state.date.getMonth() + 1
+    const currentYear = this.state.date.getFullYear()
+    const budgetItems = this.props.budget[0].budgetItems
+    this.props.getSpending(Number(this.props.match.params.userId), currentMonth, currentYear, budgetItems)
   }
 
-  componentDidMount() {
-    this.props.getBudget(Number(this.props.match.params.userId))
+  async componentDidMount() {
+    await this.props.getBudget(Number(this.props.match.params.userId))
+    const currentMonth = this.state.date.getMonth() + 1
+    const currentYear = this.state.date.getFullYear()
+    const budgetItems = this.props.budget[0].budgetItems
+    this.props.getSpending(Number(this.props.match.params.userId), currentMonth, currentYear, budgetItems)
   }
 
   formatBarData = budget => {
     const labels = []
     const amountData = []
-    const spendingData = []
-
     budget.budgetItems.map(budgetItem => {
       labels.push(getCategoryName(budgetItem.categoryId))
       amountData.push(budgetItem.amount)
-      spendingData.push(budgetItem.mtdSpending)
     })
+    const spendingData = this.props.spending
     return [labels, amountData, spendingData]
   }
 
   render() {
     const dateFormat = 'MMMM YYYY'
-    if (this.props.budget[0]) {
+    if (this.props.budget[0] && this.props.spending[0]) {
       const budget = this.props.budget[0]
-      console.log('budget!', budget)
       const [labels, amountData, spendingData] = this.formatBarData(budget)
       const totalSpending = spendingData.reduce(
         (total, currentVal) => Number(total) + Number(currentVal)
@@ -170,11 +182,13 @@ class Budget extends React.Component {
 
 const mapState = state => ({
   budget: state.budget,
+  spending: state.spending,
   user: state.user
 })
 
 const mapDispatch = dispatch => ({
-  getBudget: userId => dispatch(getBudgetFromServer(userId))
+  getBudget: userId => dispatch(getBudgetFromServer(userId)),
+  getSpending:  (userId, currentMonth, currentYear, budgetItem) => dispatch(getSpending(userId, currentMonth, currentYear, budgetItem))
 })
 
 export default connect(mapState, mapDispatch)(Budget)
