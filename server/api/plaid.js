@@ -135,20 +135,31 @@ router.post('/saveTransactions', async (req, res, next) => {
         name: currentTransaction.category[0]
       }
     })
-    const mtdSpending = await MtdSpending.findOrCreate({
+    const budget = await Budget.findOne({
       where: {
-        month: month,
-        year: year,
-        userId: userId,
-        categoryId: category.dataValues.id
-      },
-      defaults: {amount: 0}
+        userId: userId
+      }
     })
-    const amount = Number(mtdSpending[0].dataValues.amount) + Number(currentTransaction.amount)
-    await MtdSpending.update({amount: amount})
-    if(budgetItem[0]) {
-      let currentAmount = Number(budgetItem[0].dataValues.mtdSpending) + Number(currentTransaction.amount)
-      BudgetItems.update({ mtdSpending: currentAmount}, { where: { id: budgetItem[0].dataValues.id}})
+    console.log('budget', budget.dataValues.id, category[0].dataValues.id)
+    const budgetItem = await BudgetItems.findOne({
+      where: {
+        categoryId: category[0].dataValues.id,
+        budgetId: budget.dataValues.id
+      }
+    })
+    if(budgetItem) {
+      const mtdSpending = await MtdSpending.findOrCreate({
+        where: {
+          month: month,
+          year: year,
+          userId: userId,
+          categoryId: category[0].dataValues.id,
+          budgetItemId: budgetItem.dataValues.id
+        },
+        defaults: {amount: 0}
+      })
+      const amount = Number(mtdSpending[0].dataValues.amount) + Number(currentTransaction.amount)
+      await MtdSpending.update({amount: amount}, {where: {id: mtdSpending[0].dataValues.id}})
     }
     let transaction = await Transaction.findOrCreate({
       where: {

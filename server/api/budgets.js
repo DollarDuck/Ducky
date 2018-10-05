@@ -106,12 +106,11 @@ router.get('/CatIdByName/:catName', async(req, res, next) => {
 })
 
 router.post('/initialItem/', async(req, res, next) => {
-  const {categoryId, amount, mtdSpending, budgetId} = req.body
+  const {categoryId, amount, budgetId} = req.body
   try {
     const newBudgetItem = await BudgetItems.create({
       categoryId: Number(categoryId),
       amount: Number(amount),
-      mtdSpending: Number(mtdSpending),
       budgetId: Number(budgetId)
     })
     res.send(newBudgetItem)

@@ -38,8 +38,8 @@ function convertPhoneNumber(number) {
 
 function getMonthYear(currentTransaction) {
   console.log('current Transaction', currentTransaction)
-  const month = currentTransaction.slice(5,7)
-  const year = currentTransaction.slice(8,10)
+  const month = Number(currentTransaction.date.slice(5,7))
+  const year = Number(currentTransaction.date.slice(0,4))
   return [month, year]
 }
 

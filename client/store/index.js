@@ -8,8 +8,9 @@ import transactions from './plaid'
 import balances from './balances'
 import budget from './budget'
 import {reducer as form} from 'redux-form'
+import spending from './spending'
 
-const reducer = combineReducers({user, bills, transactions, budget, balances, form})
+const reducer = combineReducers({user, bills, transactions, budget, balances, form, spending})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
