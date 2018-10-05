@@ -54,7 +54,7 @@ class PurchasePlanner extends React.Component {
 		      <Card fluid centered color="white">
 		      <Label size="massive" color="blue">Purchase Planner</Label>
 		      <Label size="medium">Plan your next big purchase!</Label>
-		      {this.state.isSubmitted ? 
+		      {this.state.isSubmitted ?
 		      	(
 		      		<div>
 		      		{!this.state.isAdded ? (
@@ -83,14 +83,14 @@ class PurchasePlanner extends React.Component {
 		      <Form.Field className="padding-large" width={12}>
 		        <label>Estimated total cost:</label>
 		        <input placeholder='Total Cost' name='totalCost'/>
-		      </Form.Field>     
+		      </Form.Field>
 		      <br />
 		            <br />
 		      <Form.Field className="padding-large" width={12}>
 		        <label>How many months do you have to save for this?</label>
 		        <input placeholder='Number of Months' name='numMonths'/>
-		         <Label>If you leave this field blank, we can give you options for immediate purchase, 1, 3, and 6 months.</Label>
-		      </Form.Field>     
+		         {/* <Label>If you leave this field blank, we can give you options for immediate purchase, 1, 3, and 6 months.</Label> */}
+		      </Form.Field>
 		      <br />
 		            <br />
 		      <Button fluid color="blue" type='submit'>Submit</Button>

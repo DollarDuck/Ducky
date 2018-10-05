@@ -8,11 +8,14 @@ import { getTransactionsByUser } from '../store/plaid'
 class SpendingDoughnut extends Component {
   state = {
       date: new Date(1538148363450),
+      donutData: {}
     }
 
   async componentDidMount() {
     const userId = this.props.user.id
     await this.props.getTransactionsByUser(userId)
+    const transactions = this.props.transactions.transactions
+    this.setState({donutData : parseTransactionData(transactions, this.state.date)})
   }
 
   nextMonth = () => {
@@ -29,13 +32,7 @@ class SpendingDoughnut extends Component {
 
   render() {
     const dateFormat = 'MMMM YYYY'
-
-    const transactions = this.props.transactions.transactions
-    let donutData
-
-    if (transactions.length > 0) {
-      donutData = parseTransactionData(transactions, this.state.date)
-    }
+    const donutData = this.state.donutData
 
     return (
       <Container>
@@ -53,7 +50,7 @@ class SpendingDoughnut extends Component {
         </div>
         <Divider hidden />
 
-        {!donutData.data.length
+        {!donutData.data
         ? <Header>You have no spending history for this month.</Header>
         : <Doughnut
         data={{
