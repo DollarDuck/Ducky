@@ -25,6 +25,19 @@ export const getBudgetFromServer = userId => {
   }
 }
 
+export const addPurchaseToBudget = (cost, userId) => {
+  return async dispatch => {
+    const budget = await axios.get(`/api/budgets/${userId}`)
+    console.log('budget!!', budget)
+    const budgetId = budget.data[0].id
+    console.log('info', cost, budgetId)
+    await axios.post(`/api/budgets/initialItem`, {budgetId: budgetId, categoryId: 10, amount: cost, mtdSpending: 0})
+    await axios.put(`/api/budgets/budgetItem/other`, {budgetId: budgetId, categoryId: 7, amountDec: cost})
+    const updateBudget = await axios.get(`/api/budgets/${userId}`)
+    dispatch(getBudget(updateBudget))
+  }
+}
+
 export const updateBudgetItems = updateInfo => {
   return async dispatch => {
     console.log('updateInfo', updateInfo)

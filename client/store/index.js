@@ -9,8 +9,10 @@ import balances from './balances'
 import budget from './budget'
 import {reducer as form} from 'redux-form'
 import spending from './spending'
+import purchases from './purchasePlanner'
 
-const reducer = combineReducers({user, bills, transactions, budget, balances, form, spending})
+const reducer = combineReducers({user, bills, transactions, budget, purchases, balances, form, spending})
+
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

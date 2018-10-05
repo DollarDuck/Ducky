@@ -27,7 +27,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/bills/addbill/:userId" component={NewBillForm} />
         <Route path="/bills/:userId" component={Bills} />
-
+        <Route path="/purchasePlanner/:userId" component={PurchasePlanner} />
         <Route path="/plaid" component={Plaid} />
         <Route path="/editUser/:userId" component={EditUser} />
         <Route path="/budget/:userId" component={Budget} />
