@@ -11,8 +11,8 @@ export const calculatePlan = formInfo => async dispatch => {
   const totalCost = Number(formInfo.totalCost)
   const budget = await axios.get(`/api/budgets/${formInfo.userId}`)
   console.log('budget', budget)
-  const totalBudget = budget.data[0].amount
-  const percentageTotalBudget = Math.round(costPerMonth/Number(totalBudget))
+  const totalBudget = budget.data[0].income
+  const percentageTotalBudget = Math.round(costPerMonth/Number(totalBudget)*100)
   const numLattes = Math.round(costPerMonth/3.5)
   const numLunches = Math.round(costPerMonth/12.0)
   const data = {costPerMonth, totalBudget, percentageTotalBudget, totalCost, numLattes, numLunches}

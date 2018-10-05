@@ -102,7 +102,7 @@ class OnboardingBudget extends Component {
         <h5> Of your ${this.state.income}, we'd recommend you save at least ${Math.round(0.15*this.state.income)} per month which equates to 15% of your salary
         </h5>
         <br />
-        <Label fluid color='green'>Use the slider to adjust your desired savings amount</Label>
+        <h4>Use the slider to adjust your desired savings amount</h4>
         <br />
         <br />
 

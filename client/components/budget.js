@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getBudgetFromServer} from '../store/budget'
 import {getSpending} from '../store/spending'
-import {Menu, Header, Button, Container, Divider, Icon, Image} from 'semantic-ui-react'
+import {Menu, Header, Grid, Button, Container, Divider, Icon, Image} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {Bar, HorizontalBar} from 'react-chartjs-2'
 import dateFns from 'date-fns'
@@ -58,6 +58,7 @@ class Budget extends React.Component {
     const dateFormat = 'MMMM YYYY'
     if (this.props.budget[0] && this.props.spending[0]) {
       const budget = this.props.budget[0]
+      console.log('budget', budget)
       const [labels, amountData, spendingData] = this.formatBarData(budget)
       const totalSpending = spendingData.reduce(
         (total, currentVal) => Number(total) + Number(currentVal)
@@ -97,7 +98,7 @@ class Budget extends React.Component {
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             hoverBorderColor: 'rgba(255,99,132,1)',
-            data: [budget.amount]
+            data: [budget.income]
           },
           {
             label: 'Month to date spending',
@@ -112,6 +113,7 @@ class Budget extends React.Component {
       }
 
       return (
+        <div>
         <Container>
           <Divider hidden />
           <Header size="huge" textAlign="center">
@@ -175,6 +177,12 @@ class Budget extends React.Component {
             />
           </div>
         </Container>
+          <h1 />
+        <Grid centered>
+          <Link to="/me"><Button size="large" floated="center">Back to Home</Button></Link>
+          <h1 />
+        </Grid>
+        </div>
       )
     } else return <Header>You have no budget data for this month.</Header>
   }

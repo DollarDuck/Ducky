@@ -33,10 +33,9 @@ class Bills extends React.Component {
         </Header>
         <Divider />
         <Divider hidden/>
-        <Button as={Link} to={`/bills/addbill/${user.id}`} circular floated='right' icon='plus' />
+        <Button as={Link} to={`/bills/addbill/${user.id}`} floated='right' ><Icon name="plus" />Add New Bill</Button>
         <Grid centered>
         <Calendar bills={dueDates}/>
-
 
         <Table celled striped>
           <Table.Header>
@@ -73,6 +72,7 @@ class Bills extends React.Component {
           </Table.Body>
         </Table>
         <Divider hidden />
+           <Link to="/me"><Button size="large" floated="center">Back to Home</Button></Link>
         </Grid>
       </Container>
     )

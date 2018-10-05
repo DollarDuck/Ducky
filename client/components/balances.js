@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Divider, Container, Header, Grid, Image} from 'semantic-ui-react'
+import {Divider, Container, Header, Grid, Image, Button} from 'semantic-ui-react'
 import {Bar} from 'react-chartjs-2'
 import {getDBBalances} from '../store/balances'
+import {Link} from 'react-router-dom'
 
 class Balances extends Component {
   componentDidMount() {
@@ -25,7 +26,7 @@ class Balances extends Component {
         </Header>
         <Divider />
         <Divider hidden />
-
+        <Link to="/me"><Button size="large" floated='left'>Back to Home</Button></Link>
         {balances.length > 0
         ? <Container>
           <Bar
