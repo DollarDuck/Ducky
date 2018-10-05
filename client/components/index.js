@@ -16,10 +16,14 @@ export {default as Bills} from './Bills'
 export {default as NewBillForm} from './NewBillForm'
 export {default as Transactions} from './transactions'
 
-export {default as BudgetDetail} from './budgetDetail'
+export {default as SpendingDoughnut} from './SpendingDoughnut'
 export {default as UserProfile} from './userProfile'
 export {default as EditUser} from './editUser'
 
 
 export {default as GradSchoolInput} from './lifeEvents/gradSchool/input'
 
+export {default as Budget} from './budget'
+export {default as EditBudget} from './editBudget'
+export {default as SpendingMenu} from './Spending'
+export {default as PurchasePlanner} from './purchasePlanner'

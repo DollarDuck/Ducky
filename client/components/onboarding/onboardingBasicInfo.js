@@ -18,27 +18,14 @@ class Onboarding extends Component {
       password: '',
       checked: false
     })
-    this.toggleTerms = this.toggleTerms.bind(this)
     this.handleMessage = this.handleMessage.bind(this)
 
   }
-
-  toggleTerms = () => {
-    const currentState = this.state.checked
-    console.log('current: ', currentState)
-    this.setState({
-      checked: !currentState
-    })
-    console.log(this.state.checked)
-  }
-
-
 
   handleMessage = event => {
     let stateChange = {};
     stateChange[event.target.name] = event.target.value;
     this.setState(stateChange)
-    console.log(this.state)
   }
 
 

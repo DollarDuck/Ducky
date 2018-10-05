@@ -10,21 +10,13 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <Menu.Item>
       <img src='/duck.svg' />
     </Menu.Item>
-    <Menu.Item><Header as='h2'>Ducky</Header></Menu.Item>
-    <nav>
+    <Menu.Item><Header as='h2'>Dollar Ducky</Header></Menu.Item>
       {isLoggedIn ? (
-        <Menu.Menu right fluid position='right'>
+        <Menu.Menu position='right' id="navBar">
           {/* The navbar will show these links after you log in */}
-          <div className="min-width" >
-          <Menu.Item name='Home' position="right" as={Link} to='/me'/>
-          </div>
-          <div className="max-width" />
-          <div className="min-width">
-          <Menu.Item name='Profile' position="right" to="/userProfile" as={Link}>Profile</Menu.Item>
-          </div>
-          <div className="min-width">
-          <Menu.Item name='Logout' href='#' position="right" onClick={handleClick} />
-          </div>
+          <Menu.Item name='Home' as={Link} to='/me'/>
+          <Menu.Item name='Profile' to="/userProfile" as={Link}>Profile</Menu.Item>
+          <Menu.Item name='Logout' href='#' onClick={handleClick} />
         </Menu.Menu>
       ) : (
         <Menu.Menu position='right'>
@@ -33,7 +25,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Menu.Item name='Sign Up' as={Link} to='/onboarding'/>
         </Menu.Menu>
       )}
-    </nav>
     <hr />
   </Menu>
 )

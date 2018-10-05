@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Card, Image, Grid } from 'semantic-ui-react'
+import { Container, Card, Image, Grid, Divider } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {getTransactions, getBalances} from '../store/plaid'
@@ -17,43 +17,52 @@ class Dashboard extends React.Component {
     }
   }
   render() {
-    const {user} = this.props
+    const {user, bills} = this.props
+    const dueDates = {}
+    bills.forEach(bill => {
+      dueDates[bill.dueDate.slice(-2)] = [bill.name, bill.paid]
+    })
     return (
-      <Container center aligned>
-        <h1 />
+      <Container>
+        <Divider hidden/>
         <h1 />
         <Card.Group>
-          <Card as={Link} to="/me">
+          <Card as={Link} to={`/budget/${user.id}`}>
             <Card.Content>
               <Card.Header >Budgeting</Card.Header>
-              <Image src='/budget.jpg' />
+              <Divider />
+              <Image src='/coins.jpeg' />
             </Card.Content>
           </Card>
-          <Card as={Link} to={`/transactions/${user.id}`}>
+          <Card as={Link} to={`/spending/${user.id}`}>
             <Card.Content>
               <Card.Header>Spending</Card.Header>
-              <Image src='/spending.jpg' />
+              <Divider />
+              <Image src='/money.jpeg' />
             </Card.Content>
           </Card>
           <Card as={Link} to={`/bills/${user.id}`}>
             <Card.Content>
               <Card.Header>Bills Due</Card.Header>
-              <Image src='/billsdue.jpg' />
+              <Divider />
+              <Image src='/calendar.jpeg' />
             </Card.Content>
           </Card>
           <Card as={Link} to={'/balances'}>
             <Card.Content>
               <Card.Header>Account Balances</Card.Header>
+              <Divider />
               <Image src='/account-balances.jpg' />
             </Card.Content>
           </Card>
-          <Card as={Link} to={`/purchaseplanner/${user.id}`}>
+          <Card as={Link} to={`/purchasePlanner/${user.id}`}>
             <Card.Content>
               <Card.Header>Purchase Planner</Card.Header>
-              <Image src='/purchase planner.jpg' />
+              <Divider />
+              <Image src='/purchaseplanner.jpg' />
             </Card.Content>
           </Card>
-          <Card as={Link} to={`/lifeevents/gradschool/input}`}>
+          <Card as={Link} to={`/lifeevents/gradschool/input`}>
             <Card.Content>
               <Card.Header>Life Events (Grad School Calculator)</Card.Header>
               <Image src='/lifeevents.jpg' />
@@ -68,7 +77,8 @@ class Dashboard extends React.Component {
 const mapState = state => {
   return {
     user: state.user,
-    email: state.user.email
+    email: state.user.email,
+    bills: state.bills
   }
 }
 

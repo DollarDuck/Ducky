@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addBill} from '../store/bills'
+import {updateBudget} from '../store/budget'
 import {Form, Container, Header, Grid, Button, Divider} from 'semantic-ui-react'
 import {DateInput} from 'semantic-ui-calendar-react'
 
@@ -12,18 +13,25 @@ const options = [
 ]
 
 class NewBillForm extends React.Component {
-  state = {}
+  state = { checked: false }
 
   handleChange = (evt, {name, value}) => {
     this.setState({[name]: value})
     console.log(this.state)
   }
 
-  handleSubmit = () => {
+  toggle = () => this.setState({ checked: !this.state.checked })
+
+  handleSubmit = async () => {
     event.preventDefault()
     const date = this.state.date
     const dueDate = date.slice(6) + date.slice(3, 5) + date.slice(0, 2)
-    this.props.addBill({...this.state, dueDate, userId: this.props.user.id})
+    await this.props.addBill({...this.state, dueDate, userId: this.props.user.id})
+    await this.props.updateBudget({
+      billAmount: this.state.amount,
+      userId: this.props.user.id,
+      addBill: this.state.checked
+    })
     this.setState({ type: '', name: '' })
     this.props.history.push(`/bills/${this.props.user.id}`)
   }
@@ -34,6 +42,7 @@ class NewBillForm extends React.Component {
         <Divider hidden />
         <Header>Add a New Bill</Header>
         <Divider />
+        <Divider hidden />
         <Grid centered>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group inline >
@@ -49,7 +58,13 @@ class NewBillForm extends React.Component {
               name="type"
               onChange={this.handleChange}
             />
-            <Form.Select compact inline fluid required
+            <Form.Input required
+              label="Amount"
+              placeholder="Estimated amount"
+              name="amount"
+              onChange={this.handleChange}
+            />
+            <Form.Select inline required
               label="Recurring"
               options={options}
               placeholder="Frequency"
@@ -57,7 +72,10 @@ class NewBillForm extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Group>
-            <Button type="submit" disabled={Object.keys(this.state).length < 4}>Submit</Button>
+          <Form.Group>
+            <Form.Checkbox label='Add this bill to my budget' onChange={this.toggle} checked={this.state.checked}/>
+          </Form.Group>
+            <Button type="submit" disabled={Object.keys(this.state).length < 6}>Submit</Button>
           <Header as="h5">Due date*</Header>
           <Form.Field required>
             <DateInput
@@ -81,7 +99,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  addBill: bill => dispatch(addBill(bill))
+  addBill: bill => dispatch(addBill(bill)),
+  updateBudget: amount => dispatch(updateBudget(amount))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewBillForm)

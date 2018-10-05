@@ -1,8 +1,7 @@
 const router = require('express').Router()
-const {AccessToken, Transaction, Balance, Category} = require('../db/models')
-const axios = require('axios')
+const {AccessToken, Transaction, Balance, Category, BudgetItems, Budget, MtdSpending} = require('../db/models')
 const plaid = require('plaid')
-const {formatDate} = require('../../utils')
+const {formatDate, getMonthYear} = require('../../utils')
 module.exports = router
 
 var client = new plaid.Client(
@@ -56,7 +55,6 @@ router.get('/bankInfo/:userId', async (req, res, next) => {
       userId: req.params.userId
     }
   })
-  console.log('account info', accountInfo)
   let accounts = []
   for(let i = 0; i < accountInfo.length; ++i) {
     accounts.push({text: accountInfo[i].dataValues.name, value: accountInfo[i].dataValues.accountId})
@@ -127,16 +125,41 @@ router.post('/transactions/:userId', async (req, res, next) => {
 
 router.post('/saveTransactions', async (req, res, next) => {
   const transactions = req.body.transactions
+  const userId = req.body.userId
   let returnTransactions = []
   for (let i = 0; i < transactions.length; ++i) {
     let currentTransaction = transactions[i]
+    const [month, year] = getMonthYear(currentTransaction)
     let category = await Category.findOrCreate({
       where: {
         name: currentTransaction.category[0]
       }
     })
-    console.log('category', category)
-    console.log('id?', category[0].dataValues)
+    const budget = await Budget.findOne({
+      where: {
+        userId: userId
+      }
+    })
+    const budgetItem = await BudgetItems.findOne({
+      where: {
+        categoryId: category[0].dataValues.id,
+        budgetId: budget.dataValues.id
+      }
+    })
+    if(budgetItem) {
+      const mtdSpending = await MtdSpending.findOrCreate({
+        where: {
+          month: month,
+          year: year,
+          userId: userId,
+          categoryId: category[0].dataValues.id,
+          budgetItemId: budgetItem.dataValues.id
+        },
+        defaults: {amount: 0}
+      })
+      const amount = Number(mtdSpending[0].dataValues.amount) + Number(currentTransaction.amount)
+      await MtdSpending.update({amount: amount}, {where: {id: mtdSpending[0].dataValues.id}})
+    }
     let transaction = await Transaction.findOrCreate({
       where: {
       name: currentTransaction.name,

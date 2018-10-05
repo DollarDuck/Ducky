@@ -6,8 +6,8 @@ import {getTransactions, getBalances} from '../store/plaid'
 import {updateUser} from '../store/user'
 import {get30DaysAgo} from '../../utils'
 import {auth} from '../store'
-import {NavLink} from 'react-router-dom'
-import {Label, Dimmer, Loader} from 'semantic-ui-react'
+import {NavLink, Link} from 'react-router-dom'
+import {Label, Dimmer, Loader, Button, Divider, Message} from 'semantic-ui-react'
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -103,7 +103,10 @@ class Plaid extends Component {
                  <h1 />
         <h1 />
         <h1 />
-        <Label color="blue"><h2>Bank account submitted</h2></Label>
+        <Message color="blue">
+        <Message.Header>Bank account submitted</Message.Header></Message>
+        <Divider hidden />
+        <Button as={Link} to="/me" >Return to Home</Button>
         </div>
         </div>
         </div>

@@ -35,6 +35,12 @@ function convertPhoneNumber(number) {
   return number
 }
 
+function getMonthYear(currentTransaction) {
+  const month = Number(currentTransaction.date.slice(5,7))
+  const year = Number(currentTransaction.date.slice(0,4))
+  return [month, year]
+}
+
 function get30DaysAgo() {
   let today = new Date()
   let todayInMilliseconds = today.getTime()
@@ -169,4 +175,27 @@ function commaFormat(num) {
 
 
 
-module.exports = {formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, commaFormat, dataProcessor}
+const getCategoryName = categoryId => {
+	switch (categoryId) {
+		case 1:
+			return 'Monthly Expenses'
+		case 3:
+			return 'Shops'
+		case 4:
+			return 'Travel'
+		case 6:
+			return 'Recreation'
+		case 7:
+			return 'Other'
+		case 8:
+      return 'Savings'
+    case 9:
+      return 'Food and Drink'
+    case 10:
+      return 'Big Purchases'
+		default:
+			return 'Other'
+	}
+}
+
+module.exports = {getMonthYear, formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName,commaFormat, dataProcessor}

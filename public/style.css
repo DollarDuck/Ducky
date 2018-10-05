@@ -21,7 +21,6 @@ nav a {
 }
 
 form div {
-  margin: 1em;
   display: inline-block;
 }
 
@@ -141,6 +140,10 @@ main {
   margin: 0 auto;
   margin-top: 5em;
   max-width: 50em;
+}
+
+.black {
+  color: black;
 }
 
 
@@ -324,4 +327,26 @@ main {
 
 .ui.button {
   background-color: #C1F6F8;
+}
+
+.ui.tabular.menu .active.item {
+  background-color: #FDF5D7;
+}
+
+.ui.grid>* {
+  padding: 0;
+}
+
+.calendar.icon {
+  border: none;
+  --text-color: black;
+  line-height: 1;
+}
+
+#navBar {
+  margin-left: 50% !important;
+}
+
+.padded {
+  margin: 1rem;
 }

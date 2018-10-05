@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { getBills, editBill } from '../store/bills'
-import { Button, Container, Table, Icon, Grid, Divider } from 'semantic-ui-react'
+import { getBills, editBill, deleteBill } from '../store/bills'
+import { Button, Container, Table, Icon, Grid, Divider, Header, Image } from 'semantic-ui-react'
 import Calendar from './Calendar'
 
 class Bills extends React.Component {
@@ -28,6 +28,11 @@ class Bills extends React.Component {
     return (
       <Container>
         <Divider hidden />
+        <Header size='huge' textAlign='center' >Bills
+        <Image src='/duck.svg' size='medium' className='padded'/>
+        </Header>
+        <Divider />
+        <Divider hidden/>
         <Button as={Link} to={`/bills/addbill/${user.id}`} circular floated='right' icon='plus' />
         <Grid centered>
         <Calendar bills={dueDates}/>
@@ -40,6 +45,8 @@ class Bills extends React.Component {
               <Table.HeaderCell>Company</Table.HeaderCell>
               <Table.HeaderCell>Type</Table.HeaderCell>
               <Table.HeaderCell>Due</Table.HeaderCell>
+              <Table.HeaderCell>Amount</Table.HeaderCell>
+              <Table.HeaderCell />
             </Table.Row>
           </Table.Header>
 
@@ -56,6 +63,8 @@ class Bills extends React.Component {
                 <Table.Cell>{bill.name}</Table.Cell>
                 <Table.Cell>{bill.type}</Table.Cell>
                 <Table.Cell>{bill.dueDate}</Table.Cell>
+                <Table.Cell>{bill.amount}</Table.Cell>
+                <Table.Cell onClick={() => this.props.deleteBill(bill.id)}><Icon name='calendar times outline' /></Table.Cell>
               </Table.Row>
             )
             }
@@ -63,6 +72,7 @@ class Bills extends React.Component {
             )}
           </Table.Body>
         </Table>
+        <Divider hidden />
         </Grid>
       </Container>
     )
@@ -76,7 +86,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getBills: userId => dispatch(getBills(userId)),
-    editBill: bill => dispatch(editBill(bill))
+    editBill: bill => dispatch(editBill(bill)),
+    deleteBill: billId => dispatch(deleteBill(billId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bills)
