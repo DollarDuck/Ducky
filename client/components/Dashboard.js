@@ -53,9 +53,9 @@ class Dashboard extends React.Component {
               <Image src='/purchase planner.jpg' />
             </Card.Content>
           </Card>
-          <Card as={Link} to={`/lifeevents/${user.id}`}>
+          <Card as={Link} to={`/lifeevents/gradschool/input}`}>
             <Card.Content>
-              <Card.Header>Life Events</Card.Header>
+              <Card.Header>Life Events (Grad School Calculator)</Card.Header>
               <Image src='/lifeevents.jpg' />
             </Card.Content>
           </Card>

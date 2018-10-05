@@ -2,7 +2,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {commaFormat, dataProcessor} from '../../../../utils'
-import {Message, Header, Statistic} from 'semantic-ui-react'
+import {Message, Header, Statistic, Container} from 'semantic-ui-react'
 import {Line} from 'react-chartjs-2';
 
 const year = (new Date()).getFullYear()
@@ -38,14 +38,16 @@ class Chart2 extends Component {
         height='70%'
       />
 
-       <Statistic size='small' className="padding-left">>
+        <Container fluid centered>
+       <Statistic size='small' className="padding-left">
        <Statistic.Value> {commaFormat(chartData.currentSalaryNPVCum[chartData.currentSalaryNPVCum.length-1])} </Statistic.Value>
        <Statistic.Label>NPV Without Grad School </Statistic.Label>
      </Statistic>
-     <Statistic size='small' className="padding-left">>
+     <Statistic size='small' className="padding-left">
        <Statistic.Value> {commaFormat(chartData.expectedSalaryNPVCum[chartData.expectedSalaryNPVCum.length-1])} </Statistic.Value>
        <Statistic.Label>NPV of Grad School Track </Statistic.Label>
      </Statistic>
+     </Container>
       <Message> Cumulative net present value represents the value of your stream of future income </Message>
       {chartData.breakevenNPV && <Message>You will recoup your investment in {chartData.breakevenNPV} years ({year+chartData.breakevenNPV}). {outputMessage} </Message> }
       {!chartData.breakevenNPV && <Message>Even until your retirement age, grad school does not make sense financially based on the inputs your have provided Professor Ducky</Message>}
