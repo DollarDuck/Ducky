@@ -140,7 +140,6 @@ router.post('/saveTransactions', async (req, res, next) => {
         userId: userId
       }
     })
-    console.log('budget', budget.dataValues.id, category[0].dataValues.id)
     const budgetItem = await BudgetItems.findOne({
       where: {
         categoryId: category[0].dataValues.id,
