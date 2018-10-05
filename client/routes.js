@@ -32,6 +32,7 @@ class Routes extends Component {
         <Route path="/editUser/:userId" component={EditUser} />
         <Route path="/budget/:userId" component={Budget} />
         <Route path="/editBudget/:budgetId" component={EditBudget} />
+        <Route path="/purchasePlanner/:userId" component={PurchasePlanner} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

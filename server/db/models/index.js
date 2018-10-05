@@ -8,6 +8,7 @@ const AccessToken = require('./access')
 const Transaction = require('./transactions')
 const Purchase = require('./purchases')
 const Balance = require('./balances')
+const MtdSpending = require('./mtdSpending')
 
 
 /**
@@ -59,6 +60,15 @@ User.hasMany(Purchase)
 Bill.belongsTo(User)
 User.hasMany(Bill)
 
+MtdSpending.belongsTo(BudgetItems)
+BudgetItems.hasMany(MtdSpending)
+
+MtdSpending.belongsTo(Category)
+Category.hasMany(MtdSpending)
+
+MtdSpending.belongsTo(User)
+User.hasMany(MtdSpending)
+
 module.exports = {
   User,
   Bill,
@@ -69,5 +79,6 @@ module.exports = {
   AccessToken,
   Transaction,
   Purchase,
-  Balance
+  Balance,
+  MtdSpending
 }

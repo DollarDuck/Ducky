@@ -38,7 +38,6 @@ export const addPurchaseToBudget = (cost, userId) => {
   }
 }
 
-
 export const updateBudgetItems = updateInfo => {
   return async dispatch => {
     console.log('updateInfo', updateInfo)
@@ -78,13 +77,13 @@ export const createBudget = (stateChange) => {
     const newBudget = response.data
     const budgetId = newBudget.id
     dispatch(getBudget(newBudget))
-    const food = await axios.post('/api/budgets/initialItem', {categoryId: 9, amount: stateChange.food, budgetId: budgetId, mtdSpending: 0})
-    const monthlyDB = await axios.post('/api/budgets/initialItem', {categoryId: 1, amount: stateChange.monthlyExpenses, budgetId: budgetId, mtdSpending: 0})
-    const shopping = await axios.post('/api/budgets/initialItem', {categoryId: 3, amount: stateChange.shopping, budgetId: budgetId, mtdSpending: 0})
-    const travel = await axios.post('/api/budgets/initialItem', {categoryId: 4, amount: stateChange.travel, budgetId: budgetId, mtdSpending: 0})
-    const recreation = await axios.post('/api/budgets/initialItem', {categoryId: 6, amount: stateChange.recreation, budgetId: budgetId, mtdSpending: 0})
-    const savings = await axios.post('/api/budgets/initialItem', {categoryId: 8, amount: stateChange.desiredSavings, budgetId: budgetId, mtdSpending: 0})
-    const other = await axios.post('/api/budgets/initialItem', {categoryId: 7, amount: stateChange.other, budgetId: budgetId, mtdSpending: 0})
+    const food = await axios.post('/api/budgets/initialItem', {categoryId: 9, amount: stateChange.food, budgetId: budgetId})
+    const monthlyDB = await axios.post('/api/budgets/initialItem', {categoryId: 1, amount: stateChange.monthlyExpenses, budgetId: budgetId})
+    const shopping = await axios.post('/api/budgets/initialItem', {categoryId: 3, amount: stateChange.shopping, budgetId: budgetId})
+    const travel = await axios.post('/api/budgets/initialItem', {categoryId: 4, amount: stateChange.travel, budgetId: budgetId})
+    const recreation = await axios.post('/api/budgets/initialItem', {categoryId: 6, amount: stateChange.recreation, budgetId: budgetId})
+    const savings = await axios.post('/api/budgets/initialItem', {categoryId: 8, amount: stateChange.desiredSavings, budgetId: budgetId})
+    const other = await axios.post('/api/budgets/initialItem', {categoryId: 7, amount: stateChange.other, budgetId: budgetId})
     history.push('/onboarding/step3/'+userId)
   }
 }

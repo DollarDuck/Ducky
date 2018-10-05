@@ -26,7 +26,6 @@ export const getTransactions = (userId, lastUpdateDate, token, institutionName) 
  }
 }
 
-
 export const getAllBankInfo = (userId) => {
   return async dispatch => {
     let res = await axios.get(`/api/plaid/bankInfo/${userId}`)
