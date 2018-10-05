@@ -19,7 +19,6 @@ const formatDate = (lastUpdateDate) => {
 
 function convertIncome(income) {
   let returnStr = ''
-  console.log('here', income)
   for(let i=0; i< income.length; ++i) {
     if(income[i] !== ',' && income[i] !== '$') returnStr += income[i]
   }
@@ -37,7 +36,6 @@ function convertPhoneNumber(number) {
 }
 
 function getMonthYear(currentTransaction) {
-  console.log('current Transaction', currentTransaction)
   const month = Number(currentTransaction.date.slice(5,7))
   const year = Number(currentTransaction.date.slice(0,4))
   return [month, year]
