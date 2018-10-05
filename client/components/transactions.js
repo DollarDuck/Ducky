@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
 import {
   getTransactionsByUser,
   getAllBankInfo,
@@ -16,6 +17,7 @@ class Transactions extends React.Component {
     this.props.getTransactions(userId)
     this.props.getAllBankInfo(userId)
   }
+
   handleSelect = (event, data) => {
     const userId = this.props.match.params.userId
     if (data.value === 'allBanks') {
@@ -25,6 +27,7 @@ class Transactions extends React.Component {
     }
   }
   render() {
+    console.log('userId', this.props.match.params.userId)
     if (this.props.transactions.length && this.props.accounts.length) {
       const accounts = this.props.accounts.concat([
         {text: 'All Accounts', value: 'allBanks'}
@@ -96,4 +99,4 @@ const mapState = state => ({
 	user: state.user
 })
 
-export default connect(mapState, mapDispatch)(Transactions)
+export default withRouter(connect(mapState, mapDispatch)(Transactions))
