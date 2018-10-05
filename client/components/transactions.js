@@ -27,7 +27,6 @@ class Transactions extends React.Component {
     }
   }
   render() {
-    console.log('userId', this.props.match.params.userId)
     if (this.props.transactions.length && this.props.accounts.length) {
       const accounts = this.props.accounts.concat([
         {text: 'All Accounts', value: 'allBanks'}
