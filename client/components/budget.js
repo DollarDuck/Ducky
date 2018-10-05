@@ -36,11 +36,9 @@ class Budget extends React.Component {
   }
 
   async componentDidMount() {
-    console.log('componentDidMount')
     await this.props.getBudget(Number(this.props.match.params.userId))
     const currentMonth = this.state.date.getMonth() + 1
     const currentYear = this.state.date.getFullYear()
-    console.log('budget', this.props.budget)
     const budgetItems = this.props.budget[0].budgetItems
     this.props.getSpending(Number(this.props.match.params.userId), currentMonth, currentYear, budgetItems)
   }
@@ -52,7 +50,6 @@ class Budget extends React.Component {
       labels.push(getCategoryName(budgetItem.categoryId))
       amountData.push(budgetItem.amount)
     })
-    console.log('spending',this.props.spending)
     const spendingData = this.props.spending
     return [labels, amountData, spendingData]
   }
