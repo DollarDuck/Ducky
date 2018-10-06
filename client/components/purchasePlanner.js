@@ -5,14 +5,6 @@ import {calculatePlan} from '../store/purchasePlanner'
 import {addPurchaseToBudget} from '../store/budget'
 import {NavLink} from 'react-router-dom'
 
-//Purchase Planner
-
-//Asks for event that you're going for, estimated cost of event, and when you need the money for
-//If unsure, presents options if you need this money now, if you need it in 1, 3, or 6 months
-//Returns the cost of what you'll need to save every month and what percentage of your budget this is
-//Gives some indicator (x dollars per month means you'd need x less lattes, x less dinners out)
-//Can choose whether or not a plan adds to a budget
-
 const mapDispatch = dispatch => ({
 	calculatePlan: (formInfo) => dispatch(calculatePlan(formInfo)),
 	addPurchaseToBudget: (cost,userId) => dispatch(addPurchaseToBudget(cost, userId))
@@ -37,13 +29,11 @@ class PurchasePlanner extends React.Component {
       		numMonths: event.target.numMonths.value
 		}
 		await this.props.calculatePlan(formInfo)
-		console.log('length', this.props.multiplePlan.length)
 		this.setState({ isSubmitted: true})
 	}
 	addToBudget = async () => {
 		const userId = this.props.match.params.userId
 		const cost = this.props.plan.costPerMonth
-		console.log('cost, userId', cost,userId)
 		await this.props.addPurchaseToBudget(cost, userId)
 		this.setState({isAdded: true})
 	}
