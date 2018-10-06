@@ -25,7 +25,6 @@ class EditBudget extends React.Component {
   componentDidMount () {
     const budget = this.props.budget
     const budgetItems = this.props.budget.budgetItems.sort((a, b) => {return (Number(a.categoryId) - Number(b.categoryId))})
-    console.log('budgetItems', budgetItems)
     this.setState({
       totalBudget: budget.income,
       monthlyExpenses: budgetItems[0].amount,
