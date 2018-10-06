@@ -5,27 +5,20 @@ import {calculatePlan} from '../store/purchasePlanner'
 import {addPurchaseToBudget} from '../store/budget'
 import {NavLink} from 'react-router-dom'
 
-//Purchase Planner
-
-//Asks for event that you're going for, estimated cost of event, and when you need the money for
-//If unsure, presents options if you need this money now, if you need it in 1, 3, or 6 months
-//Returns the cost of what you'll need to save every month and what percentage of your budget this is
-//Gives some indicator (x dollars per month means you'd need x less lattes, x less dinners out)
-//Can choose whether or not a plan adds to a budget
-
 const mapDispatch = dispatch => ({
 	calculatePlan: (formInfo) => dispatch(calculatePlan(formInfo)),
 	addPurchaseToBudget: (cost,userId) => dispatch(addPurchaseToBudget(cost, userId))
 })
 
 const mapState = state => ({
-	plan: state.purchases
+	singlePlan: state.purchases.singleOption,
+	multiplePlan: state.purchases.multipleOptions
 })
 
 class PurchasePlanner extends React.Component {
 	state = {
 		isSubmitted: false,
-		isAdded: false
+		isAdded: false,
 	}
 	handleSubmit = async (event) => {
     const userId = this.props.match.params.userId
@@ -41,7 +34,6 @@ class PurchasePlanner extends React.Component {
 	addToBudget = async () => {
 		const userId = this.props.match.params.userId
 		const cost = this.props.plan.costPerMonth
-		console.log('cost, userId', cost,userId)
 		await this.props.addPurchaseToBudget(cost, userId)
 		this.setState({isAdded: true})
 	}
@@ -51,19 +43,43 @@ class PurchasePlanner extends React.Component {
 		      <h1 />
 		      <Grid centered>
 		      <Grid.Column centered width={5}>
-		      <Card fluid centered color="white">
+		      <Card fluid centered>
 		      <Label size="massive" >Purchase Planner</Label>
 		      <Label size="medium">Plan your next big purchase!</Label>
 		      {this.state.isSubmitted ?
 		      	(
 		      		<div>
-		      		{!this.state.isAdded ? (
+		      		{!this.state.isAdded  ? (
 		      			<div>
-		      		<Card.Content><Card.Meta><p className="padding black">Based on your {this.props.plan.numMonths} month plan, you'd need to save {this.props.plan.costPerMonth} every month. This would be {this.props.plan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
-		      		<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about {this.props.plan.numLattes} lattes each month, or {this.props.plan.numLunches} lunches out</p></Card.Meta></Card.Content>
+		      			{!this.props.multiplePlan.length ? (
+		      			<div>
+		      		<Card.Content><Card.Meta><p className="padding black">Based on your {this.props.singlePlan.numMonths} month plan, you'd need to save {this.props.singlePlan.costPerMonth} every month. This would be {this.props.singlePlan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
+		      		<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about {this.props.singlePlan.numLattes} lattes each month, or {this.props.singlePlan.numLunches} lunches out</p></Card.Meta></Card.Content>
 		      		<Image src="/purchaseplanner.jpg" />
-		      		<Button fluid color="blue" size ="large" onClick={this.addToBudget}>Add To Budget</Button>
-		      		<NavLink to="/me"><Button fluid color="green" size ="large">Skip and return to Home</Button></NavLink>
+		      		<Button fluid size ="large" onClick={this.addToBudget}>Add To Budget</Button>
+		      		<NavLink to="/me"><Button fluid color="grey" size ="large">Skip and return to Home</Button></NavLink>
+		      		</div>
+		      		) : (
+		      			<div>
+		      				<Card.Content><Card.Meta><p className="padding black">Here are several options on how you can save for this purchase:</p></Card.Meta></Card.Content>
+		      				{this.props.multiplePlan.map((plan) => {
+		      					return (
+		      						<div key={plan.costPerMonth}>
+		      							<Grid.Column centered width={5}>
+		      							<Card fluid>
+		      							<Card.Content><Card.Meta><p className="padding black">Based on a {plan.numMonths} month plan, you'd need to save {plan.costPerMonth} every month. This would be {plan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
+				      					<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about {plan.numLattes} lattes each month, or {plan.numLunches} lunches out</p></Card.Meta></Card.Content>
+		      							<Button size ="large" onClick={this.addToBudget}>Add To Budget</Button>
+		      							</Card>
+		      							</Grid.Column>
+		      							<br />
+		      						</div>
+		      				)
+		      				})}
+		      				<NavLink to="/me"><Button fluid color="grey" size ="large">Skip and return to Home</Button></NavLink>
+				      	</div>
+
+		      		)}
 		      		</div>
 		      		) : (
 		      		<div>
@@ -90,7 +106,7 @@ class PurchasePlanner extends React.Component {
 		      <Form.Field className="padding-large" width={12}>
 		        <label>How many months do you have to save for this?</label>
 		        <input placeholder='Number of Months' name='numMonths'/>
-		         {/* <Label>If you leave this field blank, we can give you options for immediate purchase, 1, 3, and 6 months.</Label> */}
+		         <Label>If you leave this field blank, we can give you options for purchasing in 1, 3, and 6 months.</Label>
 		      </Form.Field>
 		      <br />
 		            <br />
