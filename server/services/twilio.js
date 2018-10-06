@@ -1,6 +1,5 @@
 const {Bill, MtdSpending, BudgetItems, Transaction} = require('../db/models')
 const {getCategoryName} = require('../../utils')
-const Op = require('sequelize').Op
 
 const billQuery = async user => {
   try {
@@ -46,7 +45,6 @@ const spendingQuery = async (user, userMessage) => {
     const spending = await Transaction.findAll({
       where: {userId: user.id, name: { $iLike: `${userMessage}%`}, date: { $gte: date}}
     })
-    console.log('spending', spending)
     let total = 0
     spending.forEach(transaction => {
       total += Number(transaction.amount)
@@ -54,7 +52,7 @@ const spendingQuery = async (user, userMessage) => {
     if (total > 0) {
       return [`You have spent $${total} at ${userMessage} this month.`]
     } else {
-      return ["I couldn't find any transactions for that business this month."]
+      return ["I couldn't find any transactions for that business this month. Maybe you meant one of these? Bills, budgets, or try typing a business name."]
     }
 
   } catch (err) {
