@@ -30,7 +30,7 @@ router.put('/updateAmount', async (req, res, next) => {
   const {budgetId, amount} = req.body
   try {
     const updatedBudget = await Budget.update({
-      amount: amount
+      income: amount
     }, {
       where: {
         id: budgetId

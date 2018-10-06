@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {PurchasePlanner, Budget, EditBudget, Login, Signup, Onboarding, OnboardingBudget, Plaid, Dashboard, Bills, NewBillForm, OnboardingLink, Balances, Transactions, BudgetDetail, EditUser, UserProfile, SpendingMenu} from './components'
+import {PurchasePlanner, Budget, EditBudget, Login, Signup, Onboarding, OnboardingBudget, Plaid, Dashboard, Bills, NewBillForm, OnboardingLink, Balances, EditUser, UserProfile, SpendingMenu, GradSchoolInput} from './components'
 import {me} from './store'
 
 
@@ -30,6 +30,8 @@ class Routes extends Component {
         <Route path="/purchasePlanner/:userId" component={PurchasePlanner} />
         <Route path="/plaid" component={Plaid} />
         <Route path="/editUser/:userId" component={EditUser} />
+        <Route path="/lifeEvents/gradSchool/input" component={GradSchoolInput} />
+
         <Route path="/budget/:userId" component={Budget} />
         <Route path="/editBudget/:budgetId" component={EditBudget} />
         <Route path="/purchasePlanner/:userId" component={PurchasePlanner} />

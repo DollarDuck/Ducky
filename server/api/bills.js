@@ -23,6 +23,31 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.put('/updateBillsMonthly', async (req, res, next) => {
+  const allBills = req.body.bills
+  for(let i = 0; i < allBills.length; ++i) {
+    let dueDate = new Date(allBills[i].dueDate)
+    let nextMonth = dueDate.getMonth() + 1
+    dueDate.setMonth(nextMonth)
+    await Bill.findOrCreate({
+      where: {
+        name: allBills[i].name,
+        type: allBills[i].type,
+        dueDate: dueDate,
+        recurring: allBills[i].recurring,
+        paid: allBills[i].paid,
+        amount: allBills[i].amount,
+        userId: req.body.userId
+      }
+    })
+  }
+  const bills = await Bill.findAll({ where: {
+    userId: req.body.userId
+  }})
+  console.log('bills', bills)
+  res.json(bills)
+})
+
 router.put('/:billId', async (req, res, next) => {
   try {
     const {paid} = req.body

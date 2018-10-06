@@ -27,7 +27,7 @@ router.post('/', async (req, res, next) => {
       password,
       phoneNumber
     })
-    res.json(newUser)
+    req.login(newUser, err => (err ? next(err) : res.json(newUser)))
   }
   catch(err) {
     next(err)

@@ -10,7 +10,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <Menu.Item>
       <img src='/duck.svg' />
     </Menu.Item>
-    <Menu.Item><Header as='h2'>Dollar Ducky</Header></Menu.Item>
+    <Menu.Item><h2 className="no-padding">Dollar Ducky</h2><h5 className="no-padding">get your ducks in a row</h5></Menu.Item>
       {isLoggedIn ? (
         <Menu.Menu position='right' id="navBar">
           {/* The navbar will show these links after you log in */}

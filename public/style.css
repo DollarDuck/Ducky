@@ -27,6 +27,9 @@ form div {
 .min-width {
   max-width: 300px;
 }
+.no-padding {
+  padding: 2px;
+}
 
 .max-width {
   min-width: 700px;
@@ -323,6 +326,10 @@ main {
 
 .ui.dropdown.default.text {
   margin: 0px;
+}
+
+.ui.label {
+  background-color: #C1F6F8;
 }
 
 .ui.button {

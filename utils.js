@@ -65,6 +65,117 @@ function reformatAmount(amt) {
   return amt;
 }
 
+function commaFormat(num) {
+  let neg = false
+
+  let strNum = num.toString()
+  if (strNum[0] === '-') {
+    strNum = strNum.slice(1, strNum.length)
+    neg = true
+  }
+  let strSplit = strNum.split('.')
+  let result = ''
+  let digitSplit = strSplit[0].split('')
+  let decSplit = (strSplit[1]) ? ('.'+strSplit[1]) : ('')
+  let digitSplitMod = digitSplit.length % 3 - 1
+  if (digitSplitMod < 0) {
+    digitSplitMod += 3
+  }
+
+  if (digitSplit.length > 3) {
+    for (let i=0; i<digitSplit.length-3; i++) {
+    if (i % 3 === digitSplitMod) {
+      digitSplit[i] = digitSplit[i] + ','
+      }
+    }
+  }
+
+  result = digitSplit.join('') + decSplit
+  return ((neg) ? '-' : '') + "$"+result
+  }
+
+  function dataProcessor(dataObj) {
+    let currentSalary = convertIncome(dataObj.currentSalary)
+    let csGrowth = Number(dataObj.csGrowth)
+    let expectedSalary = convertIncome(dataObj.expectedSalary)
+    let esGrowth = Number(dataObj.esGrowth)
+    let yearsOfSchool = Number(dataObj.yearsOfSchool)
+    let retirementAge = Number(dataObj.retirementAge)
+    let age = Number(dataObj.age)
+    let tuition = convertIncome(dataObj.tuition)
+    let livingExpenses = convertIncome(dataObj.livingExpenses)
+    let discountRate = Number(dataObj.discountRate)
+    let currentSalaryArray = [];
+    let expectedSalaryArray = [];
+    let yearArray = [];
+    let i=1;
+    let workingYears = retirementAge - age + 1
+    let salary
+    let currentSalarySum = 0
+    let expectedSalarySum = 0 - tuition * yearsOfSchool
+    let breakeven = []
+    let currentSalaryNPVArray = []
+    let expectedSalaryNPVArray = []
+    let currentSalaryNPVArrayCum = []
+    let expectedSalaryNPVArrayCum = []
+    let previousSum = 0
+    let breakevenNPV = []
+    if (yearsOfSchool % 1 !== 0) {
+      console.log('not whole number')
+      tuition = yearsOfSchool * tuition / Math.floor(yearsOfSchool)
+      yearsOfSchool = Math.floor(yearsOfSchool)
+    }
+
+    while (i < workingYears) {
+      yearArray.push(i+age)
+      salary = currentSalary * Math.pow((1+csGrowth / 100), i-1)
+      currentSalaryArray.push(Math.round(salary))
+      currentSalaryNPVArray.push(Math.round(salary /   Math.pow(1+discountRate/100, i)))
+      currentSalarySum += salary
+      previousSum = (i > 1) ? currentSalaryNPVArrayCum[i-2] : 0
+      currentSalaryNPVArrayCum.push(currentSalaryNPVArray[i-1] + previousSum)
+
+      if (i <= yearsOfSchool) {
+        expectedSalaryArray.push(0)
+        expectedSalaryNPVArray.push(-1*Math.round(tuition / Math.pow(1+discountRate/100, i)))
+       } else {
+        salary = expectedSalary * Math.pow((1+esGrowth / 100), i-1-yearsOfSchool)
+        expectedSalaryArray.push(Math.round(salary))
+        expectedSalarySum += salary
+        expectedSalaryNPVArray.push(Math.round(salary / Math.pow(1+discountRate/100, i)))
+       }
+       previousSum = (i > 1) ? expectedSalaryNPVArrayCum[i-2] : 0
+       expectedSalaryNPVArrayCum.push(expectedSalaryNPVArray[i-1] + previousSum)
+
+       if(expectedSalarySum > currentSalarySum) {
+         breakeven.push(i)
+       }
+       if(expectedSalaryNPVArrayCum[i-1] > currentSalaryNPVArrayCum[i-1]) {
+         breakevenNPV.push(i)
+       }
+      i += 1
+    }
+
+    let returnObj = {
+      dataCs: currentSalaryArray,
+      dataEs: expectedSalaryArray,
+      years: yearArray,
+      breakeven: breakeven[0] || false,
+      currentSalaryNPV: currentSalaryNPVArray,
+      expectedSalaryNPVArray: expectedSalaryNPVArray,
+      currentSalaryNPVCum: currentSalaryNPVArrayCum,
+      expectedSalaryNPVCum: expectedSalaryNPVArrayCum,
+      breakevenNPV: breakevenNPV[0] || false,
+      tuition: tuition,
+      yearsOfSchool: yearsOfSchool,
+      age: age
+    }
+
+    return returnObj
+  }
+
+
+
 const getCategoryName = categoryId => {
 	switch (categoryId) {
 		case 1:
@@ -88,4 +199,4 @@ const getCategoryName = categoryId => {
 	}
 }
 
-module.exports = {getMonthYear, formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName}
+module.exports = {getMonthYear, formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName,commaFormat, dataProcessor}
