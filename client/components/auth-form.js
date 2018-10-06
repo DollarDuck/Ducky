@@ -15,7 +15,7 @@ const AuthForm = props => {
       <Grid centered>
       <Grid.Column width={5}>
       <Card fluid centered>
-      <Label size="massive" color="blue">Login</Label>
+      <Label size="massive">Login</Label>
       <h1 />
       <Form onSubmit={handleSubmit} name={name}>
       <Form.Field className="padding-large">
@@ -29,7 +29,7 @@ const AuthForm = props => {
       </Form.Field>
       <br />
       <br />
-      <Button fluid color="blue" type='submit'>Submit</Button>
+      <Button fluid type='submit'>Submit</Button>
       </Form>
       </Card>
       </Grid.Column>

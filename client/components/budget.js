@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom'
 import {Bar, HorizontalBar} from 'react-chartjs-2'
 import dateFns from 'date-fns'
 import {getCategoryName} from '../../utils'
+import EditBudget from './editBudget'
 
 class Budget extends React.Component {
   state = {
@@ -127,10 +128,6 @@ class Budget extends React.Component {
           <h3 />
           </Grid>
           <Link to="/me"><Button size="large" floated="left">Back to Home</Button></Link>
-          <Link to={`/editBudget/${budget.id}`}><Button
-            floated="right"
-            size="large"
-            ><Icon name="edit">Edit</Icon></Button></Link>
             <h3 />
 					<Divider hidden />
           <Divider hidden />
@@ -184,6 +181,7 @@ class Budget extends React.Component {
         <Grid centered>
           <h1 />
         </Grid>
+        <EditBudget budget={budget}/>
         </div>
       )
     } else return <Header>You have no budget data for this month.</Header>
