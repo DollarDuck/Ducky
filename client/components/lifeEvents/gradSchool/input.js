@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Button, Checkbox, Card, Label, Icon} from 'semantic-ui-react'
+import {Form, Button, Checkbox, Card, Label, Icon, Container, Header} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import Chart1 from './chart1'
 import Chart2 from './chart2'
@@ -39,9 +39,7 @@ class InputGradSchool extends Component {
   showInput = () => {
     this.setState({
       display: 'input'
-    }
-    )
-
+    })
   }
 
   showChart = (chart) => {
@@ -58,7 +56,7 @@ class InputGradSchool extends Component {
     const discountRate = this.state.discountRate
     return (
       <div>
-      <h1>Should you go to Grad School? Ducky will tell you ..he he</h1>
+      <Header as='h1' className="padding-left">Should you go to Grad School? Ducky will tell you ..he he</Header>
       {this.state.display === 'input' &&
       <Form>
       <Form.Field className="padding-left">
@@ -67,7 +65,7 @@ class InputGradSchool extends Component {
       </Form.Field>
       <br />
       <Form.Field className="padding-left">
-        <label>Current Salary</label>
+        <label>Current Annual Salary (Without Grad School)</label>
         <input placeholder='Enter Current Salary' name='currentSalary' onChange={this.handleMessage} />
       </Form.Field>
       <Form.Input
@@ -79,10 +77,11 @@ class InputGradSchool extends Component {
               step={1}
               type='range'
               value={this.state.csGrowth}
+              className="padding-left"
             />
         <br />
         <Form.Field className="padding-left">
-        <label>Salary After</label>
+        <label>Annual Salary Expected After Grad School</label>
         <input placeholder='Enter Expected Salary' name='expectedSalary' onChange={this.handleMessage} />
       </Form.Field>
       <Form.Input
@@ -94,6 +93,7 @@ class InputGradSchool extends Component {
               step={1}
               type='range'
               value={esGrowth}
+              className="padding-left"
             />
         <br />
 

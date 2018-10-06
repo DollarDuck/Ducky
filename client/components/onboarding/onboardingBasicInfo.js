@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Button, Checkbox, Card, Label} from 'semantic-ui-react'
+import {Form, Button, Checkbox, Card, Label, Message} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {createUser} from '../../store/index'
 import {auth} from '../../store'
@@ -16,9 +16,10 @@ class Onboarding extends Component {
       email: '',
       phoneNumber: '',
       password: '',
-      checked: false
+      message: false
     })
     this.handleMessage = this.handleMessage.bind(this)
+    this.handleValidation = this.handleValidation.bind(this)
 
   }
 
@@ -28,16 +29,39 @@ class Onboarding extends Component {
     this.setState(stateChange)
   }
 
+  handleValidation = (state, event) => {
+    console.log(event)
+    state.phoneNumber = convertPhoneNumber(this.state.phoneNumber)
+    const validation = validate(state)
+    if (validation === 'ok') {
+      console.log('need to submit')
+      this.props.handleSubmit(state, event)
+    } else {
+      this.setState({
+        message: validation
+      })
+    }
+  }
+
 
   render() {
-    const handleSubmit = this.props.handleSubmit
     return(
       <div>
       <OnboardingSteps step='step1'/>
       <Card centered>
+      {this.state.message &&
+      <div>
+      <Message negative>
+      {this.state.message}
+      </Message>
+      <br />
+      </div>
+      }
       <Label size="massive" color="blue">User Information</Label>
       <h2 />
-      <Form onSubmit={(event)=> handleSubmit(this.state, event)}>
+      <Form onSubmit={(event)=> this.handleValidation(this.state, event)}>
+
+      {/* <Form onSubmit={(event)=> handleSubmit(this.state, event)}> */}
       <Form.Field className="padding-left">
         <label>First Name</label>
         <input placeholder='First Name' name='firstName' onChange={this.handleMessage} />
@@ -59,7 +83,7 @@ class Onboarding extends Component {
       </Form.Field>
       <br />
       <Form.Field className="padding-left">
-        <label>Mobile Number</label>
+        <label>Mobile Number (optional)</label>
         <input placeholder='xxx-xxx-xxxx' name='phoneNumber' onChange={this.handleMessage}/>
       </Form.Field>
       <br />
@@ -71,14 +95,40 @@ class Onboarding extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapStateToProps = state => {
   return {
-    handleSubmit: (stateChange, event) => {
-      event.preventDefault();
-      stateChange.phoneNumber = convertPhoneNumber(stateChange.phoneNumber)
-      dispatch(createUser(stateChange, ownProps.history))
-    }
+    message: state.message
   }
 }
 
-export default connect(null, mapDispatchToProps)(Onboarding)
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    handleSubmit: (stateChange, event) => {
+      event.preventDefault()
+      dispatch(createUser(stateChange, ownProps.history))
+    }}}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Onboarding)
+
+
+function validate(inputs) {
+  if(!inputs.firstName) {
+    return 'Need First Name - None Entered. Please re-submit.'
+  }
+  if(!inputs.lastName) {
+    return 'Need Last Name - None Entered. Please re-submit.'
+  }
+  if(!inputs.email || inputs.email.indexOf('@') === -1) {
+    return 'Email address must have an @. Please re-submit.'
+  }
+  if(!inputs.email || inputs.email.indexOf('@') === -1) {
+    return 'Email address must have an @. Please re-submit.'
+  }
+  if(inputs.phoneNumber && inputs.phoneNumber.length !== 10) {
+    return 'Phone number is optional but must be ten digits. Please re-submit'
+  }
+  if(!inputs.password.length) {
+    return 'Password required'
+  }
+  return 'ok'
+}

@@ -2,7 +2,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {commaFormat, dataProcessor} from '../../../../utils'
-import {Message, Header, Statistic, Container} from 'semantic-ui-react'
+import {Message, Header, Statistic, Container, Image, Item} from 'semantic-ui-react'
 import {Line} from 'react-chartjs-2';
 
 const year = (new Date()).getFullYear()
@@ -13,11 +13,27 @@ class Chart2 extends Component {
     console.log(this.props.data)
 
     const chartData = dataProcessor(this.props.data)
+    const headerMessage = headerMessageFunc(chartData.breakevenNPV)
     const outputMessage = messageToDisplay(chartData.breakevenNPV, this.props.data.age)
     console.log('chart data', chartData)
 
     return (
       <div>
+        <Message color={headerMessage.color} >
+      <Item.Group>
+      <Item color={headerMessage.color} >
+      <Item.Image src="/clipartduck1.png" size="small" />
+      <Item.Content verticalAlign='middle'>
+      <Item.Header as='a'>
+        {headerMessage.header}
+      </Item.Header>
+      <p> - Professor Ducky </p>
+      </Item.Content>
+      </Item>
+      </Item.Group>
+      </Message>
+      <br />
+
       <Line
         data = {{
           labels: chartData.years,
@@ -119,7 +135,29 @@ function messageToDisplay(years, age) {
   } else if (years < 20) {
     message = 'It will take over a decade to recoup your investment but it could still be worth it. Think hard about your decision'
   } else {
-    message = 'Based on our calculations, it will take '+years+' for your decision to make sense financially. You will be '+(years+age)+'!'
+    message = 'Based on our calculations, it will take '+years+' for your decision to make sense financially. You will be '+ (years+age)+'!'
   }
   return message
+}
+
+function headerMessageFunc(years) {
+  let returnObj = {}
+  if (years < 8 && years > 0) {
+    returnObj.color = 'green'
+    returnObj.header = 'Dear Little Duckling: Grad school is a wise investment for you!'
+  } else if (years<12 && years>0) {
+    returnObj.color='olive'
+    returnObj.header = 'Grad school will take around a decade to pay off but could be a wise choice'
+  }
+    else if (years < 18 && years > 0) {
+    returnObj.color = 'blue'
+    returnObj.header = 'Grad school will take time to make sense financially but the logic is there'
+  } else if (years >= 18 || !years ) {
+    returnObj.color = 'red'
+    returnObj.header = 'Grad school tuition is not a good idea for your wallet!'
+  } else {
+    returnObj.color = 'violet'
+    returnObj.header = 'I am Professor Ducky!'
+  }
+  return returnObj
 }

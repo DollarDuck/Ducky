@@ -110,7 +110,7 @@ class OnboardingBudget extends Component {
         <Form.Input
               label={`$${desiredSavings}`}
               min={0}
-              max={this.state.income/2.5}
+              max={this.state.income*0.6}
               name='duration'
               onChange={this.handleChange}
               step={10}
@@ -121,14 +121,14 @@ class OnboardingBudget extends Component {
         {(desiredSavings < 0.01 * income) &&
         <Message>
            <p> <Icon name='frown' size='huge'/>
-         You need to same something for a rainy day! </p>
+         You need to save something for a rainy day! </p>
           </Message>
 
         }
 
-        {(desiredSavings > 0.39 * income) &&
+        {(desiredSavings > 0.59 * income) &&
           <Message>
-            <p> We only allow a maximum of 40%. If you are able to save more than 40% and still eat and sleep, you probably don't need this app.
+            <p> We only allow a maximum of 60%. If you are able to save more than 60% and still eat and sleep, you probably don't need this app.
               </p>
             </Message>
         }
@@ -136,7 +136,7 @@ class OnboardingBudget extends Component {
           <h3>
           Saving ${desiredSavings} per month would equate to saving {Math.round(100*desiredSavings/this.state.income)}% of your salary. Here is what a sample savings plan looks like (you will be able to adjust it later).
           </h3>
-          <Doughnut data={{labels: ['Savings ('+Math.round(100*(state.desiredSavings/income))+'%)', 'Monthly Expenses (' + Math.round(100*state.monthlyExpenses/income) + '%)', 'Food ('+Math.round(100*(state.food/income))+'%)', 'Shopping (' + Math.round(100*state.shopping/income) + '%)', 'Recreation (' + Math.round(100*state.recreation/income) + '%)', 'Travel (' + Math.round(100*state.travel/income) + '%)', 'Other ('+Math.round(100*state.other/income)+'%)'], datasets: [{data: [state.desiredSavings, state.monthlyExpenses, state.food, state.shopping, state.recreation, state.travel, state.other], backgroundColor: ['#52E577', '#F7464A', '#C61296', '#99347E', '#4d94ff', '#000000', '#ffcc80']}]}} options={{legend: {position: 'bottom'}}} height='50%' />
+          <Doughnut data={{labels: ['Savings ('+Math.round(100*(state.desiredSavings/income))+'%)', 'Monthly Expenses (' + Math.round(100*state.monthlyExpenses/income) + '%)', 'Food ('+Math.round(100*(state.food/income))+'%)', 'Shopping (' + Math.round(100*state.shopping/income) + '%)', 'Recreation (' + Math.round(100*state.recreation/income) + '%)', 'Travel (' + Math.round(100*state.travel/income) + '%)', 'Other ('+Math.round(100*state.other/income)+'%)'], datasets: [{data: [state.desiredSavings, state.monthlyExpenses, state.food, state.shopping, state.recreation, state.travel, state.other], backgroundColor: ['#52E577', '#F7464A', '#C61296', '#99347E', '#4d94ff', '#000000', '#ffcc80']}]}} options={options} height='60%' />
           <br />
           <Button fluid color="green" type='button' onClick={(event) => {
             this.props.history.push('/onboarding/step3')
@@ -169,3 +169,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(mapState, mapDispatchToProps)(OnboardingBudget)
 
 
+const options = {
+  legend: {
+    position: 'right',
+    labels: {
+      fontSize: 15,
+      fontColor: 'black'
+    }
+  },
+
+}
