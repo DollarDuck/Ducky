@@ -34,7 +34,7 @@ class Chart1 extends Component {
         />
         <br />
 
-        {chartData.breakeven && <Message> After spending {commaFormat(((chartData.tuition*chartData.yearsOfSchool)))} on tuition, you will make your tuition in increased salary in year {chartData.breakeven+year} on an undiscounted basis.
+        {chartData.breakeven && <Message> After spending {commaFormat(((chartData.tuition*chartData.yearsOfSchool)))} on tuition, you will make your tuition in increased salary in year {chartData.breakeven+year} on an undiscounted basis. You'll be {chartData.age + chartData.breakeven} years old.
         </Message>}
         {!chartData.breakeven && <Message> Doesn't look like a great investment for you. You don't recoup your investment even when we exclude the time value of money.</Message>}
 </div>

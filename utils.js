@@ -167,7 +167,8 @@ function commaFormat(num) {
       expectedSalaryNPVCum: expectedSalaryNPVArrayCum,
       breakevenNPV: breakevenNPV[0] || false,
       tuition: tuition,
-      yearsOfSchool: yearsOfSchool
+      yearsOfSchool: yearsOfSchool,
+      age: age
     }
 
     return returnObj
