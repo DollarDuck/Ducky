@@ -21,16 +21,13 @@ export const getBills = userId => async dispatch => {
 
 export const checkMonthly = (billArray, userId) => async dispatch => {
   const updateBills = []
-  console.log('bills HERE', billArray)
   billArray.forEach(bill => {
     const dueDate = new Date(bill.dueDate)
     if((dueDate < Date.now()) && (bill.recurring === 'monthly')) {
       updateBills.push(bill)
     }
   })
-  console.log('update Bills', updateBills)
   if(updateBills.length) {
-    console.log('here')
     const updatedBills = await axios.put(`/api/bills/updateBillsMonthly`, {bills: updateBills, userId: userId})
     dispatch(gotBills(updatedBills.data))
   }
@@ -71,7 +68,7 @@ export default (state = [], action) => {
     case ADDED_BILL:
       return [...state, action.bill]
     case EDITED_BILL:
-      return [...state.filter(bill => bill.id !== action.bill.id), action.bill]
+      return [...state.map(bill => ((bill.id===action.bill.id) ? action.bill : bill))]
     case DELETED_BILL:
     return [...state.filter(bill => bill.id !== action.billId)]
     default:

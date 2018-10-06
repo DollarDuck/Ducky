@@ -32,7 +32,7 @@ class OnboardingBudget extends Component {
   //function is run when user finishes entering income
   incomeEntered = (event) => {
     const userId = this.props.user.id
-    const income = convertIncome(event.target.value)
+    const income = convertIncome(event.target.income.value)
     const savings = Math.round(income*0.15)
     const monthlyExpenses = Math.round(0.4*(income-savings))
     const food = Math.round(0.05*(income-savings))
@@ -73,7 +73,6 @@ class OnboardingBudget extends Component {
       recreation: recreation,
       other: other
     })
-    console.log('state', this.state)
   }
   render() {
     const state = this.state
@@ -87,12 +86,15 @@ class OnboardingBudget extends Component {
         <OnboardingSteps step='step2'/>
         </Grid.Column>
         <br />
-        <Form>
-        <Grid.Column width={5}>
-      <Form.Field>
-        <label>Enter Your Post-Tax Monthly Income</label>
-        <input placeholder='$' name='income' onMouseLeave={this.incomeEntered}/>
-      </Form.Field>
+        <Grid.Column centered width={5}>
+        <Form onSubmit={this.incomeEntered}>
+          <Form.Field>
+            <label>Enter Your Post-Tax Monthly Income</label>
+            <input placeholder='$' name='income' />
+          </Form.Field>
+          <br />
+          <Button size="large" type="submit">Submit</Button>
+      </Form>
       </Grid.Column>
       <br />
 
@@ -105,6 +107,7 @@ class OnboardingBudget extends Component {
         <h4>Use the slider to adjust your desired savings amount</h4>
         <br />
         <br />
+        <Form>
 
         {/* The Savings Slider  */}
         <Form.Input
@@ -141,12 +144,12 @@ class OnboardingBudget extends Component {
           <Button fluid color="green" type='button' onClick={(event) => {
             this.props.history.push('/onboarding/step3')
             this.props.handleOk(this.state, event)}}>Ok, got it </Button>
+      </Form>
       </div>
       }
       {/* END OF WHAT'S RENDERED IF INCOME ENTERED */}
 
       <br />
-    </Form>
     </Grid>
     </div>
     )

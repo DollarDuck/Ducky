@@ -113,6 +113,7 @@ router.post('/transactions/:userId', async (req, res, next) => {
               )
               if (i === tokens.length - 1) {
                 res.json(transactions)
+                res.end()
               }
             }
           }

@@ -1,13 +1,14 @@
 import React from 'react'
 import {Grid, Card, Label, Form, Button, Image} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {calculatePlan} from '../store/purchasePlanner'
+import {calculatePlan, clearState} from '../store/purchasePlanner'
 import {addPurchaseToBudget} from '../store/budget'
 import {NavLink} from 'react-router-dom'
 
 const mapDispatch = dispatch => ({
 	calculatePlan: (formInfo) => dispatch(calculatePlan(formInfo)),
-	addPurchaseToBudget: (cost,userId) => dispatch(addPurchaseToBudget(cost, userId))
+	addPurchaseToBudget: (cost,userId) => dispatch(addPurchaseToBudget(cost, userId)),
+	clearState: () => dispatch(clearState())
 })
 
 const mapState = state => ({
@@ -19,6 +20,9 @@ class PurchasePlanner extends React.Component {
 	state = {
 		isSubmitted: false,
 		isAdded: false,
+	}
+	componentDidMount() {
+		this.props.clearState()
 	}
 	handleSubmit = async (event) => {
     const userId = this.props.match.params.userId
