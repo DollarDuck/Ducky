@@ -25,16 +25,13 @@ router.post('/', async (req, res, next) => {
 
 router.put('/updateBillsMonthly', async (req, res, next) => {
   const allBills = req.body.bills
-  console.log('allBills', allBills)
   for(let i = 0; i < allBills.length; ++i) {
     let dueDateMonth = allBills[i].dueDate.slice(5,7)
-    console.log('due date Month', dueDateMonth)
     let dueDateNewMonth = Number(dueDateMonth) + 1
     if(dueDateNewMonth === 13) {
       dueDateNewMonth=1
     }
     const newDueDate = allBills[i].dueDate.slice(0,5) + dueDateNewMonth.toString() + allBills[i].dueDate.slice(7)
-    console.log('new Due date', newDueDate)
     await Bill.findOrCreate({
       where: {
         name: allBills[i].name,
