@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getBudgetFromServer} from '../store/budget'
 import {getSpending} from '../store/spending'
-import {Menu, Header, Button, Container, Divider, Icon, Image} from 'semantic-ui-react'
+import {Menu, Header, Grid, Button, Container, Divider, Icon, Image} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {Bar, HorizontalBar} from 'react-chartjs-2'
 import dateFns from 'date-fns'
@@ -58,6 +58,7 @@ class Budget extends React.Component {
     const dateFormat = 'MMMM YYYY'
     if (this.props.budget[0] && this.props.spending[0]) {
       const budget = this.props.budget[0]
+      console.log('budget', budget)
       const [labels, amountData, spendingData] = this.formatBarData(budget)
       const totalSpending = spendingData.reduce(
         (total, currentVal) => Number(total) + Number(currentVal)
@@ -67,22 +68,22 @@ class Budget extends React.Component {
         labels: labels,
         datasets: [
           {
-            label: 'Budget limit',
+            label: 'Month to Date Spending',
             backgroundColor: 'rgba(255,99,132,0.2)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             hoverBorderColor: 'rgba(255,99,132,1)',
-            data: amountData
+            data: spendingData
           },
           {
-            label: 'Month to date spending',
+            label: 'Budget',
             backgroundColor: 'rgb(151, 198, 239,0.2)',
             borderColor: 'rgb(151, 198, 239,1)',
             borderWidth: 1,
             hoverBackgroundColor: 'rgb(151, 198, 239,0.4)',
             hoverBorderColor: 'rgb(151, 198, 239,1)',
-            data: spendingData
+            data: amountData
           }
         ]
       }
@@ -90,28 +91,29 @@ class Budget extends React.Component {
       const totalData = {
         labels: ['Total Budget'],
         datasets: [
-          {
-            label: 'Budget limit',
+                  {
+            label: 'Month to Date Spending',
             backgroundColor: 'rgba(255,99,132,0.2)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             hoverBorderColor: 'rgba(255,99,132,1)',
-            data: [budget.amount]
+            data: [totalSpending]
           },
-          {
-            label: 'Month to date spending',
+        {
+            label: 'Budget',
             backgroundColor: 'rgb(151, 198, 239,0.2)',
             borderColor: 'rgb(151, 198, 239,1)',
             borderWidth: 1,
             hoverBackgroundColor: 'rgb(151, 198, 239,0.4)',
             hoverBorderColor: 'rgb(151, 198, 239,1)',
-            data: [totalSpending]
+            data: [budget.income]
           }
         ]
       }
 
       return (
+        <div>
         <Container>
           <Divider hidden />
           <Header size="huge" textAlign="center">
@@ -120,13 +122,16 @@ class Budget extends React.Component {
           </Header>
           <Divider />
           <Divider hidden />
-          <Button
-            as={Link}
-            to={`/editBudget/${budget.id}`}
-            circular
+          <Grid centered>
+          <h3> On this page, you can see your monthly budget, broken down by category, as well as your month to date spending calculated from your recent bank transactions.</h3>
+          <h3 />
+          </Grid>
+          <Link to="/me"><Button size="large" floated="left">Back to Home</Button></Link>
+          <Link to={`/editBudget/${budget.id}`}><Button
             floated="right"
-            icon="edit"
-          />
+            size="large"
+            ><Icon name="edit">Edit</Icon></Button></Link>
+            <h3 />
 					<Divider hidden />
           <Divider hidden />
           <div className="header row flex-middle">
@@ -175,6 +180,11 @@ class Budget extends React.Component {
             />
           </div>
         </Container>
+          <h1 />
+        <Grid centered>
+          <h1 />
+        </Grid>
+        </div>
       )
     } else return <Header>You have no budget data for this month.</Header>
   }
