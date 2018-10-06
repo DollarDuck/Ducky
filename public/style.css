@@ -27,6 +27,9 @@ form div {
 .min-width {
   max-width: 300px;
 }
+.no-padding {
+  padding: 2px;
+}
 
 .max-width {
   min-width: 700px;

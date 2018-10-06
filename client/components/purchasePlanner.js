@@ -63,6 +63,7 @@ class PurchasePlanner extends React.Component {
 		      		<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about {this.props.plan.numLattes} lattes each month, or {this.props.plan.numLunches} lunches out</p></Card.Meta></Card.Content>
 		      		<Image src="/purchaseplanner.jpg" />
 		      		<Button fluid color="blue" size ="large" onClick={this.addToBudget}>Add To Budget</Button>
+		      		<NavLink to="/me"><Button fluid color="green" size ="large">Skip and return to Home</Button></NavLink>
 		      		</div>
 		      		) : (
 		      		<div>

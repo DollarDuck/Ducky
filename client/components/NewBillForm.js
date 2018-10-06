@@ -75,7 +75,6 @@ class NewBillForm extends React.Component {
           <Form.Group>
             <Form.Checkbox label='Add this bill to my budget' onChange={this.toggle} checked={this.state.checked}/>
           </Form.Group>
-            <Button type="submit" disabled={Object.keys(this.state).length < 6}>Submit</Button>
           <Header as="h5">Due date*</Header>
           <Form.Field required>
             <DateInput
@@ -87,6 +86,8 @@ class NewBillForm extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Field>
+          <br />
+          <Button type="submit" disabled={Object.keys(this.state).length < 6}>Submit</Button>
         </Form>
         </Grid>
       </Container>
