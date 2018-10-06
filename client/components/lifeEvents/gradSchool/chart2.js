@@ -15,7 +15,6 @@ class Chart2 extends Component {
     const chartData = dataProcessor(this.props.data)
     const headerMessage = headerMessageFunc(chartData.breakevenNPV)
     const outputMessage = messageToDisplay(chartData.breakevenNPV, this.props.data.age)
-    console.log('chart data', chartData)
 
     return (
       <div>
@@ -116,8 +115,6 @@ const options = {
       label: function(tooltipItem, data) {
         console.log(tooltipItem)
         let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
-        console.log(data)
-        console.log(value)
         return commaFormat(100*Math.round(value/100))
       },
     },
