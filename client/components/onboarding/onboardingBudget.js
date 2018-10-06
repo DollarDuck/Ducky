@@ -31,7 +31,6 @@ class OnboardingBudget extends Component {
 
   //function is run when user finishes entering income
   incomeEntered = (event) => {
-    console.log('event', event.target.income.value)
     const userId = this.props.user.id
     const income = convertIncome(event.target.income.value)
     const savings = Math.round(income*0.15)
