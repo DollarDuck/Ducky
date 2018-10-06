@@ -12,76 +12,151 @@ const mapDispatch = dispatch => ({
 })
 
 class EditBudget extends React.Component {
-	handleSubmit = (event) => {
-    const budgetId = this.props.match.params.budgetId
+  state = {
+    totalBudget: 0,
+    monthlyExpenses: 0,
+    shopping: 0,
+    travel: 0,
+    recreation: 0,
+    savings: 0,
+    food: 0,
+    other: 0
+  }
+  componentDidMount () {
+    const budget = this.props.budget
+    const budgetItems = this.props.budget.budgetItems.sort((a, b) => {return (Number(a.categoryId) - Number(b.categoryId))})
+    console.log('budgetItems', budgetItems)
+    this.setState({
+      totalBudget: budget.income,
+      monthlyExpenses: budgetItems[0].amount,
+      shopping: budgetItems[1].amount,
+      travel: budgetItems[2].amount,
+      recreation: budgetItems[3].amount,
+      savings: budgetItems[5].amount,
+      other: budgetItems[4].amount,
+      food: budgetItems[6].amount
+    })
+  }
+  handleChange = (event) => {
+    const newOther = Number(this.state.other) + (Number(this.state[event.target.name]) - Number(event.target.value))
+    this.setState({ [event.target.name] : event.target.value,
+      other: newOther})
+  }
+  handleChangeTotal = (event) => {
+        const newOther = Number(this.state.other) + (Number(event.target.value) - Number(this.state[event.target.name]))
+    this.setState({ [event.target.name] : event.target.value,
+      other: newOther})    
+  }
+	handleSubmit = () => {
+    const budgetId = this.props.budget.id
     const userId = this.props.user.id
-		const formInfo = {
-      budgetId: budgetId,
-      userId: userId,
-			totalAmount: Number(event.target.totalAmount.value),
-			monthlyExpenses: Number(event.target.monthlyExpenses.value),
-			shops: Number(event.target.shops.value),
-			travel: Number(event.target.travel.value),
-			recreation: Number(event.target.recreation.value),
-			savings: Number(event.target.savings.value),
-			foodAndDrink: Number(event.target.foodAndDrink.value)
-		}
-		formInfo.other = formInfo.totalAmount - formInfo.monthlyExpenses - formInfo.shops - formInfo.travel - formInfo.recreation - formInfo.savings - formInfo.foodAndDrink
-		this.props.updateBudgetItems(formInfo)
+    const info = this.state
+    info.budgetId = budgetId
+    info.userId = userId
+		this.props.updateBudgetItems(info)
 	}
 	render () {
+    const state = this.state
 		return (
 		      <div>
       <h1 />
       <Grid centered>
-      <Grid.Column centered width={5}>
-      <Card fluid centered color="white">
-      <Label size="massive" color="blue">Edit Budget</Label>
+      <Grid.Column centered width={9}>
+      <Card fluid>
+      <Label size="massive" fluid>Edit Budget</Label>
       <h1 />
+       <Grid.Column centered width={8}>
       <Form onSubmit={this.handleSubmit}>
-      <Form.Field className="padding-large">
-        <label>Total Budget Amount:</label>
-        <input placeholder='Total Amount' name='totalAmount'/>
-      </Form.Field>
-      <br />
-      <Form.Field className="padding-large">
-        <label>Monthly Expenses:</label>
-        <input placeholder='Monthly Expenses' name='monthlyExpenses'/>
-      </Form.Field>     
-      <br />
-            <br />
-      <Form.Field className="padding-large">
-        <label>Shopping:</label>
-        <input placeholder='Shopping' name='shops'/>
-      </Form.Field>     
-      <br />
-            <br />
-      <Form.Field className="padding-large">
-        <label>Travel:</label>
-        <input placeholder='Travel' name='travel'/>
-      </Form.Field>     
-      <br />
-            <br />
-      <Form.Field className="padding-large">
-        <label>Recreation:</label>
-        <input placeholder='Recreation' name='recreation'/>
-      </Form.Field>     
-      <br />
-            <br />
-      <Form.Field className="padding-large">
-        <label>Savings:</label>
-        <input placeholder='Savings' name='savings'/>
-      </Form.Field>     
-      <br />
-            <br />
-      <Form.Field className="padding-large">
-        <label>Food:</label>
-        <input placeholder='Food' name='foodAndDrink'/>
-      </Form.Field>     
-      <br />
-      <br />
-      <Button fluid color="blue" type='submit'>Submit</Button>
+      <Grid.Column>
+        <Form.Input className="padding"
+          label={`Total Budget - $${state.totalBudget}`}
+          min={0}
+          max={20000}
+          value={state.totalBudget}
+          name='totalBudget'
+          onChange={this.handleChangeTotal}
+          step={10}
+          type='range'
+        />  
+      </Grid.Column>
+      <Grid.Column>
+        <Form.Input className="padding"
+          label={`Monthly Expenses - $${state.monthlyExpenses}`}
+          min={0}
+          max={(Number(state.monthlyExpenses) + Number(state.other))}
+          value={state.monthlyExpenses}
+          name='monthlyExpenses'
+          onChange={this.handleChange}
+          step={10}
+          type='range'
+        /> 
+        </Grid.Column>
+        <Grid.Column>
+        <Form.Input className="padding"
+          label={`Shopping - $${state.shopping}`}
+          min={0}
+          max={(Number(state.shopping) + Number(state.other))}
+          value={state.shopping}
+          name='monthlyExpenses'
+          onChange={this.handleChange}
+          step={10}
+          type='range'
+        /> 
+        </Grid.Column>
+        <Grid.Column>
+        <Form.Input className="padding"
+          label={`Travel - $${state.travel}`}
+          min={0}
+          max={(Number(state.travel) + Number(state.other))}
+          value={state.travel}
+          name='travel'
+          onChange={this.handleChange}
+          step={10}
+          type='range'
+        /> 
+        </Grid.Column>
+        <Grid.Row>
+        <Grid.Column>
+        <Form.Input className="padding"
+          label={`Recreation - $${state.recreation}`}
+          min={0}
+          max={(Number(state.recreation) + Number(state.other))}
+          value={state.recreation}
+          name='recreation'
+          onChange={this.handleChange}
+          step={10}
+          type='range'
+        /> 
+        </Grid.Column>
+        <Grid.Column>
+        <Form.Input className="padding"
+          label={`Savings - $${state.savings}`}
+          min={0}
+          max={(Number(state.savings) + Number(state.other))}
+          value={state.savings}
+          name='savings'
+          onChange={this.handleChange}
+          step={10}
+          type='range'
+        /> 
+        </Grid.Column>
+        <Grid.Column>
+        <Form.Input className="padding"
+          label={`Food - $${state.food}`}
+          min={0}
+          max={(Number(state.food) + Number(state.other))}
+          value={state.food}
+          name='food'
+          onChange={this.handleChange}
+          step={10}
+          type='range'
+        /> 
+        </Grid.Column>
+        <h5>Other = ${this.state.other}</h5>
+        </Grid.Row>
+      <Button fluid type='submit'>Submit</Button>
       </Form>
+      </Grid.Column>
       </Card>
       </Grid.Column>
       </Grid>

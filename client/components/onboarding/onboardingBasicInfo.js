@@ -35,7 +35,7 @@ class Onboarding extends Component {
       <div>
       <OnboardingSteps step='step1'/>
       <Card centered>
-      <Label size="massive" color="blue">User Information</Label>
+      <Label size="massive">User Information</Label>
       <h2 />
       <Form onSubmit={(event)=> handleSubmit(this.state, event)}>
       <Form.Field className="padding-left">
@@ -63,7 +63,7 @@ class Onboarding extends Component {
         <input placeholder='xxx-xxx-xxxx' name='phoneNumber' onChange={this.handleMessage}/>
       </Form.Field>
       <br />
-      <Button fluid color="blue" type='submit'>Submit</Button>
+      <Button fluid type='submit'>Submit</Button>
     </Form>
     </Card>
     </div>

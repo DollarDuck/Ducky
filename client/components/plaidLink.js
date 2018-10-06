@@ -60,10 +60,10 @@ class Plaid extends Component {
                   publicKey="2e86ad2a3b3a35d15f0112504ac7d3"
                   apiVersion="v2"
                   onSuccess={this.handleOnSuccess}>
-                  <Label color="blue"><h2>Link your bank account</h2></Label>
+                  <Button size="massive">Link your bank account</Button>
                   </PlaidLink>
                   <h3 />
-                  {this.props.isOnboarding ? <NavLink to="/me"><h3>Skip this step</h3></NavLink> : ''}
+                  {this.props.isOnboarding ? <NavLink to="/me"><Button>Skip this step</Button></NavLink> : ''}
                 </div>
               </div>
             </div>
@@ -71,7 +71,6 @@ class Plaid extends Component {
         </div>
       );
     } else {
-      console.log('here', this.state.accountLinked, this.state.startLoading)
       if(!this.state.accountLinked) {
         return(
         <div>

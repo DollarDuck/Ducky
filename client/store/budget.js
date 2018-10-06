@@ -40,18 +40,17 @@ export const addPurchaseToBudget = (cost, userId) => {
 
 export const updateBudgetItems = updateInfo => {
   return async dispatch => {
-    console.log('updateInfo', updateInfo)
-    await axios.put('/api/budgets/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.totalAmount})
-    await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.foodAndDrink, categoryId: 9})
+    await axios.put('/api/budgets/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.totalBudget})
+    await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.food, categoryId: 9})
     await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.monthlyExpenses, categoryId: 1})
-    await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.shops, categoryId: 3})
+    await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.shopping, categoryId: 3})
     await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.travel, categoryId: 4})
     await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.recreation, categoryId: 6})
     await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.other, categoryId: 7})
     await axios.put('/api/budgets/budgetItems/updateAmount', {budgetId: updateInfo.budgetId, amount: updateInfo.savings, categoryId: 8})
     const newBudget = await axios.get(`/api/budgets/${updateInfo.userId}`)
     dispatch(getBudget(newBudget.data))
-    history.push('/me')
+    history.push(`/budget/${updateInfo.userId}`)
   }
 }
 

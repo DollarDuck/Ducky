@@ -52,7 +52,7 @@ class PurchasePlanner extends React.Component {
 		      <Grid centered>
 		      <Grid.Column centered width={5}>
 		      <Card fluid centered color="white">
-		      <Label size="massive" color="blue">Purchase Planner</Label>
+		      <Label size="massive" >Purchase Planner</Label>
 		      <Label size="medium">Plan your next big purchase!</Label>
 		      {this.state.isSubmitted ?
 		      	(
@@ -94,7 +94,7 @@ class PurchasePlanner extends React.Component {
 		      </Form.Field>
 		      <br />
 		            <br />
-		      <Button fluid color="blue" type='submit'>Submit</Button>
+		      <Button fluid type='submit'>Submit</Button>
 		      </Form>
 		      </div>
 		      )}

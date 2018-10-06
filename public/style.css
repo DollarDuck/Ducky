@@ -328,6 +328,10 @@ main {
   margin: 0px;
 }
 
+.ui.label {
+  background-color: #C1F6F8;
+}
+
 .ui.button {
   background-color: #C1F6F8;
 }
