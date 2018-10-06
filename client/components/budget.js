@@ -68,22 +68,22 @@ class Budget extends React.Component {
         labels: labels,
         datasets: [
           {
-            label: 'Budget limit',
+            label: 'Month to Date Spending',
             backgroundColor: 'rgba(255,99,132,0.2)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             hoverBorderColor: 'rgba(255,99,132,1)',
-            data: amountData
+            data: spendingData
           },
           {
-            label: 'Month to date spending',
+            label: 'Budget',
             backgroundColor: 'rgb(151, 198, 239,0.2)',
             borderColor: 'rgb(151, 198, 239,1)',
             borderWidth: 1,
             hoverBackgroundColor: 'rgb(151, 198, 239,0.4)',
             hoverBorderColor: 'rgb(151, 198, 239,1)',
-            data: spendingData
+            data: amountData
           }
         ]
       }
@@ -91,23 +91,23 @@ class Budget extends React.Component {
       const totalData = {
         labels: ['Total Budget'],
         datasets: [
-          {
-            label: 'Budget limit',
+                  {
+            label: 'Month to Date Spending',
             backgroundColor: 'rgba(255,99,132,0.2)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             hoverBorderColor: 'rgba(255,99,132,1)',
-            data: [budget.income]
+            data: [totalSpending]
           },
-          {
-            label: 'Month to date spending',
+        {
+            label: 'Budget',
             backgroundColor: 'rgb(151, 198, 239,0.2)',
             borderColor: 'rgb(151, 198, 239,1)',
             borderWidth: 1,
             hoverBackgroundColor: 'rgb(151, 198, 239,0.4)',
             hoverBorderColor: 'rgb(151, 198, 239,1)',
-            data: [totalSpending]
+            data: [budget.income]
           }
         ]
       }
@@ -122,13 +122,16 @@ class Budget extends React.Component {
           </Header>
           <Divider />
           <Divider hidden />
-          <Button
-            as={Link}
-            to={`/editBudget/${budget.id}`}
-            circular
+          <Grid centered>
+          <h3> On this page, you can see your monthly budget, broken down by category, as well as your month to date spending calculated from your recent bank transactions.</h3>
+          <h3 />
+          </Grid>
+          <Link to="/me"><Button size="large" floated="left">Back to Home</Button></Link>
+          <Link to={`/editBudget/${budget.id}`}><Button
             floated="right"
-            icon="edit"
-          />
+            size="large"
+            ><Icon name="edit">Edit</Icon></Button></Link>
+            <h3 />
 					<Divider hidden />
           <Divider hidden />
           <div className="header row flex-middle">
@@ -179,7 +182,6 @@ class Budget extends React.Component {
         </Container>
           <h1 />
         <Grid centered>
-          <Link to="/me"><Button size="large" floated="center">Back to Home</Button></Link>
           <h1 />
         </Grid>
         </div>

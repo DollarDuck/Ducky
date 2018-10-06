@@ -1,14 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { getBills, editBill, deleteBill } from '../store/bills'
+import { getBills, editBill, deleteBill, checkMonthly } from '../store/bills'
 import { Button, Container, Table, Icon, Grid, Divider, Header, Image } from 'semantic-ui-react'
 import Calendar from './Calendar'
 
 class Bills extends React.Component {
-
-  componentDidMount() {
-    this.props.getBills(Number(this.props.match.params.userId))
+  state = {
+    isLoaded: false
+  }
+  async componentDidMount() {
+    await this.props.getBills(Number(this.props.match.params.userId))
+    await this.props.checkMonthly(this.props.bills, Number(this.props.match.params.userId))
+    this.setState({ isLoaded: true})
   }
 
   toggleBill(bill) {
@@ -45,7 +49,7 @@ class Bills extends React.Component {
               <Table.HeaderCell>Type</Table.HeaderCell>
               <Table.HeaderCell>Due</Table.HeaderCell>
               <Table.HeaderCell>Amount</Table.HeaderCell>
-              <Table.HeaderCell />
+              <Table.HeaderCell>Delete Bill?</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -54,10 +58,9 @@ class Bills extends React.Component {
               if(bill.dueDate.slice(5,7) == currentMonth) {
               return (
               <Table.Row key={bill.id}>
-                <Table.Cell onClick={() => this.toggleBill(bill)}>
-                  {bill.paid
-                  ? <Icon name='checkmark' />
-                  : <Icon name='x' />}
+                <Table.Cell>
+                  <Button color="grey" toggle active={bill.paid} onClick={() => this.toggleBill(bill)}><Icon name='checkmark'> Yes</Icon></Button>
+                  <Button color={!bill.paid ? 'red' : 'grey'} onClick={() => this.toggleBill(bill)}><Icon name='x'> No</Icon></Button>
                 </Table.Cell>
                 <Table.Cell>{bill.name}</Table.Cell>
                 <Table.Cell>{bill.type}</Table.Cell>
@@ -87,7 +90,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getBills: userId => dispatch(getBills(userId)),
     editBill: bill => dispatch(editBill(bill)),
-    deleteBill: billId => dispatch(deleteBill(billId))
+    deleteBill: billId => dispatch(deleteBill(billId)),
+    checkMonthly: (billArray, userId) => dispatch(checkMonthly(billArray, userId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bills)
