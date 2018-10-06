@@ -30,11 +30,9 @@ class Onboarding extends Component {
   }
 
   handleValidation = (state, event) => {
-    console.log(event)
     state.phoneNumber = convertPhoneNumber(this.state.phoneNumber)
     const validation = validate(state)
     if (validation === 'ok') {
-      console.log('need to submit')
       this.props.handleSubmit(state, event)
     } else {
       this.setState({
