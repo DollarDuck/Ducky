@@ -35,9 +35,9 @@ class PurchasePlanner extends React.Component {
 		await this.props.calculatePlan(formInfo)
 		this.setState({ isSubmitted: true})
 	}
-	addToBudget = async () => {
+	addToBudget = async (plan) => {
 		const userId = this.props.match.params.userId
-		const cost = this.props.singlePlan.costPerMonth
+		const cost = plan.costPerMonth
 		await this.props.addPurchaseToBudget(cost, userId)
 		this.setState({isAdded: true})
 	}
@@ -60,7 +60,7 @@ class PurchasePlanner extends React.Component {
 		      		<Card.Content><Card.Meta><p className="padding black">Based on your {this.props.singlePlan.numMonths} month plan, you'd need to save {this.props.singlePlan.costPerMonth} every month. This would be {this.props.singlePlan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
 		      		<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about {this.props.singlePlan.numLattes} lattes each month, or {this.props.singlePlan.numLunches} lunches out</p></Card.Meta></Card.Content>
 		      		<Image src="/purchaseplanner.jpg" />
-		      		<Button fluid size ="large" onClick={this.addToBudget}>Add To Budget</Button>
+		      		<Button fluid size ="large" onClick={() => this.addToBudget(this.props.singlePlan)}>Add To Budget</Button>
 		      		<NavLink to="/me"><Button fluid color="grey" size ="large">Skip and return to Home</Button></NavLink>
 		      		</div>
 		      		) : (
@@ -73,7 +73,7 @@ class PurchasePlanner extends React.Component {
 		      							<Card fluid>
 		      							<Card.Content><Card.Meta><p className="padding black">Based on a {plan.numMonths} month plan, you'd need to save {plan.costPerMonth} every month. This would be {plan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
 				      					<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about {plan.numLattes} lattes each month, or {plan.numLunches} lunches out</p></Card.Meta></Card.Content>
-		      							<Button size ="large" onClick={this.addToBudget}>Add To Budget</Button>
+		      							<Button size ="large" onClick={() => this.addToBudget(plan)}>Add To Budget</Button>
 		      							</Card>
 		      							</Grid.Column>
 		      							<br />

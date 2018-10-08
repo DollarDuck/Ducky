@@ -60,15 +60,15 @@ class EditBudget extends React.Component {
 		      <div>
       <h1 />
       <Grid centered>
-      <Grid.Column centered width={9}>
+      <Grid.Column centered width={7}>
       <Card fluid>
       <Label size="massive" fluid>Edit Budget</Label>
       <h1 />
-       <Grid.Column centered width={8}>
-      <Form onSubmit={this.handleSubmit}>
-      <Grid.Column>
+       <Grid.Column centered width={7}>
+      <Form fluid onSubmit={this.handleSubmit}>
         <Form.Input className="padding"
-          label={`Total Budget - $${state.totalBudget}`}
+          fluid
+          label=<h1>{`Total Budget - $${state.totalBudget}`}</h1>
           min={0}
           max={20000}
           value={state.totalBudget}
@@ -77,8 +77,8 @@ class EditBudget extends React.Component {
           step={10}
           type='range'
         />  
-      </Grid.Column>
-      <Grid.Column>
+      <br />
+      <Grid.Column centered>
         <Form.Input className="padding"
           label={`Monthly Expenses - $${state.monthlyExpenses}`}
           min={0}
@@ -90,7 +90,7 @@ class EditBudget extends React.Component {
           type='range'
         /> 
         </Grid.Column>
-        <Grid.Column>
+        <Grid.Column centered>
         <Form.Input className="padding"
           label={`Shopping - $${state.shopping}`}
           min={0}
@@ -102,7 +102,7 @@ class EditBudget extends React.Component {
           type='range'
         /> 
         </Grid.Column>
-        <Grid.Column>
+        <Grid.Column centered>
         <Form.Input className="padding"
           label={`Travel - $${state.travel}`}
           min={0}
@@ -115,7 +115,7 @@ class EditBudget extends React.Component {
         /> 
         </Grid.Column>
         <Grid.Row>
-        <Grid.Column>
+        <Grid.Column centered>
         <Form.Input className="padding"
           label={`Recreation - $${state.recreation}`}
           min={0}
@@ -127,7 +127,7 @@ class EditBudget extends React.Component {
           type='range'
         /> 
         </Grid.Column>
-        <Grid.Column>
+        <Grid.Column centered>
         <Form.Input className="padding"
           label={`Savings - $${state.savings}`}
           min={0}
@@ -139,7 +139,7 @@ class EditBudget extends React.Component {
           type='range'
         /> 
         </Grid.Column>
-        <Grid.Column>
+        <Grid.Column centered>
         <Form.Input className="padding"
           label={`Food - $${state.food}`}
           min={0}
@@ -150,9 +150,12 @@ class EditBudget extends React.Component {
           step={10}
           type='range'
         /> 
+        <br />
         </Grid.Column>
-        <h5>Other = ${this.state.other}</h5>
         </Grid.Row>
+        <Grid.Column centered className="padding">
+        <h5>Other = ${this.state.other}</h5>
+        </Grid.Column>
       <Button fluid type='submit'>Submit</Button>
       </Form>
       </Grid.Column>

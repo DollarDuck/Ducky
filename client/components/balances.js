@@ -16,7 +16,6 @@ class Balances extends Component {
     let chartData
     if (balances.length > 0) {
       chartData = processBalances(balances)
-    }
     return (
       <Container>
         <Divider hidden />
@@ -166,6 +165,7 @@ class Balances extends Component {
         )}
       </Container>
     )
+} else return null
   }
 }
 
