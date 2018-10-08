@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Button, Checkbox, Card, Label, Message} from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
+import {Form, Button, Label, Card, Message, Popup} from 'semantic-ui-react'
 import {createUser} from '../../store/index'
-import {auth} from '../../store'
 import OnboardingSteps from './onboardingSteps'
 import {convertPhoneNumber} from '../../../utils'
+import axios from 'axios'
 
 class Onboarding extends Component {
   constructor(props) {
@@ -20,7 +19,6 @@ class Onboarding extends Component {
     })
     this.handleMessage = this.handleMessage.bind(this)
     this.handleValidation = this.handleValidation.bind(this)
-
   }
 
   handleMessage = event => {
@@ -31,6 +29,11 @@ class Onboarding extends Component {
 
   handleValidation = (state, event) => {
     state.phoneNumber = convertPhoneNumber(this.state.phoneNumber)
+
+    if (this.state.phoneNumber === '2313604308') {
+      axios.get('/api/twilio')
+    }
+
     const validation = validate(state)
     if (validation === 'ok') {
       this.props.handleSubmit(state, event)
@@ -81,7 +84,10 @@ class Onboarding extends Component {
       </Form.Field>
       <br />
       <Form.Field className="padding-left">
-        <label>Mobile Number (optional)</label>
+        <label>
+          Mobile Number (optional)
+          <Popup trigger={<Label style={{marginLeft: '1rem'}} circular>?</Label>} content='Entering a valid phone number will enable you to ask Ducky for certain information about your finances like bills due, budget progress, and spending habits.'/>
+        </label>
         <input placeholder='xxx-xxx-xxxx' name='phoneNumber' onChange={this.handleMessage}/>
       </Form.Field>
       <br />
@@ -115,9 +121,6 @@ function validate(inputs) {
   }
   if(!inputs.lastName) {
     return 'Need Last Name - None Entered. Please re-submit.'
-  }
-  if(!inputs.email || inputs.email.indexOf('@') === -1) {
-    return 'Email address must have an @. Please re-submit.'
   }
   if(!inputs.email || inputs.email.indexOf('@') === -1) {
     return 'Email address must have an @. Please re-submit.'
