@@ -136,7 +136,7 @@ function commaFormat(num) {
       currentSalaryNPVArrayCum.push(currentSalaryNPVArray[i-1] + previousSum)
 
       if (i <= yearsOfSchool) {
-        expectedSalaryArray.push(0)
+        expectedSalaryArray.push(-1*tuition)
         expectedSalaryNPVArray.push(-1*Math.round(tuition / Math.pow(1+discountRate/100, i)))
        } else {
         salary = expectedSalary * Math.pow((1+esGrowth / 100), i-1-yearsOfSchool)
