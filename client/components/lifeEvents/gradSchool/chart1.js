@@ -15,6 +15,9 @@ class Chart1 extends Component {
 
     return (
       <div>
+              {chartData.breakeven && <Message color="blue"> After spending {commaFormat(((chartData.tuition*chartData.yearsOfSchool)))} on tuition, you will make back your grad school investment in {chartData.breakeven+year}. You'll be {chartData.age + chartData.breakeven} years old. This DOESN'T account for any student loan interest rates.
+        </Message>}
+        {!chartData.breakeven && <Message color="red"> Doesn't look like a great investment for you. You don't recoup your investment even when we exclude the time value of money.</Message>}
         <Bar
         data = {{
           labels: chartData.years,
@@ -33,10 +36,6 @@ class Chart1 extends Component {
         height='50%'
         />
         <br />
-
-        {chartData.breakeven && <Message> After spending {commaFormat(((chartData.tuition*chartData.yearsOfSchool)))} on tuition, you will make your tuition in increased salary in year {chartData.breakeven+year} on an undiscounted basis. You'll be {chartData.age + chartData.breakeven} years old.
-        </Message>}
-        {!chartData.breakeven && <Message> Doesn't look like a great investment for you. You don't recoup your investment even when we exclude the time value of money.</Message>}
 </div>
     )
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {addBill} from '../store/bills'
 import {updateBudget} from '../store/budget'
-import {Form, Container, Header, Grid, Button, Divider} from 'semantic-ui-react'
+import {Popup, Label, Form, Container, Header, Grid, Button, Divider} from 'semantic-ui-react'
 import {DateInput} from 'semantic-ui-calendar-react'
 
 const options = [
@@ -74,6 +74,7 @@ class NewBillForm extends React.Component {
           </Form.Group>
           <Form.Group>
             <Form.Checkbox label='Add this bill to my budget' onChange={this.toggle} checked={this.state.checked}/>
+              <Popup trigger={<Label style={{marginLeft: '1rem'}} circular>?</Label>} content='If you feel like this bill is already covered in your monthly expenses, do not check this box. If you would like to increase your budget by the cost of this bill, check this box.'/>
           </Form.Group>
           <Header as="h5">Due date*</Header>
           <Form.Field required>

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getBills, editBill, deleteBill, checkMonthly } from '../store/bills'
-import { Button, Container, Table, Icon, Grid, Divider, Header, Image } from 'semantic-ui-react'
+import { Radio, Button, Container, Table, Icon, Grid, Divider, Header, Image } from 'semantic-ui-react'
 import Calendar from './Calendar'
 
 class Bills extends React.Component {
@@ -59,8 +59,7 @@ class Bills extends React.Component {
               return (
               <Table.Row key={bill.id}>
                 <Table.Cell>
-                  <Button color="grey" toggle active={bill.paid} onClick={() => this.toggleBill(bill)}><Icon name='checkmark'> Yes</Icon></Button>
-                  <Button color={!bill.paid ? 'red' : 'grey'} onClick={() => this.toggleBill(bill)}><Icon name='x'> No</Icon></Button>
+                  <Radio toggle defaultChecked={bill.paid} onClick={() => this.toggleBill(bill)} />  {bill.paid ? 'Yes' : 'No'}
                 </Table.Cell>
                 <Table.Cell>{bill.name}</Table.Cell>
                 <Table.Cell>{bill.type}</Table.Cell>
