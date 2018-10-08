@@ -199,4 +199,21 @@ const getCategoryName = categoryId => {
 	}
 }
 
-module.exports = {getMonthYear, formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName,commaFormat, dataProcessor}
+function getDaysRemaining() {
+  let a = new Date()
+  let b = a.getDate()
+  a.setMonth((a.getMonth()+1) % 12)
+  a.setDate(1)
+  let c = a.getTime()
+  c = c - 24 * 60 * 60  * 1000
+  let d = new Date(c)
+  let e = d.getDate()
+  let returnObj = {
+    lastDayOfMonth: e,
+    daysRemaining: e-b,
+    today: b
+  }
+  return returnObj
+}
+
+module.exports = {getMonthYear, formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName,commaFormat, dataProcessor, getDaysRemaining}
