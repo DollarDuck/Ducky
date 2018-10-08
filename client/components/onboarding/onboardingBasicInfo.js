@@ -4,12 +4,7 @@ import {Form, Button, Label, Card, Message, Popup} from 'semantic-ui-react'
 import {createUser} from '../../store/index'
 import OnboardingSteps from './onboardingSteps'
 import {convertPhoneNumber} from '../../../utils'
-import twilio from 'twilio'
-import secrets from '../../../secrets'
-
-console.log('secrets', secrets)
-
-// const client = new twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN)
+import axios from 'axios'
 
 class Onboarding extends Component {
   constructor(props) {
@@ -24,7 +19,6 @@ class Onboarding extends Component {
     })
     this.handleMessage = this.handleMessage.bind(this)
     this.handleValidation = this.handleValidation.bind(this)
-
   }
 
   handleMessage = event => {
@@ -35,14 +29,9 @@ class Onboarding extends Component {
 
   handleValidation = (state, event) => {
     state.phoneNumber = convertPhoneNumber(this.state.phoneNumber)
-    console.log('formatted phone number', state.phoneNumber)
-    if (state.phoneNumber === '2313604308') {
-      client.messages.create({
-        body: 'What would you like to ask about today? Please choose bills or budgets, or try typing a business name.',
-        to: '+12313604308',  // Text this number
-        from: '+13124873258' // our Twilio number
-    })
-    .then((message) => console.log(message.sid))
+
+    if (this.state.phoneNumber === '2313604308') {
+      axios.get('/api/twilio')
     }
 
     const validation = validate(state)
@@ -95,8 +84,10 @@ class Onboarding extends Component {
       </Form.Field>
       <br />
       <Form.Field className="padding-left">
-        <label>Mobile Number (optional)</label>
-         <Popup trigger={<Label floating circular>?</Label>} content='Entering a valid phone number will enable you to ask Ducky for certain information about your finances like bills due, budget progress, and spending habits.'/>
+        <label>
+          Mobile Number (optional)
+          <Popup trigger={<Label style={{marginLeft: '1rem'}} circular>?</Label>} content='Entering a valid phone number will enable you to ask Ducky for certain information about your finances like bills due, budget progress, and spending habits.'/>
+        </label>
         <input placeholder='xxx-xxx-xxxx' name='phoneNumber' onChange={this.handleMessage}/>
       </Form.Field>
       <br />

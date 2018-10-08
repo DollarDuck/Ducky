@@ -1,4 +1,6 @@
 const isDev = process.env.NODE_ENV === 'development'
+const webpack = require('webpack')
+if (isDev) require('./secrets')
 
 module.exports = {
   mode: isDev ? 'development' : 'production',
@@ -22,5 +24,11 @@ module.exports = {
         loader: 'babel-loader'
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.TWILIO_SID': JSON.stringify(process.env.TWILIO_SID),
+      'process.env.TWILIO_TOKEN': JSON.stringify(process.env.TWILIO_TOKEN)
+    })
+  ]
 }

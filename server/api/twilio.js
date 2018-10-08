@@ -7,12 +7,15 @@ const {billQuery, budgetQuery, spendingQuery} = require('../services/twilio')
 const client = new twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN)
 
 //OUTBOUND MESSAGES
-// client.messages.create({
-//     body: 'What would you like to ask about today? Please choose bills or budgets, or try typing a business name.',
-//     to: '+12313604308',  // Text this number
-//     from: '+13124873258' // our Twilio number
-// })
-// .then((message) => console.log(message.sid))
+router.get('/', (req, res) => {
+    client.messages.create({
+        body: 'What would you like to ask about today? Please choose bills or budgets, or try typing a business name.',
+        to: '+12313604308',  // Text this number
+        from: '+13124873258' // our Twilio number
+    })
+    .then((message) => console.log(message.sid))
+    res.end()
+})
 
 
 //INBOUND MESSAGES
