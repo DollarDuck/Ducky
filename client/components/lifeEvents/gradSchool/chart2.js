@@ -2,37 +2,24 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {commaFormat, dataProcessor} from '../../../../utils'
-import {Message, Header, Statistic, Container, Image, Item} from 'semantic-ui-react'
+import {Grid, Form, Message, Header, Statistic, Container, Image, Item} from 'semantic-ui-react'
 import {Line} from 'react-chartjs-2';
 
 const year = (new Date()).getFullYear()
 
 class Chart2 extends Component {
-
+  state = {
+    discountRate: 6
+  }
+  updateRate = (event) => {
+    this.setState({ discountRate: event.target.value})
+  }
   render() {
     console.log(this.props.data)
-
     const chartData = dataProcessor(this.props.data)
-    const headerMessage = headerMessageFunc(chartData.breakevenNPV)
     const outputMessage = messageToDisplay(chartData.breakevenNPV, this.props.data.age)
-
     return (
       <div>
-        <Message color={headerMessage.color} >
-      <Item.Group>
-      <Item color={headerMessage.color} >
-      <Item.Image src="/clipartduck1.png" size="small" />
-      <Item.Content verticalAlign='middle'>
-      <Item.Header as='a'>
-        {headerMessage.header}
-      </Item.Header>
-      <p> - Professor Ducky </p>
-      </Item.Content>
-      </Item>
-      </Item.Group>
-      </Message>
-      <br />
-
       <Line
         data = {{
           labels: chartData.years,
@@ -63,10 +50,9 @@ class Chart2 extends Component {
        <Statistic.Label>NPV of Grad School Track </Statistic.Label>
      </Statistic>
      </Container>
-      <Message> Cumulative net present value represents the value of your stream of future income </Message>
-      {chartData.breakevenNPV && <Message>You will recoup your investment in {chartData.breakevenNPV} years ({year+chartData.breakevenNPV}). {outputMessage} </Message> }
-      {!chartData.breakevenNPV && <Message>Even until your retirement age, grad school does not make sense financially based on the inputs your have provided Professor Ducky</Message>}
-      <Header as='h3'>Chart based on a discount rate of {this.props.data.discountRate} % </Header>
+      <Message className="padding-left"> Cumulative net present value represents the value of your stream of future income </Message>
+      {chartData.breakevenNPV && <Message className="padding-left">You will recoup your investment in {chartData.breakevenNPV} years ({year+chartData.breakevenNPV}). {outputMessage} </Message> }
+      {!chartData.breakevenNPV && <Message className="padding-left">Even until your retirement age, grad school does not make sense financially based on the inputs your have provided Professor Ducky</Message>}
       </div>
     )
   }
@@ -137,24 +123,4 @@ function messageToDisplay(years, age) {
   return message
 }
 
-function headerMessageFunc(years) {
-  let returnObj = {}
-  if (years < 8 && years > 0) {
-    returnObj.color = 'green'
-    returnObj.header = 'Dear Little Duckling: Grad school is a wise investment for you!'
-  } else if (years<12 && years>0) {
-    returnObj.color='olive'
-    returnObj.header = 'Grad school will take around a decade to pay off but could be a wise choice'
-  }
-    else if (years < 18 && years > 0) {
-    returnObj.color = 'blue'
-    returnObj.header = 'Grad school will take time to make sense financially but the logic is there'
-  } else if (years >= 18 || !years ) {
-    returnObj.color = 'red'
-    returnObj.header = 'Grad school tuition is not a good idea for your wallet!'
-  } else {
-    returnObj.color = 'violet'
-    returnObj.header = 'I am Professor Ducky!'
-  }
-  return returnObj
-}
+

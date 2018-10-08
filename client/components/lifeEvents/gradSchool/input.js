@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Button, Checkbox, Card, Label, Icon, Container, Header} from 'semantic-ui-react'
+import {Item, Form, Button, Grid, Checkbox, Card, Label, Icon, Container, Message, Header} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import Chart1 from './chart1'
 import Chart2 from './chart2'
+import {dataProcessor} from '../../../../utils'
 
 class InputGradSchool extends Component {
   constructor(props) {
@@ -53,10 +54,11 @@ class InputGradSchool extends Component {
     console.log(this.state)
     const csGrowth = this.state.csGrowth
     const esGrowth = this.state.esGrowth
-    const discountRate = this.state.discountRate
+    const chartData = dataProcessor(this.state)
+    const headerMessage = headerMessageFunc(chartData.breakevenNPV)
     return (
       <div>
-      <Header as='h1' className="padding-left">Should you go to Grad School? Ducky will tell you ..he he</Header>
+      <Header as='h1' className="padding-left">Should you go to Grad School? Ducky will tell you!</Header>
       {this.state.display === 'input' &&
       <Form>
       <Form.Field className="padding-left">
@@ -120,26 +122,47 @@ class InputGradSchool extends Component {
    <br/>
     {this.state.display === 'chart1' && <Chart1 data={this.state}/>}
     {this.state.display === 'chart1' &&
-    <Button fluid color='white' onClick={()=>this.showChart('chart2')}><Label color='violet' size='massive'>Check it out on a discounted basis     <Icon name='arrow circle right' /></Label></Button>
+    <Button fluid color='white' onClick={()=>this.showChart('chart2')}><Label color='violet' size='massive'>Check out what it would look like with interest rates on mone     <Icon name='arrow circle right' /></Label></Button>
     }
 
 
-    {this.state.display === 'chart2' && <Chart2 data={this.state} /> }
-    {this.state.display === 'chart2' &&
-    <Form className="padding-left">
+    {this.state.display === 'chart2' && 
+         <div>
+        <Message color={headerMessage.color} >
+      <Item.Group>
+      <Item color={headerMessage.color} >
+      <Item.Image src="/clipartduck1.png" size="small" />
+      <Item.Content verticalAlign='middle'>
+      <Item.Header as='a'>
+        {headerMessage.header}
+      </Item.Header>
+      <p> - Professor Ducky </p>
+      </Item.Content>
+      </Item>
+      </Item.Group>
+      </Message>
+      <br />
+      <Grid centered>
+      <Grid.Column centered width={6}>
+      <Grid.Column centered width={4}>
+      <h3>Chart based on a interest rate of {this.state.discountRate} % </h3>
+      </Grid.Column>
+      <br />
+      <Form>
             <Form.Input
-              label='The discount rate accounts for time value of money. You should also take into account your student loan rate.'
-              min={1}
+              label='The interest rate accounts for the interest collected on any money borrowed per year'
               max={12}
               name='discountRate'
-              onChange={this.handleMessage}
               step={0.5}
               type='range'
-              value={discountRate}
+              onChange={this.handleMessage}
+              value={this.state.discountRate}
             />
-        <br />
       </Form>
-    }
+      </Grid.Column>
+      </Grid>
+      <Chart2 data={this.state} /> 
+      </div>}
     {this.state.display === 'chart2' && <div>
     <Link to='/me'><Button fluid color='white' onClick={()=>this.showChart('chart1')}><Label color='violet' size='massive'>Go to home page   <Icon name='arrow circle right' /></Label> </Button></Link>
     <Button fluid color='white' onClick={()=>this.showChart('chart1')}><Label color='violet' size='large'><Icon name='arrow circle left' />View your previous chart     </Label> </Button></div>
@@ -158,5 +181,27 @@ class InputGradSchool extends Component {
 
 
 export default connect(null, null)(InputGradSchool)
+
+function headerMessageFunc(years) {
+  let returnObj = {}
+  if (years < 8 && years > 0) {
+    returnObj.color = 'green'
+    returnObj.header = 'Dear Little Duckling: Grad school is a wise investment for you!'
+  } else if (years<12 && years>0) {
+    returnObj.color='olive'
+    returnObj.header = 'Grad school will take around a decade to pay off but could be a wise choice'
+  }
+    else if (years < 18 && years > 0) {
+    returnObj.color = 'blue'
+    returnObj.header = 'Grad school will take time to make sense financially but the logic is there'
+  } else if (years >= 18 || !years ) {
+    returnObj.color = 'red'
+    returnObj.header = 'Grad school tuition is not a good idea for your wallet!'
+  } else {
+    returnObj.color = 'violet'
+    returnObj.header = 'I am Professor Ducky!'
+  }
+  return returnObj
+}
 
 
