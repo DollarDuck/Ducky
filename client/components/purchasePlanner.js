@@ -37,7 +37,7 @@ class PurchasePlanner extends React.Component {
 	}
 	addToBudget = async () => {
 		const userId = this.props.match.params.userId
-		const cost = this.props.plan.costPerMonth
+		const cost = this.props.singlePlan.costPerMonth
 		await this.props.addPurchaseToBudget(cost, userId)
 		this.setState({isAdded: true})
 	}
