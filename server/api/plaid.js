@@ -90,7 +90,7 @@ router.get('/userTokens/:userId', async (req, res, next) => {
 router.post('/transactions/:userId', async (req, res, next) => {
   const userId = req.params.userId
   const lastUpdateDate = req.body.lastUpdateDate
-    try {
+
       const tokens = req.session.accessTokens
       const [endDate, startDate] = formatDate(lastUpdateDate)
 			let transactions = []
@@ -118,9 +118,6 @@ router.post('/transactions/:userId', async (req, res, next) => {
           }
         )
       }
-    } catch (error) {
-      console.error(error)
-    }
 })
 
 router.post('/saveTransactions', async (req, res, next) => {
@@ -146,7 +143,19 @@ router.post('/saveTransactions', async (req, res, next) => {
         budgetId: budget.dataValues.id
       }
     })
-    if(budgetItem) {
+    let transaction = await Transaction.findOrCreate({
+      where: {
+      name: currentTransaction.name,
+      amount: currentTransaction.amount,
+      userId: req.body.userId,
+     accountId: currentTransaction.account_id
+
+    },
+    defaults: {
+      date: currentTransaction.date,
+      categoryId: category[0].dataValues.id
+    }})
+    if(budgetItem && transaction[1]) {
       const mtdSpending = await MtdSpending.findOrCreate({
         where: {
           month: month,
@@ -160,18 +169,6 @@ router.post('/saveTransactions', async (req, res, next) => {
       const amount = Number(mtdSpending[0].dataValues.amount) + Number(currentTransaction.amount)
       await MtdSpending.update({amount: amount}, {where: {id: mtdSpending[0].dataValues.id}})
     }
-    let transaction = await Transaction.findOrCreate({
-      where: {
-      name: currentTransaction.name,
-      amount: currentTransaction.amount,
-      userId: req.body.userId,
-     accountId: currentTransaction.account_id
-
-    },
-    defaults: {
-      date: currentTransaction.date,
-      categoryId: category[0].dataValues.id
-    }})
     if(transaction.dataValues) returnTransactions.push(transaction.dataValues)
   }
   res.json(returnTransactions)
