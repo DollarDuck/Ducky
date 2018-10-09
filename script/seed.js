@@ -194,12 +194,91 @@ const transactions = [{
   accountId: 'Checking Account',
   userId: 1,
   categoryId: 9
-}]
+},{
+  name: 'Portillo Hot Dog',
+  amount: 12.99,
+  date: '2018-09-04',
+  accountId: 'Credit Card',
+  userId: 1,
+  categoryId: 9
+},{
+  name: 'Portillo Hot Dog',
+  amount: 12.99,
+  date: '2018-09-04',
+  accountId: 'Credit Card',
+  userId: 1,
+  categoryId: 9
+},
+{
+  name: 'Naan Sense',
+  amount: 14.23,
+  date: '2018-09-12',
+  accountId: 'Credit Card',
+  userId: 1,
+  categoryId: 9
+},
+{
+  name: 'Panda Express',
+  amount: 39.99,
+  date: '2018-09-17',
+  accountId: 'Credit Card',
+  userId: 1,
+  categoryId: 9
+},
+{
+  name: 'Pret A Manger - Loop',
+  amount: 5.56,
+  date: '2018-09-14',
+  accountId: 'Checking Account',
+  userId: 1,
+  categoryId: 9
+},
+{
+  name: 'Alinea',
+  amount: 475.34,
+  date: '2018-09-12',
+  accountId: 'Credit Card',
+  userId: 1,
+  categoryId: 9
+},
+{
+  name: 'Transfer',
+  amount: 300.00,
+  date: '2018-09-16',
+  accountId: 'Savings Account',
+  userId: 1,
+  categoryId: 9
+},
+{
+  name: 'Metra BNSF Tickets',
+  amount: 123.00,
+  date: '2018-09-01',
+  accountId: 'Checking Account',
+  userId: 1,
+  categoryId: 4
+},
+{
+  name: 'AMC Cicero 14',
+  amount: 22.00,
+  date: '2018-09-01',
+  accountId: 'Checking Account',
+  userId: 1,
+  categoryId: 6
+},
+{
+  name: 'Berwyn Toys & Trains',
+  amount: 68.77,
+  date: '2018-09-20',
+  accountId: 'Credit Card',
+  userId: 1,
+  categoryId: 3
+}
+]
 
 
 const balances = [{
-  amount: 8000,
-  amountAvailable: 1000,
+  amount: 2345.99,
+  amountAvailable: 2400,
   date: '2018-10-04',
   accountId: 'Checking Account',
   name: 'Checking Account',
@@ -209,8 +288,8 @@ const balances = [{
   userId: 1
 },
 {
-  amount: 3000,
-  amountAvailable: 1000,
+  amount: 3199.49,
+  amountAvailable: 3000,
   date: '2018-10-04',
   accountId: 'Savings Account',
   name: 'Savings Account',
@@ -220,8 +299,8 @@ const balances = [{
   userId: 1
 },
 {
-  amount: 10000,
-  amountAvailable: 700,
+  amount: 2001.43,
+  amountAvailable: 2000,
   date: '2018-10-04',
   accountId: 'Credit Card',
   name: 'Credit Card',
@@ -229,7 +308,28 @@ const balances = [{
   type: 'credit',
   subtype: 'checking',
   userId: 1
-}]
+},{
+  amount: 555.55,
+  amountAvailable: 2000,
+  date: '2018-10-04',
+  accountId: 'Credit Card Gold',
+  name: 'Credit Card Gold Platinum Ultra Rewards',
+  officialName: 'Credit Card Gold Platinum Ultra Rewards',
+  type: 'credit',
+  subtype: 'credit card',
+  userId: 1
+},{
+  amount: 204.00,
+  amountAvailable: 222,
+  date: '2018-10-04',
+  accountId: 'Department Store Card',
+  name: 'Department Store Card',
+  officialName: 'Department Store Card',
+  type: 'credit',
+  subtype: 'credit card',
+  userId: 1
+}
+]
 
 async function seed() {
   await db.sync({force: true})
@@ -250,10 +350,28 @@ async function seed() {
   categoryId: 9,
   userId: 1 ,
   budgetItemId: budgetItemsDB[5].dataValues.id
+},{amount: 861.10,
+  month: '09',
+  year: '2018',
+  categoryId: 9,
+  userId: 1 ,
+  budgetItemId: budgetItemsDB[5].dataValues.id
 },
+
+
+
 {
   amount: 175.33,
   month: '10',
+  year: '2018',
+  categoryId: 6,
+  userId: 1,
+  budgetItemId: budgetItemsDB[3].dataValues.id
+},
+
+{
+  amount: 22,
+  month: '09',
   year: '2018',
   categoryId: 6,
   userId: 1,
@@ -268,10 +386,27 @@ async function seed() {
   budgetItemId: budgetItemsDB[1].dataValues.id
 },
 {
+  amount: 68.77,
+  categoryId: 3,
+  month: '09',
+  year: '2018',
+  userId: 1,
+  budgetItemId: budgetItemsDB[1].dataValues.id
+},
+{
   amount: 700,
   amountAvailable: 500,
   categoryId: 4,
   month: '10',
+  year: '2018',
+  userId: 1,
+  budgetItemId: budgetItemsDB[2].dataValues.id
+},
+{
+  amount: 123,
+  amountAvailable: 500,
+  categoryId: 4,
+  month: '09',
   year: '2018',
   userId: 1,
   budgetItemId: budgetItemsDB[2].dataValues.id
