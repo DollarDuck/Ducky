@@ -4,6 +4,8 @@ import { Container, Header, Icon, Divider } from 'semantic-ui-react'
 import { Doughnut } from 'react-chartjs-2'
 import dateFns from 'date-fns'
 import { getTransactionsByUser } from '../store/plaid'
+import {ensureTwoDecimals, commaFormat} from '../../utils'
+
 
 class SpendingDoughnut extends Component {
   state = {
@@ -72,6 +74,22 @@ class SpendingDoughnut extends Component {
             }
           ]
         }}
+        options={{
+          tooltips: {
+            callbacks: {
+            beforeLabel: function(tooltipItem, data) {
+              return data.labels[tooltipItem.index]
+            },
+            label: function(tooltipItem, data) {
+              let value = data.datasets[0].data[tooltipItem.index]
+              return ' '+ensureTwoDecimals(commaFormat(Math.round(value * 100) / 100))
+            }
+          },
+          bodyFontSize: 22
+        }}
+
+        }
+
       />}
       </Container>
     )
@@ -120,9 +138,9 @@ function formatDonutData(totalsObj) {
     colors: []
   }
   let colorArray = [
-    '#DF4B26',
-    '#14D4E4',
-    '#DB14E4',
+    '#99EF0B',
+    '#EF380B',
+    '#57F9E5',
     '#F7DC6F',
     '#F14FA7',
     '#4F79F1',
