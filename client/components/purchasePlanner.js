@@ -140,7 +140,7 @@ class PurchasePlanner extends React.Component {
 		      		) : (
 		      		<div>
 		      		<Card.Content><Card.Meta><h2 className="padding black">Purchase added to budget</h2></Card.Meta></Card.Content>
-		      		<NavLink to="/me"><Button fluid color="blue" size ="large">Back to Home</Button></NavLink>
+		      		<NavLink to="/me"><Button fluid size ="large">Back to Home</Button></NavLink>
 		      		</div>
 		      		)}
 		      		</div>

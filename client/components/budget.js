@@ -96,19 +96,19 @@ class Budget extends React.Component {
         datasets: [
           {
             label: 'Month to Date Spending',
-            backgroundColor: 'rgba(255,99,132,0.2)',
+            backgroundColor: 'rgba(255,99,132,0.7)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
-            hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+            hoverBackgroundColor: 'rgba(255,99,132,0.7)',
             hoverBorderColor: 'rgba(255,99,132,1)',
             data: spendingData
           },
           {
             label: 'Budget',
-            backgroundColor: 'rgb(204, 196, 223, 0.2)',
+            backgroundColor: 'rgb(204, 196, 223, 0.7)',
             borderColor: 'rgb(204, 196, 223,1)',
             borderWidth: 1,
-            hoverBackgroundColor: 'rgb(204, 196, 223,0.4)',
+            hoverBackgroundColor: 'rgb(204, 196, 223,0.7)',
             hoverBorderColor: 'rgb(204, 196, 223,1)',
             data: amountData
           }
@@ -145,11 +145,13 @@ class Budget extends React.Component {
             <div className="header row flex-middle">
               <div className="col col-start" onClick={this.prevMonth}>
                 <Icon name="chevron left" />
+                Previous Month
               </div>
               <div className="col col-center">
                 <Header>{dateFns.format(this.state.date, dateFormat)}</Header>
               </div>
               <div className="col col-end" onClick={this.nextMonth}>
+                Next Month
                 <Icon name="chevron right" />
               </div>
             </div>
@@ -162,34 +164,65 @@ class Budget extends React.Component {
               />
               {this.state.date.getMonth() === new Date().getMonth() ?
               <div>
+              <Grid centered>
+              <h3 />
               <Statistic>
                 <Statistic.Value>
                   {Math.abs(Math.round(donutData.daysAOB))}
                 </Statistic.Value>
+                <div className="padding-left">
                 <Statistic.Label>
                   Day(s) {donutData.daysAOB >= 0 ? ' ahead ' : ' behind '}{' '}
                   schedule
                 </Statistic.Label>
+                </div>
               </Statistic>
-
+              <h3 />
               <Statistic>
                 <Statistic.Value>
                   ${Math.round(donutData.dailyIdeal)}
                 </Statistic.Value>
+                <div className="padding-left">
                 <Statistic.Label>Budgeted Disc. Spend Per Day</Statistic.Label>
+                </div>
               </Statistic>
-
+              <h3 />
               <Statistic>
                 <Statistic.Value>
                   ${Math.round(
                     Math.abs(donutData.dailyIdeal * donutData.daysAOB)
                   )}
                 </Statistic.Value>
+                <div className="padding-left">
                 <Statistic.Label>
                   Total Amount {donutData.daysAOB >= 0 ? ' under ' : ' over '}{' '}
                   budget
                 </Statistic.Label>
+                </div>
               </Statistic>
+              </Grid>
+               <Table color="purple">
+              <Table.Row>
+                <Table.Cell>
+                  Total Discretionary Spending (month-to-date):{' '}
+                </Table.Cell>
+                <Table.Cell>
+                  ${(Math.round(100 * donutData.discSpendingMTD) / 100).toFixed(
+                    2
+                  )}
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  Total Discretionary Spending for Entire Month:{' '}
+                </Table.Cell>
+                <Table.Cell>
+                  ${(Math.round(100 * donutData.totalDiscBudget) / 100).toFixed(
+                    2
+                  )}
+                </Table.Cell>
+              </Table.Row>
+            </Table>
               </div>
               : null }
             </div>
@@ -227,28 +260,7 @@ class Budget extends React.Component {
                 }}
               />
             </div>
-            <Table>
-              <Table.Row>
-                <Table.Cell>
-                  Total Discretionary Spending (month-to-date):{' '}
-                </Table.Cell>
-                <Table.Cell>
-                  ${(Math.round(100 * donutData.discSpendingMTD) / 100).toFixed(
-                    2
-                  )}
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  Total Discretionary Spending for Entire Month:{' '}
-                </Table.Cell>
-                <Table.Cell>
-                  ${(Math.round(100 * donutData.totalDiscBudget) / 100).toFixed(
-                    2
-                  )}
-                </Table.Cell>
-              </Table.Row>
-            </Table>
+           
           </Container>
           <h1 />
           <Grid centered>
@@ -334,11 +346,11 @@ function getDonutData2(budgetArray, spendingArray, labelArray) {
         data: donutDataArray,
         backgroundColor: [
           '#EFC90B', //monthly expenses
-          'rgb(048, 016, 078)',
-          'rgb(91, 59, 140)',
-          'rgb(118, 093, 160)',
-          'rgb(147, 128, 182)',
-          'rgb(204, 196, 223)',
+          'rgba(048, 016, 078, 0.7)',
+          'rgba(91, 59, 140, 0.7)',
+          'rgba(118, 093, 160, 0.7)',
+          'rgba(147, 128, 182, 0.7)',
+          'rgba(204, 196, 223, 0,7)',
           '#376A39', //savings
           '#91CC93', //big purchases
           '#D3D3D3'

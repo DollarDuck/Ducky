@@ -48,13 +48,17 @@ class SpendingDoughnut extends Component {
       <Container>
         <Divider hidden />
         <div className="header row flex-middle">
+        <Divider hidden />
+        <br />
           <div className="col col-start" onClick={this.prevMonth}>
             <Icon name="chevron left" />
+            Previous Month
           </div>
           <div className="col col-center">
             <Header>{dateFns.format(this.state.date, dateFormat)}</Header>
           </div>
           <div className="col col-end" onClick={this.nextMonth}>
+            Next Month
             <Icon name="chevron right" />
           </div>
         </div>
