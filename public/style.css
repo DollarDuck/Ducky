@@ -24,6 +24,22 @@ form div {
   display: inline-block;
 }
 
+.padding-icon-right {
+  padding: 70px 0px 0px 0px
+}
+
+.padding-icon-left {
+  padding: 70px 0px 0px 30px;
+}
+.emoji-size {
+  max-height: 26px;
+  max-width: 26px;
+}
+.emoji-size-lunch {
+  max-height: 40px;
+  max-width: 40px;
+}
+
 .min-width {
   max-width: 300px;
 }

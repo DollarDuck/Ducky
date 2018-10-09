@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, Card, Label, Form, Button, Image} from 'semantic-ui-react'
+import {Segment, Grid, Card, Label, Form, Button, Image, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {calculatePlan, clearState} from '../store/purchasePlanner'
 import {addPurchaseToBudget} from '../store/budget'
@@ -16,10 +16,13 @@ const mapState = state => ({
 	multiplePlan: state.purchases.multipleOptions
 })
 
+
 class PurchasePlanner extends React.Component {
 	state = {
 		isSubmitted: false,
 		isAdded: false,
+		compareArr: [],
+		compareName: ''
 	}
 	componentDidMount() {
 		this.props.clearState()
@@ -33,7 +36,28 @@ class PurchasePlanner extends React.Component {
       		numMonths: event.target.numMonths.value
 		}
 		await this.props.calculatePlan(formInfo)
-		this.setState({ isSubmitted: true})
+		let latteArray = []
+		const numLattes = this.props.singlePlan.numLattes
+		latteArray = Array(numLattes).fill('/latte.png')
+		this.setState({ isSubmitted: true,
+						compareArr: latteArray,
+						compareName: `${numLattes} lattes per month`
+					})
+
+	}
+	switchLeft = () => {
+		const numLunches = this.props.singlePlan.numLunches
+		const lunchesArray = Array(numLunches).fill('/lunches.png')
+		this.setState({ compareArr: lunchesArray,
+						compareName: `${numLunches} lunches out per month`})
+	}
+	switchRight = () => {
+		const numLattes = this.props.singlePlan.numLattes
+		const latteArray = Array(numLattes).fill('/latte.png')
+		this.setState({ 
+						compareArr: latteArray,
+						compareName: `${numLattes} lattes per month`
+					})
 	}
 	addToBudget = async (plan) => {
 		const userId = this.props.match.params.userId
@@ -55,17 +79,37 @@ class PurchasePlanner extends React.Component {
 		      		<div>
 		      		{!this.state.isAdded  ? (
 		      			<div>
-		      			{!this.props.multiplePlan.length ? (
+		      			{!this.props.multiplePlan.length ? 
+		      			(
 		      			<div>
 		      		<Card.Content><Card.Meta><p className="padding black">Based on your {this.props.singlePlan.numMonths} month plan, you'd need to save {this.props.singlePlan.costPerMonth} every month. This would be {this.props.singlePlan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
-		      		<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about {this.props.singlePlan.numLattes} lattes each month, or {this.props.singlePlan.numLunches} lunches out</p></Card.Meta></Card.Content>
-		      		<Image src="/purchaseplanner.jpg" />
+		      		<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about:</p></Card.Meta></Card.Content>		      		<Grid.Row centered width={2}>
+		      		<div onClick={this.switchLeft} className="padding-icon-left">
+		      			<Icon name="chevron left" />
+		      		</div>
+		      		<Grid.Column>
+		      		<Card centered width={1}>
+		      		<Label fluid size="big">{this.state.compareName}</Label>
+		      		<br />
+		      		<Grid.Row>
+		      		{this.state.compareArr.map((compareItem) => {
+		      			return <img src={compareItem} className="emoji-size"/>
+		      		})}
+		      		</Grid.Row>
+		      		</Card>
+		      		</Grid.Column>
+		      		<div onClick={this.switchRight} className="padding-icon-right">
+		      			<Icon name="chevron right" />
+		      		</div>
+		      		</Grid.Row>
+		      		<h1 />
 		      		<Button fluid size ="large" onClick={() => this.addToBudget(this.props.singlePlan)}>Add To Budget</Button>
 		      		<NavLink to="/me"><Button fluid color="grey" size ="large">Skip and return to Home</Button></NavLink>
 		      		</div>
 		      		) : (
 		      			<div>
 		      				<Card.Content><Card.Meta><p className="padding black">Here are several options on how you can save for this purchase:</p></Card.Meta></Card.Content>
+		      				<Grid.Row>
 		      				{this.props.multiplePlan.map((plan) => {
 		      					return (
 		      						<div key={plan.costPerMonth}>
@@ -80,6 +124,7 @@ class PurchasePlanner extends React.Component {
 		      						</div>
 		      				)
 		      				})}
+		      				</Grid.Row>
 		      				<NavLink to="/me"><Button fluid color="grey" size ="large">Skip and return to Home</Button></NavLink>
 				      	</div>
 
