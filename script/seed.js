@@ -32,7 +32,7 @@ id: 10}]
 const bills = [{
   name: 'Chicago Electric',
   type: 'Electric',
-  dueDate: '10-23-2018',
+  dueDate: '10-24-2018',
   recurring: '',
   paid: true,
   amount: 23.12,
@@ -107,11 +107,6 @@ const budgetItems = [{
 {
   amount: 500,
   categoryId: 9,
-  budgetId: 1,
-},
-{
-  amount: 400,
-  categoryId: 10,
   budgetId: 1,
 },
 {

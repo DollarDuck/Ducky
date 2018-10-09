@@ -29,6 +29,14 @@ h5, h6 {
     color: #000080;
 }
 
+.font-body{
+     font-family: 'K2D', sans-serif, bold;
+}
+
+.font-header {
+  font-family: 'Berkshire Swash', cursive;
+}
+
 .background {
 
 }
@@ -39,6 +47,10 @@ h5, h6 {
 
 .ui.attached {
   max-width: 70% !important;
+}
+
+.ui.header {
+  font-family: 'Berkshire Swash', cursive;
 }
 
 h1, h2, h3, h4 {

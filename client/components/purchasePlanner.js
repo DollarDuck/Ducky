@@ -73,9 +73,8 @@ class PurchasePlanner extends React.Component {
 		      <Grid centered>
 		      <Grid.Column centered width={5}>
 		      <Card fluid centered>
-		      <Label size="massive" >Purchase Planner</Label>
+		      <Label size="massive" ><h2 className="font-header">Purchase Planner</h2></Label>
 		      <div className="padding-left">
-		      <Card.Header as="h4">Plan your next big purchase!</Card.Header>
 		      </div>
 		      {this.state.isSubmitted ?
 		      	(
@@ -140,14 +139,15 @@ class PurchasePlanner extends React.Component {
 		      		</div>
 		      		) : (
 		      		<div>
-		      		<Card.Content><Card.Meta><h2 className="padding black">Purchase added to budget</h2></Card.Meta></Card.Content>
+		      		<Card.Content><Card.Meta><h4 className="padding black bold font-body">Purchase added to budget</h4></Card.Meta></Card.Content>
 		      		<NavLink to="/me"><Button fluid size ="large">Back to Home</Button></NavLink>
 		      		</div>
 		      		)}
 		      		</div>
 		      	) : (
 		      		<div>
-		      <h1 />
+		      		<Card.Header><h4 className="padding-left font-body">Plan your next big purchase!</h4></Card.Header>
+		      <h3 />
 		      <Form onSubmit={this.handleSubmit}>
 		      <Form.Field className="padding-large" width={12}>
 		        <label>Purchase name:</label>
