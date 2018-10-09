@@ -1,10 +1,26 @@
 body {
-  font-family: 'Berkshire Swash', cursive !important;
+  font-family: 'K2D', sans-serif;
   background-color: #FDF5D7
 }
 
 a {
   text-decoration: none;
+}
+
+h5, h6 {
+  font-family: 'K2D', sans-serif !important;
+}
+
+.ui {
+  font-family: 'K2D', sans-serif;
+}
+
+.ui.attached {
+  max-width: 70% !important;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Berkshire Swash', cursive !important;
 }
 
 label {

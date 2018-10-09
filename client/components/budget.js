@@ -87,12 +87,9 @@ class Budget extends React.Component {
     const dateFormat = 'MMMM YYYY'
     if (this.props.budget[0] && this.props.spending[0]) {
       const budget = this.props.budget[0]
-      console.log('budget', budget)
       const [labels, amountData, spendingData] = this.formatBarData(budget)
 
       const donutData = getDonutData2(amountData, spendingData, labels)
-      console.log('after func')
-      console.log(donutData)
 
       const data = {
         labels: labels,
@@ -322,8 +319,6 @@ function getDonutData2(budgetArray, spendingArray, labelArray) {
 
   donutDataArray = donutDataArrayBeforeBudgetRemaining.slice()
   donutDataArray.push(budgetRemaining)
-
-  console.log(donutLabelArray, donutDataArray)
 
   const daysLeft = getDaysRemaining()
 

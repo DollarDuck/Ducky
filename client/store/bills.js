@@ -54,7 +54,6 @@ export const editBill = bill => async dispatch => {
 export const deleteBill = billId => async dispatch => {
   try {
     const { data } = await axios.delete(`/api/bills/${billId}`)
-    console.log('bill data', data)
     dispatch(deletedBill(data))
   } catch (err) {
     console.error(err)
