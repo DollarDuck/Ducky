@@ -7,15 +7,37 @@ import {
   getAllBankInfo,
   getTransactionsByBank
 } from '../store/plaid'
-import {Menu, Header, Dropdown, Label, Grid} from 'semantic-ui-react'
+import {Menu, Header, Dropdown, Label, Grid, Icon} from 'semantic-ui-react'
 import {reformatDate, reformatAmount} from '../../utils'
 
 class Transactions extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      sorted: false,
+      nameSort: false,
+      amountSort: false,
+      dateSort: false
+    }
+    this.handleSort = this.handleSort.bind(this)
+  }
 
 	componentDidMount() {
     const userId = this.props.user.id
     this.props.getTransactions(userId)
     this.props.getAllBankInfo(userId)
+  }
+
+  handleSort = (field) => {
+    let stateChange = {}
+    stateChange.sorted = field
+    // if (field !== 'name') { stateChange.nameSort = false }
+    // if (field !== 'amount') { stateChange.amountSort = false}
+    // if (field !== 'date') { stateChange.dateSort = false }
+    stateChange[field+'Sort'] = !this.state[field+'Sort']
+    this.setState(stateChange)
+
   }
 
   handleSelect = (event, data) => {
@@ -27,7 +49,13 @@ class Transactions extends React.Component {
     }
   }
   render() {
-    if (this.props.transactions.length) {
+    let transactions = this.props.transactions
+    if(this.state.sorted) {
+      const x = sortFunc(transactions, this.state)
+      transactions = x
+    }
+
+    if (transactions.length) {
       const accounts = this.props.accounts.concat([
         {text: 'All Accounts', value: 'allBanks'}
       ])
@@ -51,13 +79,26 @@ class Transactions extends React.Component {
           <table className="ui celled striped table">
             <thead>
               <tr>
-                <th>Transaction Name</th>
-								<th>Transaction Amount</th>
-								<th>Date of Transaction</th>
+                <th onClick={()=>this.handleSort('name')}>Transaction Name
+                {this.state.sorted === 'name' ? (
+                (this.state.nameSort === false) ?
+                <Icon name='sort down' /> : <Icon name='sort up' /> ) :
+                <Icon name='sort' />}
+                </th>
+								<th onClick={()=>this.handleSort('amount')}>Transaction Amount
+                {this.state.sorted === 'amount' ? (
+                (this.state.amountSort === false) ?
+                <Icon name='sort down' /> : <Icon name='sort up' />) :  <Icon name='sort'/>}
+                </th>
+								<th onClick={()=>this.handleSort('date')}>Date of Transaction
+                {this.state.sorted === 'date' ? (
+                (this.state.dateSort === false) ?
+                <Icon name='sort down' /> : <Icon name='sort up' />) :  <Icon name='sort' />}
+                </th>
               </tr>
             </thead>
             <tbody>
-              {this.props.transactions.map(transaction => {
+              {transactions.map(transaction => {
                 return (
                   <tr key={transaction.id}>
                     <td>{transaction.name}</td>
@@ -99,3 +140,31 @@ const mapState = state => ({
 })
 
 export default withRouter(connect(mapState, mapDispatch)(Transactions))
+
+
+function sortFunc(transactions, state) {
+  const item = state.sorted
+  const isAscending = (state[item+'Sort']) ? 1 : -1
+
+  const x = transactions.sort(function(a, b){
+    if (item === 'name') {
+      if(a[item] > b[item]) {return isAscending}
+      if(a[item] < b[item]) {return -1*isAscending}
+      return 0
+    }
+
+    if (item ==='date') {
+      if(Date.parse(a[item]) > Date.parse(b[item])) {return isAscending}
+      if(Date.parse(a[item]) < Date.parse(b[item])) {return -1*isAscending}
+      return 0
+    }
+
+    if (item ==='amount') {
+      if(Number(a[item]) > Number(b[item])) {return isAscending}
+      if(Number(a[item]) < Number(b[item])) {return -1*isAscending}
+      return 0
+    }
+  })
+  return x
+
+}
