@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import {Step, Icon} from 'semantic-ui-react'
+import {Step, Icon, Divider} from 'semantic-ui-react'
 
 class OnboardingSteps extends Component {
   render() {
     const step = this.props.step
     return (
       <Step.Group attached="top">
+      <Divider hidden />
         <Step active={step === 'step1'}>
           <Icon name="user" />
           <Step.Content>

@@ -15,8 +15,25 @@ h5, h6 {
   font-family: 'K2D', sans-serif;
 }
 
-.ui.attached {
+.pushable {
+  height: 100vh;
+}
+
+.ui.inverted.menu {
+  background-color: #C1F6F8;
+}
+
+.ui.inverted.icon.menu .item {
+  color: black;
+}
+
+.ui.attached.segment {
   max-width: 70% !important;
+}
+
+.ui.attached.steps {
+  max-width: 70% !important;
+  margin-top: 12px;
 }
 
 h1, h2, h3, h4 {
@@ -364,6 +381,8 @@ main {
   border: none;
   --text-color: black;
   line-height: 1;
+  font-family: Icons;
+  background: none;
 }
 
 #navBar {

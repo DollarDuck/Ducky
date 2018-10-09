@@ -11,7 +11,6 @@ import {
   Onboarding,
   OnboardingBudget,
   Plaid,
-  Dashboard,
   Bills,
   NewBillForm,
   OnboardingLink,
@@ -19,8 +18,7 @@ import {
   EditUser,
   UserProfile,
   SpendingMenu,
-  GradSchoolInput,
-  SidebarMenu
+  GradSchoolInput
 } from './components'
 import {me} from './store'
 import {Sidebar} from 'semantic-ui-react'
@@ -37,7 +35,7 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-<Sidebar.Pusher>
+<Sidebar.Pusher dimmed={this.props.visible}>
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
@@ -55,7 +53,6 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/balances" component={Balances} />
             <Route path="/spending/:userId" component={SpendingMenu} />
-            <Route path="/me" component={Dashboard} />
             <Route path="/userProfile" component={UserProfile} />
             <Route path="/bills/addbill/:userId" component={NewBillForm} />
             <Route path="/bills/:userId" component={Bills} />

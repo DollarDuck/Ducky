@@ -236,11 +236,11 @@ class InputGradSchool extends Component {
 
               <Button
                 as={Link}
-                to="/me"
+                to={`/budget/${this.props.user.id}`}
                 size="large"
                 onClick={() => this.showChart('chart1')}
               >
-                Return to home <Icon name="arrow circle right" />{' '}
+                Return to Budget <Icon name="arrow circle right" />{' '}
               </Button>
 
               <Divider hidden />
@@ -259,7 +259,13 @@ class InputGradSchool extends Component {
   }
 }
 
-export default connect(null, null)(InputGradSchool)
+const mapState = state => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapState, null)(InputGradSchool)
 
 function headerMessageFunc(years) {
   let returnObj = {}

@@ -3,7 +3,7 @@ import {Grid, Card, Label, Form, Button, Image} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {calculatePlan, clearState} from '../store/purchasePlanner'
 import {addPurchaseToBudget} from '../store/budget'
-import {NavLink} from 'react-router-dom'
+import {NavLink, Link} from 'react-router-dom'
 
 const mapDispatch = dispatch => ({
 	calculatePlan: (formInfo) => dispatch(calculatePlan(formInfo)),
@@ -12,6 +12,7 @@ const mapDispatch = dispatch => ({
 })
 
 const mapState = state => ({
+	user: state.user,
 	singlePlan: state.purchases.singleOption,
 	multiplePlan: state.purchases.multipleOptions
 })
@@ -61,7 +62,7 @@ class PurchasePlanner extends React.Component {
 		      		<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about {this.props.singlePlan.numLattes} lattes each month, or {this.props.singlePlan.numLunches} lunches out</p></Card.Meta></Card.Content>
 		      		<Image src="/purchaseplanner.jpg" />
 		      		<Button fluid size ="large" onClick={() => this.addToBudget(this.props.singlePlan)}>Add To Budget</Button>
-		      		<NavLink to="/me"><Button fluid color="grey" size ="large">Skip and return to Home</Button></NavLink>
+		      		<NavLink to={`/budget/${this.props.user.id}`}><Button fluid color="grey" size ="large">Skip and return to Budget</Button></NavLink>
 		      		</div>
 		      		) : (
 		      			<div>
@@ -80,7 +81,7 @@ class PurchasePlanner extends React.Component {
 		      						</div>
 		      				)
 		      				})}
-		      				<NavLink to="/me"><Button fluid color="grey" size ="large">Skip and return to Home</Button></NavLink>
+		      				<NavLink to={`/budget/${this.props.user.id}`}><Button fluid color="grey" size ="large">Skip and return to Budget</Button></NavLink>
 				      	</div>
 
 		      		)}
@@ -88,7 +89,7 @@ class PurchasePlanner extends React.Component {
 		      		) : (
 		      		<div>
 		      		<Card.Content><Card.Meta><h2 className="padding black">Purchase added to budget</h2></Card.Meta></Card.Content>
-		      		<NavLink to="/me"><Button fluid color="blue" size ="large">Back to Home</Button></NavLink>
+		      		<Button as={Link} to={`/budget/${this.props.user.id}`} fluid color="blue" size ="large">See my new budget</Button>
 		      		</div>
 		      		)}
 		      		</div>

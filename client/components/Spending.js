@@ -37,7 +37,6 @@ class SpendingMenu extends React.Component {
           <hr />
         </Menu>
         <h1 />
-          <Link to="/me"><Button size="large" floated='left'>Back to Home</Button></Link>
 
         {this.state.activeItem === 'transactions'
         ? <Transactions />
