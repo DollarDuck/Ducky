@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {Menu, Header} from 'semantic-ui-react'
+import {Menu} from 'semantic-ui-react'
 import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
@@ -10,7 +10,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <Menu.Item>
       <img src='/duck.svg' />
     </Menu.Item>
-    <Menu.Item><h2 className="no-padding">Dollar Ducky</h2><h5 className="no-padding">get your ducks in a row</h5></Menu.Item>
+    <Menu.Item><h2 className="no-padding">Dollar Ducky</h2><h5 className="no-padding">get your financial ducks in a row</h5></Menu.Item>
       {isLoggedIn ? (
         <Menu.Menu position='right' id="navBar">
           {/* The navbar will show these links after you log in */}
