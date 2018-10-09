@@ -17,7 +17,7 @@ import {
 import {Link} from 'react-router-dom'
 import {Doughnut, HorizontalBar} from 'react-chartjs-2'
 import dateFns from 'date-fns'
-import {getCategoryName, commaFormat, getDaysRemaining} from '../../utils'
+import {getCategoryName, commaFormat, getDaysRemaining, ensureTwoDecimals} from '../../utils'
 import EditBudget from './editBudget'
 
 class Budget extends React.Component {
@@ -189,9 +189,9 @@ class Budget extends React.Component {
               <h3 />
               <Statistic>
                 <Statistic.Value>
-                  ${Math.round(
+                  {commaFormat(Math.round(
                     Math.abs(donutData.dailyIdeal * donutData.daysAOB)
-                  )}
+                  ))}
                 </Statistic.Value>
                 <div className="padding-left">
                 <Statistic.Label>
@@ -207,9 +207,9 @@ class Budget extends React.Component {
                   Total Discretionary Spending (month-to-date):{' '}
                 </Table.Cell>
                 <Table.Cell>
-                  ${(Math.round(100 * donutData.discSpendingMTD) / 100).toFixed(
+                  ${commaFormat((Math.round(100 * donutData.discSpendingMTD) / 100).toFixed(
                     2
-                  )}
+                  ))}
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
@@ -217,9 +217,9 @@ class Budget extends React.Component {
                   Total Discretionary Spending for Entire Month:{' '}
                 </Table.Cell>
                 <Table.Cell>
-                  ${(Math.round(100 * donutData.totalDiscBudget) / 100).toFixed(
+                  ${commaFormat((Math.round(100 * donutData.totalDiscBudget) / 100).toFixed(
                     2
-                  )}
+                  ))}
                 </Table.Cell>
               </Table.Row>
             </Table>
@@ -253,14 +253,14 @@ class Budget extends React.Component {
                     callbacks: {
                       label: function(tooltipItem, data) {
                         let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
-                        return commaFormat(value)
+                        return ensureTwoDecimals(commaFormat(value))
                       }
-                    }
+                    },
+                    bodyFontSize: 18
                   }
                 }}
               />
             </div>
-           
           </Container>
           <h1 />
           <Grid centered>
@@ -391,9 +391,10 @@ function getDonutData2(budgetArray, spendingArray, labelArray) {
         },
         label: function(tooltipItem, data) {
           let value = data.datasets[0].data[tooltipItem.index]
-          return commaFormat(Math.round(value * 100) / 100)
+          return commaFormat(Math.round(value))
         }
-      }
+      },
+      bodyFontSize: 18
     }
   }
   let totalDiscBudget =
