@@ -32,7 +32,7 @@ class Budget extends React.Component {
     await this.props.getBudget(Number(this.props.match.params.userId))
     const currentMonth = this.state.date.getMonth() + 1
     const currentYear = this.state.date.getFullYear()
-    const budgetItems = this.props.budget[0].budgetItems
+    const budgetItems = this.props.budget[0].budgetItems.sort()
     this.props.getSpending(
       Number(this.props.match.params.userId),
       currentMonth,
@@ -61,7 +61,7 @@ class Budget extends React.Component {
     await this.props.getBudget(Number(this.props.match.params.userId))
     const currentMonth = this.state.date.getMonth() + 1
     const currentYear = this.state.date.getFullYear()
-    const budgetItems = this.props.budget[0].budgetItems
+    const budgetItems = this.props.budget[0].budgetItems.sort((a, b) => {return (a.categoryId - b.categoryId)})
     this.props.getSpending(
       Number(this.props.match.params.userId),
       currentMonth,
@@ -73,7 +73,8 @@ class Budget extends React.Component {
   formatBarData = budget => {
     const labels = []
     const amountData = []
-    budget.budgetItems.map(budgetItem => {
+    const budgetItems = budget.budgetItems.sort((a, b) => {return (a.categoryId - b.categoryId)})
+    budgetItems.map(budgetItem => {
       if (budgetItem.categoryId !== 2 && budgetItem.categoryId !== 5) {
         labels.push(getCategoryName(budgetItem.categoryId))
         amountData.push(budgetItem.amount)
@@ -119,14 +120,16 @@ class Budget extends React.Component {
         <div>
           <Container>
             <Divider hidden />
+            <div className="font-header">
             <Header size="huge" textAlign="center">
               Budget
               <Image src="/duck.svg" size="medium" className="padded" />
             </Header>
+            </div>
             <Divider />
             <Divider hidden />
             <Grid centered>
-              <h3>
+              <h3 className="font-body">
                 {' '}
                 On this page, you can see your monthly budget, broken down by
                 category, as well as your month to date spending calculated from
@@ -207,7 +210,7 @@ class Budget extends React.Component {
                   Total Discretionary Spending (month-to-date):{' '}
                 </Table.Cell>
                 <Table.Cell>
-                  ${commaFormat((Math.round(100 * donutData.discSpendingMTD) / 100).toFixed(
+                  {commaFormat((Math.round(100 * donutData.discSpendingMTD) / 100).toFixed(
                     2
                   ))}
                 </Table.Cell>
@@ -217,7 +220,7 @@ class Budget extends React.Component {
                   Total Discretionary Spending for Entire Month:{' '}
                 </Table.Cell>
                 <Table.Cell>
-                  ${commaFormat((Math.round(100 * donutData.totalDiscBudget) / 100).toFixed(
+                  {commaFormat((Math.round(100 * donutData.totalDiscBudget) / 100).toFixed(
                     2
                   ))}
                 </Table.Cell>
