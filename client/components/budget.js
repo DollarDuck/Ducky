@@ -120,14 +120,16 @@ class Budget extends React.Component {
         <div>
           <Container>
             <Divider hidden />
+            <div className="font-header">
             <Header size="huge" textAlign="center">
               Budget
               <Image src="/duck.svg" size="medium" className="padded" />
             </Header>
+            </div>
             <Divider />
             <Divider hidden />
             <Grid centered>
-              <h3>
+              <h3 className="font-body">
                 {' '}
                 On this page, you can see your monthly budget, broken down by
                 category, as well as your month to date spending calculated from
