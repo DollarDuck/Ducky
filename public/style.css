@@ -1,10 +1,26 @@
 body {
-  font-family: 'Berkshire Swash', cursive !important;
+  font-family: 'K2D', sans-serif;
   background-color: #FDF5D7
 }
 
 a {
   text-decoration: none;
+}
+
+h5, h6 {
+  font-family: 'K2D', sans-serif !important;
+}
+
+.ui {
+  font-family: 'K2D', sans-serif;
+}
+
+.ui.attached {
+  max-width: 70% !important;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Berkshire Swash', cursive !important;
 }
 
 label {
@@ -22,6 +38,22 @@ nav a {
 
 form div {
   display: inline-block;
+}
+
+.padding-icon-right {
+  padding: 70px 0px 0px 0px
+}
+
+.padding-icon-left {
+  padding: 70px 0px 0px 30px;
+}
+.emoji-size {
+  max-height: 26px;
+  max-width: 26px;
+}
+.emoji-size-lunch {
+  max-height: 40px;
+  max-width: 40px;
 }
 
 .min-width {
@@ -68,6 +100,9 @@ form div {
   padding: 15px;
 }
 
+.padding-left-icon {
+  padding: 0px 0px 0px 40px;
+}
 /* FONT IMPORTS */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
