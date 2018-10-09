@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {calculatePlan, clearState} from '../store/purchasePlanner'
 import {addPurchaseToBudget} from '../store/budget'
 import {NavLink} from 'react-router-dom'
+import {commaFormat, ensureTwoDecimals} from '../../utils'
 
 const mapDispatch = dispatch => ({
 	calculatePlan: (formInfo) => dispatch(calculatePlan(formInfo)),
@@ -54,7 +55,7 @@ class PurchasePlanner extends React.Component {
 	switchRight = () => {
 		const numLattes = this.props.singlePlan.numLattes
 		const latteArray = Array(numLattes).fill('/latte.png')
-		this.setState({ 
+		this.setState({
 						compareArr: latteArray,
 						compareName: `${numLattes} lattes per month`
 					})
@@ -81,10 +82,10 @@ class PurchasePlanner extends React.Component {
 		      		<div>
 		      		{!this.state.isAdded  ? (
 		      			<div>
-		      			{!this.props.multiplePlan.length ? 
+		      			{!this.props.multiplePlan.length ?
 		      			(
 		      			<div>
-		      		<Card.Content><Card.Meta><p className="padding black">Based on your {this.props.singlePlan.numMonths} month plan, you'd need to save {this.props.singlePlan.costPerMonth} every month. This would be {this.props.singlePlan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
+		      		<Card.Content><Card.Meta><p className="padding black">Based on your {this.props.singlePlan.numMonths} month plan, you'd need to save {ensureTwoDecimals(commaFormat(this.props.singlePlan.costPerMonth))} every month. This would be {this.props.singlePlan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
 		      		<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about:</p></Card.Meta></Card.Content>		      		<Grid.Row centered width={2}>
 		      		{this.state.compareName.includes('lattes') ? (<div onClick={this.switchLeft} className="padding-icon-left">
 		      			<Icon name="chevron left" />
@@ -122,7 +123,7 @@ class PurchasePlanner extends React.Component {
 		      						<div key={plan.costPerMonth}>
 		      							<Grid.Column centered width={5}>
 		      							<Card fluid>
-		      							<Card.Content><Card.Meta><p className="padding black">Based on a {plan.numMonths} month plan, you'd need to save {plan.costPerMonth} every month. This would be {plan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
+		      							<Card.Content><Card.Meta><p className="padding black">Based on a {plan.numMonths} month plan, you'd need to save {plan.costPerMonth} every month. This would be about {plan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
 				      					<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about {plan.numLattes} lattes each month, or {plan.numLunches} lunches out</p></Card.Meta></Card.Content>
 		      							<Button size ="large" onClick={() => this.addToBudget(plan)}>Add To Budget</Button>
 		      							</Card>

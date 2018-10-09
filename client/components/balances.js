@@ -34,8 +34,9 @@ class Balances extends Component {
               datasets: [{
                 label: 'Available Balance ($US)',
                 data: chartData.depository.data,
+                backgroundColor: 'green'
+
               }],
-              backgroundColor: ['#52E577']
             }}
 
             options={{
@@ -97,8 +98,9 @@ class Balances extends Component {
                 datasets: [{
                   label: 'Available Balance ($US)',
                   data: chartData.credit.data,
+                  backgroundColor: 'red'
+
                 }],
-                backgroundColor: ['#52E577']
               }}
 
               options={{

@@ -8,7 +8,7 @@ import {
   getTransactionsByBank
 } from '../store/plaid'
 import {Menu, Header, Dropdown, Label, Grid, Icon} from 'semantic-ui-react'
-import {reformatDate, reformatAmount} from '../../utils'
+import {reformatDate, reformatAmount, commaFormat, ensureTwoDecimals} from '../../utils'
 
 class Transactions extends React.Component {
 
@@ -102,7 +102,7 @@ class Transactions extends React.Component {
                 return (
                   <tr key={transaction.id}>
                     <td>{transaction.name}</td>
-                    <td>{reformatAmount(transaction.amount)}</td>
+                    <td>{ensureTwoDecimals(commaFormat(transaction.amount))}</td>
                     <td>{reformatDate(transaction.date)}</td>
                   </tr>
                 )
