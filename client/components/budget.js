@@ -90,7 +90,7 @@ class Budget extends React.Component {
       const budget = this.props.budget[0]
       const [labels, amountData, spendingData] = this.formatBarData(budget)
 
-      const donutData = getDonutData2(amountData, spendingData, labels)
+      const donutData = getDonutData2(amountData, spendingData, labels, this.state.date)
 
       const data = {
         labels: labels,
@@ -290,13 +290,14 @@ const mapDispatch = dispatch => ({
 
 export default connect(mapState, mapDispatch)(Budget)
 
-function getDonutData2(budgetArray, spendingArray, labelArray) {
+function getDonutData2(budgetArray, spendingArray, labelArray, date2) {
   let budgetObj = {}
   let spendingObj = {}
   let labelForObj
   let donutLabelArray = []
   let donutDataArray = []
   let donutDataArrayBeforeBudgetRemaining = []
+  let month = date2.getMonth()
 
   for (let i = 0; i < budgetArray.length; i++) {
     labelForObj = labelArray[i]
@@ -362,16 +363,18 @@ function getDonutData2(budgetArray, spendingArray, labelArray) {
     ]
   }
 
+ const bottomTitle = (month === new Date().getMonth()) ? ([
+    'Budget Remaining: ' +
+      commaFormat(Math.round(budgetRemaining)) +
+      ' / ' +
+      commaFormat(Math.round(sum2)),
+    'Days Remaining in Month: ' + daysLeft.daysRemaining
+  ]) : 'Total Monthly Budget: '+commaFormat(Math.round(sum2))
+
   const options = {
     title: {
       display: true,
-      text: [
-        'Budget Remaining: ' +
-          commaFormat(Math.round(budgetRemaining)) +
-          ' / ' +
-          commaFormat(Math.round(sum2)),
-        'Days Remaining in Month: ' + daysLeft.daysRemaining
-      ],
+      text: bottomTitle,
       fontColor: 'black',
       fontSize: 16,
       position: 'bottom'

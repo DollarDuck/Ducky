@@ -46,7 +46,7 @@ class Chart1 extends Component {
           }],
         }}
         options= {options}
-        height='50%'
+        height='100%'
         />
         <br />
 </div>
