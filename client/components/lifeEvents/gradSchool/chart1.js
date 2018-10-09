@@ -10,6 +10,8 @@ class Chart1 extends Component {
 
   render() {
     const chartData = dataProcessor(this.props.data)
+    const maxIncome = (chartData.breakeven) ? Math.max(chartData.dataCs[chartData.breakeven-1], chartData.dataEs[chartData.breakeven-1]) : 0
+    const beArray = (chartData.breakeven) ? getBeArray(chartData.breakeven, maxIncome) : []
 
     return (
       <div>
@@ -29,6 +31,18 @@ class Chart1 extends Component {
             backgroundColor: '#4E8BED',
             label: 'With Grad School',
             data: chartData.dataEs
+          },
+          {label: 'Breakeven Year',
+           backgroundColor: 'red',
+           data: beArray.values,
+           type: 'line',
+           pointRadius: beArray.radii,
+           pointStyle: 'circle',
+           pointBackgroundColor: 'red',
+           showLine: false,
+           pointHoverRadius: beArray.radii,
+           pointHoverBackgroundColor: 'pink'
+
           }],
         }}
         options= {options}
@@ -78,13 +92,36 @@ const options = {
         return ''
       },
       beforeLabel: function(tooltipItem, data) {
+        if (tooltipItem.datasetIndex === 2) {
+          return 'Year '+(year+1+tooltipItem.index)
+        }
         return 'Year '+(year+1+tooltipItem.index) + ' salary (' + data.datasets[tooltipItem.datasetIndex].label+')'
+
       },
       label: function(tooltipItem, data) {
+        if (tooltipItem.datasetIndex === 2) {
+          return 'breakeven point'
+        }
         let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
         return commaFormat(100*Math.round(value/100))
       },
     },
     bodyFontSize: 14
   }
+}
+
+function getBeArray(num, maxInc) {
+  let radii = []
+  for (let i=1; i < num; i++) {
+    radii.push(0)
+  }
+  let values = radii.slice()
+  values.push(1.2*maxInc)
+  radii.push(10)
+  let  beObj = {
+    values,
+    radii
+  }
+
+  return beObj
 }
