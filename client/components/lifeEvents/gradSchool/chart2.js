@@ -44,7 +44,7 @@ class Chart2 extends Component {
             ]
           }}
           options={options}
-          height="70%"
+          height="100%"
         />
 
         <Container fluid centered>
