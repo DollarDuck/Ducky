@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react'
 import {commaFormat, dataProcessor} from '../../../../utils'
-import {Message} from 'semantic-ui-react'
+import {Message, Divider} from 'semantic-ui-react'
 import {Bar} from 'react-chartjs-2';
 
 const year = (new Date()).getFullYear()
@@ -15,6 +15,7 @@ class Chart1 extends Component {
       <div>
               {chartData.breakeven && <Message color="violet"> After spending {commaFormat(((chartData.tuition*chartData.yearsOfSchool)))} on tuition, you will make back your grad school investment in {chartData.breakeven+year}. You'll be {chartData.age + chartData.breakeven} years old. This DOESN'T account for any student loan interest rates.
         </Message>}
+        <Divider hidden />
         {!chartData.breakeven && <Message color="red"> Doesn't look like a great investment for you. You don't recoup your investment even when we exclude the time value of money.</Message>}
         <Bar
         data = {{
@@ -45,7 +46,8 @@ const options = {
     display: true,
     text: 'Your salary projection until retirement age',
     fontColor: 'black',
-    fontSize: 20
+    fontSize: 22,
+    fontFamily: 'K2D'
   },
   scales: {
     xAxes: [{

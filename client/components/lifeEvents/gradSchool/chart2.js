@@ -71,15 +71,14 @@ class Chart2 extends Component {
             <Statistic.Label>NPV of Grad School Track </Statistic.Label>
           </Statistic>
         </Container>
-        {/* <Message className="padding-left"> Cumulative net present value represents the value of your stream of future income </Message> */}
         {chartData.breakevenNPV && (
-          <Message className="padding-left">
+          <Message color='violet' className="padding-left">
             You will recoup your investment in {chartData.breakevenNPV} years ({year +
               chartData.breakevenNPV}). {outputMessage}{' '}
           </Message>
         )}
         {!chartData.breakevenNPV && (
-          <Message className="padding-left">
+          <Message color='violet' className="padding-left">
             Even until your retirement age, grad school does not make sense
             financially based on the inputs your have provided Professor Ducky
           </Message>
@@ -97,7 +96,8 @@ const options = {
     display: true,
     text: 'Cumulative Net Present Value',
     fontColor: 'black',
-    fontSize: 20
+    fontSize: 22,
+    fontFamily: 'K2D'
   },
   scales: {
     xAxes: [

@@ -160,9 +160,13 @@ class InputGradSchool extends Component {
           </Segment>
         )}
         <br />
-        {this.state.display === 'chart1' && <Chart1 data={this.state} />}
         {this.state.display === 'chart1' && (
           <Container>
+            <Divider hidden />
+            <Divider hidden />
+          <Segment>
+            <Chart1 data={this.state} />
+            <Divider hidden />
             <Button
               padded
               onClick={() => this.showChart('chart2')}
@@ -172,11 +176,17 @@ class InputGradSchool extends Component {
               <Icon name="arrow circle right" />
             </Button>
             <Divider hidden />
+            <Button onClick={() => this.showInput()} size="medium">
+              {' '}
+              Go back to your inputs{' '}
+            </Button>
+        </Segment>
           </Container>
         )}
 
         <Container>
           {this.state.display === 'chart2' && (
+          <Segment>
             <div>
               <Divider hidden />
               <Message color={headerMessage.color}>
@@ -219,8 +229,6 @@ class InputGradSchool extends Component {
               />
               <Chart2 data={this.state} />
             </div>
-          )}
-          {this.state.display === 'chart2' && (
             <div>
               <Button size="large" onClick={() => this.showChart('chart1')}>
                 <Icon name="arrow circle left" />View your previous chart{' '}
@@ -237,14 +245,13 @@ class InputGradSchool extends Component {
 
               <Divider hidden />
             </div>
-          )}
-
-          {this.state.display !== 'input' && (
             <Button onClick={() => this.showInput()} size="medium">
               {' '}
               Go back to your inputs{' '}
             </Button>
+              </Segment>
           )}
+
           <Divider hidden />
         </Container>
       </Grid>
