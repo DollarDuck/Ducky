@@ -216,4 +216,16 @@ function getDaysRemaining() {
   return returnObj
 }
 
-module.exports = {getMonthYear, formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName,commaFormat, dataProcessor, getDaysRemaining}
+function ensureTwoDecimals(str) {
+  let decimal = str.lastIndexOf('.')
+  let length = str.length
+  if (decimal === -1) {
+    return str += '.00'
+  }
+  if (length - decimal === 2) {
+    return str += '0'
+  }
+  return str
+}
+
+module.exports = {getMonthYear, formatDate, get30DaysAgo, reformatDate, reformatAmount, convertPhoneNumber, convertIncome, getCategoryName,commaFormat, dataProcessor, getDaysRemaining, ensureTwoDecimals}

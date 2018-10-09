@@ -16,7 +16,7 @@ render() {
 		<Grid centered width={7}>
 		<div className="max-width">
 		<Card centered fluid>
-			<Label color="blue" size="massive">User profile</Label>
+			<Label fluid size="massive"><h1 className="font-header">User profile</h1></Label>
 			<h1 />
 			<Grid.Row>
 			<Grid.Column width={1}>
@@ -25,19 +25,19 @@ render() {
 			<Grid.Column>
 			<Grid.Column width={2}>
 				<h3/>
-					<h4 className="padding">Name: {`${user.firstName} ${user.lastName}`}</h4>
+					<h4 className="padding font-body">Name: {`${user.firstName} ${user.lastName}`}</h4>
 			</Grid.Column>
 			<Grid.Column width={2}>
-					<h4 className="padding">Email: {user.email}</h4>
+					<h4 className="padding font-body">Email: {user.email}</h4>
 			</Grid.Column>
 			<Grid.Column width={2}>
-					<h4 className="padding">Phone number: {user.phoneNumber}</h4>
+					<h4 className="padding font-body">Phone number: {user.phoneNumber}</h4>
 			</Grid.Column>
 			</Grid.Column>
 			</Grid.Row>
 			<h1 />
-			<Link className="white" to={`/editUser/${user.id}`}><Button fluid size="small" color="blue">Edit User Info</Button></Link>
-			<Link className="white" to="/plaid"><Button fluid color="green">Link a new bank or credit card</Button></Link>
+			<Link className="white" to={`/editUser/${user.id}`}><Button fluid size="small">Edit User Info</Button></Link>
+			<Link className="white" to="/plaid"><Button fluid color="purple">Link a new bank or credit card</Button></Link>
 		</Card>
 		</div>
 		</Grid>

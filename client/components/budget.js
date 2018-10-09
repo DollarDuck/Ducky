@@ -17,7 +17,7 @@ import {
 import {Link} from 'react-router-dom'
 import {Doughnut, HorizontalBar} from 'react-chartjs-2'
 import dateFns from 'date-fns'
-import {getCategoryName, commaFormat, getDaysRemaining} from '../../utils'
+import {getCategoryName, commaFormat, getDaysRemaining, ensureTwoDecimals} from '../../utils'
 import EditBudget from './editBudget'
 
 class Budget extends React.Component {
@@ -32,7 +32,7 @@ class Budget extends React.Component {
     await this.props.getBudget(Number(this.props.match.params.userId))
     const currentMonth = this.state.date.getMonth() + 1
     const currentYear = this.state.date.getFullYear()
-    const budgetItems = this.props.budget[0].budgetItems
+    const budgetItems = this.props.budget[0].budgetItems.sort()
     this.props.getSpending(
       Number(this.props.match.params.userId),
       currentMonth,
@@ -61,7 +61,7 @@ class Budget extends React.Component {
     await this.props.getBudget(Number(this.props.match.params.userId))
     const currentMonth = this.state.date.getMonth() + 1
     const currentYear = this.state.date.getFullYear()
-    const budgetItems = this.props.budget[0].budgetItems
+    const budgetItems = this.props.budget[0].budgetItems.sort((a, b) => {return (a.categoryId - b.categoryId)})
     this.props.getSpending(
       Number(this.props.match.params.userId),
       currentMonth,
@@ -73,7 +73,8 @@ class Budget extends React.Component {
   formatBarData = budget => {
     const labels = []
     const amountData = []
-    budget.budgetItems.map(budgetItem => {
+    const budgetItems = budget.budgetItems.sort((a, b) => {return (a.categoryId - b.categoryId)})
+    budgetItems.map(budgetItem => {
       if (budgetItem.categoryId !== 2 && budgetItem.categoryId !== 5) {
         labels.push(getCategoryName(budgetItem.categoryId))
         amountData.push(budgetItem.amount)
@@ -89,26 +90,26 @@ class Budget extends React.Component {
       const budget = this.props.budget[0]
       const [labels, amountData, spendingData] = this.formatBarData(budget)
 
-      const donutData = getDonutData2(amountData, spendingData, labels)
+      const donutData = getDonutData2(amountData, spendingData, labels, this.state.date)
 
       const data = {
         labels: labels,
         datasets: [
           {
             label: 'Month to Date Spending',
-            backgroundColor: 'rgba(255,99,132,0.2)',
+            backgroundColor: 'rgba(255,99,132,0.7)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
-            hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+            hoverBackgroundColor: 'rgba(255,99,132,0.7)',
             hoverBorderColor: 'rgba(255,99,132,1)',
             data: spendingData
           },
           {
             label: 'Budget',
-            backgroundColor: 'rgb(204, 196, 223, 0.2)',
+            backgroundColor: 'rgb(204, 196, 223, 0.7)',
             borderColor: 'rgb(204, 196, 223,1)',
             borderWidth: 1,
-            hoverBackgroundColor: 'rgb(204, 196, 223,0.4)',
+            hoverBackgroundColor: 'rgb(204, 196, 223,0.7)',
             hoverBorderColor: 'rgb(204, 196, 223,1)',
             data: amountData
           }
@@ -119,14 +120,16 @@ class Budget extends React.Component {
         <div>
           <Container>
             <Divider hidden />
+            <div className="font-header">
             <Header size="huge" textAlign="center">
               Budget
               <Image src="/duck.svg" size="medium" className="padded" />
             </Header>
+            </div>
             <Divider />
             <Divider hidden />
             <Grid centered>
-              <h3>
+              <h3 className="font-body">
                 {' '}
                 On this page, you can see your monthly budget, broken down by
                 category, as well as your month to date spending calculated from
@@ -140,11 +143,13 @@ class Budget extends React.Component {
             <div className="header row flex-middle">
               <div className="col col-start" onClick={this.prevMonth}>
                 <Icon name="chevron left" />
+                Previous Month
               </div>
               <div className="col col-center">
                 <Header>{dateFns.format(this.state.date, dateFormat)}</Header>
               </div>
               <div className="col col-end" onClick={this.nextMonth}>
+                Next Month
                 <Icon name="chevron right" />
               </div>
             </div>
@@ -157,34 +162,65 @@ class Budget extends React.Component {
               />
               {this.state.date.getMonth() === new Date().getMonth() ?
               <div>
+              <Grid centered>
+              <h3 />
               <Statistic>
                 <Statistic.Value>
                   {Math.abs(Math.round(donutData.daysAOB))}
                 </Statistic.Value>
+                <div className="padding-left">
                 <Statistic.Label>
                   Day(s) {donutData.daysAOB >= 0 ? ' ahead ' : ' behind '}{' '}
                   schedule
                 </Statistic.Label>
+                </div>
               </Statistic>
-
+              <h3 />
               <Statistic>
                 <Statistic.Value>
                   ${Math.round(donutData.dailyIdeal)}
                 </Statistic.Value>
+                <div className="padding-left">
                 <Statistic.Label>Budgeted Disc. Spend Per Day</Statistic.Label>
+                </div>
               </Statistic>
-
+              <h3 />
               <Statistic>
                 <Statistic.Value>
-                  ${Math.round(
+                  {commaFormat(Math.round(
                     Math.abs(donutData.dailyIdeal * donutData.daysAOB)
-                  )}
+                  ))}
                 </Statistic.Value>
+                <div className="padding-left">
                 <Statistic.Label>
                   Total Amount {donutData.daysAOB >= 0 ? ' under ' : ' over '}{' '}
                   budget
                 </Statistic.Label>
+                </div>
               </Statistic>
+              </Grid>
+               <Table color="purple">
+              <Table.Row>
+                <Table.Cell>
+                  Total Discretionary Spending (month-to-date):{' '}
+                </Table.Cell>
+                <Table.Cell>
+                  {commaFormat((Math.round(100 * donutData.discSpendingMTD) / 100).toFixed(
+                    2
+                  ))}
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  Total Discretionary Spending for Entire Month:{' '}
+                </Table.Cell>
+                <Table.Cell>
+                  {commaFormat((Math.round(100 * donutData.totalDiscBudget) / 100).toFixed(
+                    2
+                  ))}
+                </Table.Cell>
+              </Table.Row>
+            </Table>
               </div>
               : null }
             </div>
@@ -215,35 +251,14 @@ class Budget extends React.Component {
                     callbacks: {
                       label: function(tooltipItem, data) {
                         let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
-                        return commaFormat(value)
+                        return ensureTwoDecimals(commaFormat(value))
                       }
-                    }
+                    },
+                    bodyFontSize: 18
                   }
                 }}
               />
             </div>
-            <Table>
-              <Table.Row>
-                <Table.Cell>
-                  Total Discretionary Spending (month-to-date):{' '}
-                </Table.Cell>
-                <Table.Cell>
-                  ${(Math.round(100 * donutData.discSpendingMTD) / 100).toFixed(
-                    2
-                  )}
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  Total Discretionary Spending for Entire Month:{' '}
-                </Table.Cell>
-                <Table.Cell>
-                  ${(Math.round(100 * donutData.totalDiscBudget) / 100).toFixed(
-                    2
-                  )}
-                </Table.Cell>
-              </Table.Row>
-            </Table>
           </Container>
           <h1 />
           <Grid centered>
@@ -270,13 +285,14 @@ const mapDispatch = dispatch => ({
 
 export default connect(mapState, mapDispatch)(Budget)
 
-function getDonutData2(budgetArray, spendingArray, labelArray) {
+function getDonutData2(budgetArray, spendingArray, labelArray, date2) {
   let budgetObj = {}
   let spendingObj = {}
   let labelForObj
   let donutLabelArray = []
   let donutDataArray = []
   let donutDataArrayBeforeBudgetRemaining = []
+  let month = date2.getMonth()
 
   for (let i = 0; i < budgetArray.length; i++) {
     labelForObj = labelArray[i]
@@ -329,11 +345,11 @@ function getDonutData2(budgetArray, spendingArray, labelArray) {
         data: donutDataArray,
         backgroundColor: [
           '#EFC90B', //monthly expenses
-          'rgb(048, 016, 078)',
-          'rgb(91, 59, 140)',
-          'rgb(118, 093, 160)',
-          'rgb(147, 128, 182)',
-          'rgb(204, 196, 223)',
+          'rgba(048, 016, 078, 0.7)',
+          'rgba(91, 59, 140, 0.7)',
+          'rgba(118, 093, 160, 0.7)',
+          'rgba(147, 128, 182, 0.7)',
+          'rgba(204, 196, 223, 0,7)',
           '#376A39', //savings
           '#91CC93', //big purchases
           '#D3D3D3'
@@ -342,16 +358,18 @@ function getDonutData2(budgetArray, spendingArray, labelArray) {
     ]
   }
 
+ const bottomTitle = (month === new Date().getMonth()) ? ([
+    'Budget Remaining: ' +
+      commaFormat(Math.round(budgetRemaining)) +
+      ' / ' +
+      commaFormat(Math.round(sum2)),
+    'Days Remaining in Month: ' + daysLeft.daysRemaining
+  ]) : 'Total Monthly Budget: '+commaFormat(Math.round(sum2))
+
   const options = {
     title: {
       display: true,
-      text: [
-        'Budget Remaining: ' +
-          commaFormat(Math.round(budgetRemaining)) +
-          ' / ' +
-          commaFormat(Math.round(sum2)),
-        'Days Remaining in Month: ' + daysLeft.daysRemaining
-      ],
+      text: bottomTitle,
       fontColor: 'black',
       fontSize: 16,
       position: 'bottom'
@@ -374,9 +392,10 @@ function getDonutData2(budgetArray, spendingArray, labelArray) {
         },
         label: function(tooltipItem, data) {
           let value = data.datasets[0].data[tooltipItem.index]
-          return commaFormat(Math.round(value * 100) / 100)
+          return commaFormat(Math.round(value))
         }
-      }
+      },
+      bodyFontSize: 18
     }
   }
   let totalDiscBudget =

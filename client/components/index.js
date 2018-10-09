@@ -22,4 +22,8 @@ export {default as Budget} from './budget'
 export {default as EditBudget} from './editBudget'
 export {default as SpendingMenu} from './Spending'
 export {default as PurchasePlanner} from './purchasePlanner'
+<<<<<<< HEAD
 export {default as SidebarMenu} from './SidebarMenu'
+=======
+export {default as SplashPage} from './splashPage'
+>>>>>>> fbd6132c368ac1b2a9af3b3c8362ee49cb5dae65

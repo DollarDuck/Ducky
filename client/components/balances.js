@@ -4,6 +4,8 @@ import {Divider, Container, Header, Grid, Image, Button} from 'semantic-ui-react
 import {Bar} from 'react-chartjs-2'
 import {getDBBalances} from '../store/balances'
 import {Link} from 'react-router-dom'
+import {commaFormat, ensureTwoDecimals} from '../../utils'
+
 
 class Balances extends Component {
   componentDidMount() {
@@ -16,6 +18,7 @@ class Balances extends Component {
     let chartData
     if (balances.length > 0) {
       chartData = processBalances(balances)
+
     return (
       <Container>
         <Divider hidden />
@@ -33,15 +36,16 @@ class Balances extends Component {
               datasets: [{
                 label: 'Available Balance ($US)',
                 data: chartData.depository.data,
+                backgroundColor: 'green'
+
               }],
-              backgroundColor: ['#52E577']
             }}
 
             options={{
               legend: {display: false},
               title: {
                 display: true,
-                text: 'Checking, Savings, CD, Money Market Accounts (Total Value: ' + commaFormat(chartData.depository.total) + ')',
+                text: 'Checking, Savings, CD, Money Market Accounts (Total Value: ' + commaFormat(Math.round(chartData.depository.total)) + ')',
                 fontColor: 'black',
                 fontSize: 20
               },
@@ -49,12 +53,7 @@ class Balances extends Component {
                 yAxes: [{
                   ticks: {
                     callback: function(value, index, values) {
-                      if (value>=1000) {
-                        let backEnd = '00' + (value-1000*Math.floor(value/1000))
-                        let backEnd3digit = backEnd.slice(backEnd.length-3, backEnd.length)
-                        return '$' + Math.floor(value/1000) + ',' + backEnd3digit
-                      }
-                      return '$'+value;
+                      return commaFormat(value)
                     },
                     fontColor: 'green',
                     beginAtZero: true
@@ -65,13 +64,7 @@ class Balances extends Component {
                   callbacks: {
                     label: function(tooltipItem, data) {
                     let value = data.datasets[0].data[tooltipItem.index];
-                    if (value>=1000) {
-                      let backEnd = '00' + (value-1000*Math.floor(value/1000))
-                      let backEnd3digit = backEnd.slice(backEnd.length-3, backEnd.length)
-
-                      return '$' + Math.floor(value/1000) + ',' + backEnd3digit
-                      }
-                    return '$'+value;
+                    return ensureTwoDecimals(commaFormat(value))
                        },
                   afterLabel: function(tooltipItem, data) {
                     return 'available'
@@ -96,15 +89,16 @@ class Balances extends Component {
                 datasets: [{
                   label: 'Available Balance ($US)',
                   data: chartData.credit.data,
+                  backgroundColor: 'red'
+
                 }],
-                backgroundColor: ['#52E577']
               }}
 
               options={{
                 legend: {display: false},
                 title: {
                   display: true,
-                  text: 'Credit Card Balance Data (Total Value: ' + commaFormat(chartData.credit.total)+')',
+                  text: 'Credit Card Balance Data (Total Value: ' + commaFormat(Math.round(chartData.credit.total))+')',
                   fontColor: 'black',
                   fontSize: 20
                 },
@@ -112,12 +106,7 @@ class Balances extends Component {
                   yAxes: [{
                     ticks: {
                       callback: function(value, index, values) {
-                        if (value>=1000) {
-                          let backEnd = '00' + (value-1000*Math.floor(value/1000))
-                          let backEnd3digit = backEnd.slice(backEnd.length-3, backEnd.length)
-                          return '$' + Math.floor(value/1000) + ',' + backEnd3digit
-                        }
-                        return '$'+value;
+                      return commaFormat(value)
                       },
                       fontColor: 'red',
                       beginAtZero: true
@@ -128,13 +117,7 @@ class Balances extends Component {
                     callbacks: {
                       label: function(tooltipItem, data) {
                       let value = data.datasets[0].data[tooltipItem.index];
-                      if (value>=1000) {
-                        let backEnd = '00' + (value-1000*Math.floor(value/1000))
-                        let backEnd3digit = backEnd.slice(backEnd.length-3, backEnd.length)
-
-                        return '$' + Math.floor(value/1000) + ',' + backEnd3digit
-                        }
-                      return '$'+value;
+                    return ensureTwoDecimals(commaFormat(value))
                          },
                     afterLabel: function(tooltipItem, data) {
                       return 'balance'
@@ -185,6 +168,7 @@ const mapState = state => {
 export default connect(mapState, mapDispatchToProps)(Balances)
 
 function processBalances(balancesArray) {
+  console.log(balancesArray)
   let depository = {}
   let credit = {}
   depository.labels = []
@@ -193,30 +177,26 @@ function processBalances(balancesArray) {
   credit.labels = []
   credit.data = []
   credit.total = 0
+  console.log(credit.total)
 
   for (let i = 0; i < balancesArray.length; i++) {
     if (balancesArray[i].type === 'depository') {
       depository.data.push(Number(balancesArray[i].amount))
       depository.labels.push(balancesArray[i].name)
       depository.total += Number(balancesArray[i].amount)
+      console.log(depository)
     } else if (balancesArray[i].type === 'credit') {
       credit.data.push(Number(balancesArray[i].amount))
       credit.labels.push(balancesArray[i].name)
       credit.total += Number(balancesArray[i].amount)
+      console.log(credit)
+
     }
   }
+
   let returnObj = {}
   returnObj.depository = depository
   returnObj.credit = credit
+  console.log("return obj", returnObj)
   return returnObj
-}
-
-function commaFormat(value) {
-  if (value >= 1000) {
-    let backEnd = '00' + (value - 1000 * Math.floor(value / 1000))
-    let backEnd3digit = backEnd.slice(backEnd.length - 3, backEnd.length)
-
-    return '$' + Math.floor(value / 1000) + ',' + backEnd3digit
-  }
-  return '$' + Math.round(value)
 }

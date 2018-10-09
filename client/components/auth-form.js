@@ -15,7 +15,7 @@ const AuthForm = props => {
       <Grid centered>
       <Grid.Column width={5}>
       <Card fluid centered>
-      <Label size="massive">Login</Label>
+      <Label size="massive"><div className="font-header">Login</div></Label>
       <h1 />
       <Form onSubmit={handleSubmit} name={name}>
       <Form.Field className="padding-large">
