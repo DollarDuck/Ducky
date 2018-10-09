@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {PurchasePlanner, Budget, EditBudget, Login, Signup, Onboarding, OnboardingBudget, Plaid, Dashboard, Bills, NewBillForm, OnboardingLink, Balances, EditUser, UserProfile, SpendingMenu, GradSchoolInput} from './components'
+import {SplashPage, PurchasePlanner, Budget, EditBudget, Login, Signup, Onboarding, OnboardingBudget, Plaid, Dashboard, Bills, NewBillForm, OnboardingLink, Balances, EditUser, UserProfile, SpendingMenu, GradSchoolInput} from './components'
 import {me} from './store'
 
 
@@ -45,7 +45,7 @@ class Routes extends Component {
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route component={SplashPage} />
       </Switch>
     )
   }

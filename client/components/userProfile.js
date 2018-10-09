@@ -16,7 +16,7 @@ render() {
 		<Grid centered width={7}>
 		<div className="max-width">
 		<Card centered fluid>
-			<Label color="blue" size="massive">User profile</Label>
+			<Label fluid size="massive">User profile</Label>
 			<h1 />
 			<Grid.Row>
 			<Grid.Column width={1}>
@@ -36,8 +36,8 @@ render() {
 			</Grid.Column>
 			</Grid.Row>
 			<h1 />
-			<Link className="white" to={`/editUser/${user.id}`}><Button fluid size="small" color="blue">Edit User Info</Button></Link>
-			<Link className="white" to="/plaid"><Button fluid color="green">Link a new bank or credit card</Button></Link>
+			<Link className="white" to={`/editUser/${user.id}`}><Button fluid size="small">Edit User Info</Button></Link>
+			<Link className="white" to="/plaid"><Button fluid color="purple">Link a new bank or credit card</Button></Link>
 		</Card>
 		</div>
 		</Grid>

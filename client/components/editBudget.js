@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Grid, Card, Button, Label} from 'semantic-ui-react'
+import {Form, Grid, Card, Button, Label, Accordion, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {updateBudgetItems} from '../store/budget'
 import {commaFormat} from '../../utils'
@@ -22,7 +22,8 @@ class EditBudget extends React.Component {
     recreation: 0,
     savings: 0,
     food: 0,
-    other: 0
+    other: 0,
+    activeIndex: -1
   }
   componentDidMount () {
     const budget = this.props.budget
@@ -37,6 +38,12 @@ class EditBudget extends React.Component {
       other: budgetItems[4].amount,
       food: budgetItems[6].amount
     })
+  }
+  handleClick = (e, titleProps) => {
+    const {index} = titleProps
+    const activeIndex = this.state.activeIndex
+    const newIndex = activeIndex === index ? -1 : index
+    this.setState({ activeIndex: newIndex})
   }
   handleChange = (event) => {
     const newOther = Number(this.state.other) + (Number(this.state[event.target.name]) - Number(event.target.value))
@@ -58,13 +65,19 @@ class EditBudget extends React.Component {
 	}
 	render () {
     const state = this.state
+    const activeIndex = this.state.activeIndex
 		return (
 		      <div>
       <h1 />
       <Grid centered>
       <Grid.Column centered width={7}>
+      <Accordion>
       <Card fluid>
-      <Label size="massive" fluid>Edit Budget</Label>
+      <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+        <Icon name="dropdown" />
+        <Label size="massive" color="white">Edit budget</Label>
+      </Accordion.Title>
+      <Accordion.Content active={this.state.activeIndex === 0}>
       <h1 />
        <Grid.Column centered width={7}>
       <Form fluid onSubmit={this.handleSubmit}>
@@ -161,7 +174,9 @@ class EditBudget extends React.Component {
       <Button fluid type='submit'>Submit</Button>
       </Form>
       </Grid.Column>
+      </Accordion.Content>
       </Card>
+      </Accordion>
       </Grid.Column>
       </Grid>
       </div>
