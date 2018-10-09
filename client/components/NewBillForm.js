@@ -17,7 +17,6 @@ class NewBillForm extends React.Component {
 
   handleChange = (evt, {name, value}) => {
     this.setState({[name]: value})
-    console.log(this.state)
   }
 
   toggle = () => this.setState({ checked: !this.state.checked })

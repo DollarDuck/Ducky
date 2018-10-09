@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Container, Header, Icon, Divider , Grid, Link, Button} from 'semantic-ui-react'
+import { Container, Header, Icon, Divider } from 'semantic-ui-react'
 import { Doughnut } from 'react-chartjs-2'
 import dateFns from 'date-fns'
 import { getTransactionsByUser } from '../store/plaid'
@@ -12,7 +12,6 @@ class SpendingDoughnut extends Component {
     }
 
   async componentDidMount() {
-    console.log('date', this.state.date)
     const userId = this.props.user.id
     await this.props.getTransactionsByUser(userId)
     const transactions = this.props.transactions.transactions
@@ -20,7 +19,6 @@ class SpendingDoughnut extends Component {
   }
 
   nextMonth = () => {
-    console.log('donut data 1', this.state.date, this.state.donutData)
     const currentMonth = this.state.date.getMonth()
     const date = this.state.date
     date.setMonth(currentMonth+1)
@@ -29,7 +27,6 @@ class SpendingDoughnut extends Component {
     })
     const transactions = this.props.transactions.transactions
     this.setState({donutData : parseTransactionData(transactions, this.state.date)})
-    console.log('donutData', this.state.date, this.state.donutData)
   }
 
   prevMonth = () => {

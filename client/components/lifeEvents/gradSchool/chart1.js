@@ -1,8 +1,7 @@
 
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {commaFormat, dataProcessor, convertIncome} from '../../../../utils'
-import {Message, Label, Button, Icon} from 'semantic-ui-react'
+import {commaFormat, dataProcessor} from '../../../../utils'
+import {Message, Divider} from 'semantic-ui-react'
 import {Bar} from 'react-chartjs-2';
 
 const year = (new Date()).getFullYear()
@@ -13,13 +12,12 @@ class Chart1 extends Component {
     const chartData = dataProcessor(this.props.data)
     const maxIncome = (chartData.breakeven) ? Math.max(chartData.dataCs[chartData.breakeven-1], chartData.dataEs[chartData.breakeven-1]) : 0
     const beArray = (chartData.breakeven) ? getBeArray(chartData.breakeven, maxIncome) : []
-    console.log(chartData)
-    console.log(beArray)
 
     return (
       <div>
-              {chartData.breakeven && <Message color="blue"> After spending {commaFormat(((chartData.tuition*chartData.yearsOfSchool)))} on tuition, you will make back your grad school investment in {chartData.breakeven+year}. You'll be {chartData.age + chartData.breakeven} years old. This DOESN'T account for any student loan interest rates.
+              {chartData.breakeven && <Message color="violet"> After spending {commaFormat(((chartData.tuition*chartData.yearsOfSchool)))} on tuition, you will make back your grad school investment in {chartData.breakeven+year}. You'll be {chartData.age + chartData.breakeven} years old. This DOESN'T account for any student loan interest rates.
         </Message>}
+        <Divider hidden />
         {!chartData.breakeven && <Message color="red"> Doesn't look like a great investment for you. You don't recoup your investment even when we exclude the time value of money.</Message>}
         <Bar
         data = {{
@@ -62,7 +60,8 @@ const options = {
     display: true,
     text: 'Your salary projection until retirement age',
     fontColor: 'black',
-    fontSize: 20
+    fontSize: 22,
+    fontFamily: 'K2D'
   },
   scales: {
     xAxes: [{
