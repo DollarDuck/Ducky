@@ -73,7 +73,9 @@ class PurchasePlanner extends React.Component {
 		      <Grid.Column centered width={5}>
 		      <Card fluid centered>
 		      <Label size="massive" >Purchase Planner</Label>
-		      <Label size="medium">Plan your next big purchase!</Label>
+		      <div className="padding-left">
+		      <Card.Header as="h4">Plan your next big purchase!</Card.Header>
+		      </div>
 		      {this.state.isSubmitted ?
 		      	(
 		      		<div>
@@ -84,10 +86,12 @@ class PurchasePlanner extends React.Component {
 		      			<div>
 		      		<Card.Content><Card.Meta><p className="padding black">Based on your {this.props.singlePlan.numMonths} month plan, you'd need to save {this.props.singlePlan.costPerMonth} every month. This would be {this.props.singlePlan.percentageTotalBudget}% of your total monthly budget</p></Card.Meta></Card.Content>
 		      		<Card.Content><Card.Meta><p className="padding black">In other terms, this would be about:</p></Card.Meta></Card.Content>		      		<Grid.Row centered width={2}>
-		      		<div onClick={this.switchLeft} className="padding-icon-left">
+		      		{this.state.compareName.includes('lattes') ? (<div onClick={this.switchLeft} className="padding-icon-left">
 		      			<Icon name="chevron left" />
 		      		</div>
+		      		) : '     '}
 		      		<Grid.Column>
+		      		<div className={this.state.compareName.includes('lunches') ? "padding-left-icon" : ''}>
 		      		<Card centered width={1}>
 		      		<Label fluid size="big">{this.state.compareName}</Label>
 		      		<br />
@@ -97,10 +101,13 @@ class PurchasePlanner extends React.Component {
 		      		})}
 		      		</Grid.Row>
 		      		</Card>
+		      		</div>
 		      		</Grid.Column>
+		      		{this.state.compareName.includes('lunches') ? (
 		      		<div onClick={this.switchRight} className="padding-icon-right">
 		      			<Icon name="chevron right" />
 		      		</div>
+		      		): '     '}
 		      		</Grid.Row>
 		      		<h1 />
 		      		<Button fluid size ="large" onClick={() => this.addToBudget(this.props.singlePlan)}>Add To Budget</Button>
