@@ -82,7 +82,7 @@ class Plaid extends Component {
                 <Message.Header>Bank account submitted</Message.Header>
               </Message>
               <Divider hidden />
-              <Button as={Link} to={`/budgets/${this.props.user.id}`}>
+              <Button as={Link} to={`/budget/${this.props.user.id}`}>
                 See my New Budget
               </Button>
             </div>
