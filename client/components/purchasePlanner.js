@@ -3,7 +3,7 @@ import {Segment, Grid, Card, Label, Form, Button, Image, Icon} from 'semantic-ui
 import {connect} from 'react-redux'
 import {calculatePlan, clearState} from '../store/purchasePlanner'
 import {addPurchaseToBudget} from '../store/budget'
-import {NavLink} from 'react-router-dom'
+import {NavLink, Link} from 'react-router-dom'
 import {commaFormat, ensureTwoDecimals} from '../../utils'
 
 const mapDispatch = dispatch => ({
@@ -13,6 +13,7 @@ const mapDispatch = dispatch => ({
 })
 
 const mapState = state => ({
+	user: state.user,
 	singlePlan: state.purchases.singleOption,
 	multiplePlan: state.purchases.multipleOptions
 })
@@ -111,7 +112,7 @@ class PurchasePlanner extends React.Component {
 		      		</Grid.Row>
 		      		<h1 />
 		      		<Button fluid size ="large" onClick={() => this.addToBudget(this.props.singlePlan)}>Add To Budget</Button>
-		      		<NavLink to="/me"><Button fluid color="grey" size ="large">Skip and return to Home</Button></NavLink>
+		      		<NavLink to={`/budget/${this.props.user.id}`}><Button fluid color="grey" size ="large">Skip and return to Budget</Button></NavLink>
 		      		</div>
 		      		) : (
 		      			<div>
@@ -132,7 +133,7 @@ class PurchasePlanner extends React.Component {
 		      				)
 		      				})}
 		      				</Grid.Row>
-		      				<NavLink to="/me"><Button fluid color="grey" size ="large">Skip and return to Home</Button></NavLink>
+		      				<NavLink to={`/budget/${this.props.user.id}`}><Button fluid color="grey" size ="large">Skip and return to Budget</Button></NavLink>
 				      	</div>
 
 		      		)}
@@ -140,7 +141,7 @@ class PurchasePlanner extends React.Component {
 		      		) : (
 		      		<div>
 		      		<Card.Content><Card.Meta><h4 className="padding black bold font-body">Purchase added to budget</h4></Card.Meta></Card.Content>
-		      		<NavLink to="/me"><Button fluid size ="large">Back to Home</Button></NavLink>
+		      		<Button as={Link} to={`/budget/${this.props.user.id}`} fluid color="blue" size ="large">See my new budget</Button>
 		      		</div>
 		      		)}
 		      		</div>

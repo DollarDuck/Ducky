@@ -74,7 +74,6 @@ class Bills extends React.Component {
           </Table.Body>
         </Table>
         <Divider hidden />
-           <Link to="/me"><Button size="large" floated="center">Back to Home</Button></Link>
         </Grid>
       </Container>
     )

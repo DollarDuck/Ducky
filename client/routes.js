@@ -2,9 +2,27 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {SplashPage, PurchasePlanner, Budget, EditBudget, Login, Signup, Onboarding, OnboardingBudget, Plaid, Dashboard, Bills, NewBillForm, OnboardingLink, Balances, EditUser, UserProfile, SpendingMenu, GradSchoolInput} from './components'
+import {
+  SplashPage,
+  PurchasePlanner,
+  Budget,
+  EditBudget,
+  Login,
+  Signup,
+  Onboarding,
+  OnboardingBudget,
+  Plaid,
+  Bills,
+  NewBillForm,
+  OnboardingLink,
+  Balances,
+  EditUser,
+  UserProfile,
+  SpendingMenu,
+  GradSchoolInput
+} from './components'
 import {me} from './store'
-
+import {Sidebar} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -18,6 +36,7 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
+<Sidebar.Pusher dimmed={this.props.visible}>
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
@@ -25,28 +44,35 @@ class Routes extends Component {
         <Route path="/onboarding/step2" component={OnboardingBudget} />
         <Route path="/onboarding/step3" component={OnboardingLink} />
         <Route path="/signup" component={Signup} />
-        <Route path="/bills/addbill/:userId" component={NewBillForm} />
-        <Route path="/bills/:userId" component={Bills} />
-        <Route path="/purchasePlanner/:userId" component={PurchasePlanner} />
         <Route path="/plaid" component={Plaid} />
-        <Route path="/editUser/:userId" component={EditUser} />
-        <Route path="/lifeEvents/gradSchool/input" component={GradSchoolInput} />
+        <Route
+          path="/lifeEvents/gradSchool/input"
+          component={GradSchoolInput}/>
 
-        <Route path="/budget/:userId" component={Budget} />
-        <Route path="/editBudget/:budgetId" component={EditBudget} />
-        <Route path="/purchasePlanner/:userId" component={PurchasePlanner} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path='/balances' component={Balances} />
+            <Route path="/balances" component={Balances} />
             <Route path="/spending/:userId" component={SpendingMenu} />
-            <Route path="/me" component={Dashboard} />
             <Route path="/userProfile" component={UserProfile} />
+            <Route path="/bills/addbill/:userId" component={NewBillForm} />
+            <Route path="/bills/:userId" component={Bills} />
+            <Route
+              path="/purchasePlanner/:userId"
+              component={PurchasePlanner}/>
+            <Route path="/budget/:userId" component={Budget} />
+            <Route path="/editBudget/:budgetId" component={EditBudget} />
+            <Route
+              path="/purchasePlanner/:userId"
+              component={PurchasePlanner}/>
+            <Route path="/editUser/:userId" component={EditUser} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
         <Route component={SplashPage} />
       </Switch>
+      </Sidebar.Pusher>
+
     )
   }
 }

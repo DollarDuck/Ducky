@@ -10,21 +10,20 @@ export {default as Onboarding} from './onboarding/onboardingBasicInfo'
 export {default as OnboardingBudget} from './onboarding/onboardingBudget'
 export {default as Plaid} from './plaidLink'
 export {default as OnboardingLink} from './onboarding/onboardingLink'
-export {default as Dashboard} from './Dashboard'
 export {default as Balances} from './balances'
 export {default as Bills} from './Bills'
 export {default as NewBillForm} from './NewBillForm'
 export {default as Transactions} from './transactions'
-
 export {default as SpendingDoughnut} from './SpendingDoughnut'
 export {default as UserProfile} from './userProfile'
 export {default as EditUser} from './editUser'
-
-
 export {default as GradSchoolInput} from './lifeEvents/gradSchool/input'
-
 export {default as Budget} from './budget'
 export {default as EditBudget} from './editBudget'
 export {default as SpendingMenu} from './Spending'
 export {default as PurchasePlanner} from './purchasePlanner'
+<<<<<<< HEAD
+export {default as SidebarMenu} from './SidebarMenu'
+=======
 export {default as SplashPage} from './splashPage'
+>>>>>>> fbd6132c368ac1b2a9af3b3c8362ee49cb5dae65

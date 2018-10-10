@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {getTransactions, getBalances} from '../store/plaid'
 import {updateUser} from '../store/user'
 import {get30DaysAgo} from '../../utils'
-import {NavLink, Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {Dimmer, Loader, Button, Divider, Message} from 'semantic-ui-react'
 
 const mapStateToProps = state => ({
@@ -52,7 +52,7 @@ class Plaid extends Component {
           <Divider hidden />
           <Divider hidden />
           <PlaidLink
-            clientName="Plaid Client"
+            clientName="Dollar Ducky"
             env="sandbox"
             product={['auth', 'transactions']}
             publicKey="2e86ad2a3b3a35d15f0112504ac7d3"
@@ -63,9 +63,7 @@ class Plaid extends Component {
           </PlaidLink>
           <h3 />
           {this.props.isOnboarding ? (
-            <NavLink to="/me">
-              <Button>Skip this step</Button>
-            </NavLink>
+              <Button as={Link} to={`/budget/${this.props.user.id}`}>Skip this step</Button>
           ) : (
             ''
           )}
@@ -84,8 +82,8 @@ class Plaid extends Component {
                 <Message.Header>Bank account submitted</Message.Header>
               </Message>
               <Divider hidden />
-              <Button as={Link} to="/me">
-                Return to Home
+              <Button as={Link} to={`/budgets/${this.props.user.id}`}>
+                See my New Budget
               </Button>
             </div>
           )}
@@ -94,5 +92,6 @@ class Plaid extends Component {
     }
   }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Plaid)

@@ -137,11 +137,6 @@ class Budget extends React.Component {
               </h3>
               <h3 />
             </Grid>
-            <Link to="/me">
-              <Button size="large" floated="left">
-                Back to Home
-              </Button>
-            </Link>
             <h3 />
             <Divider hidden />
             <Divider hidden />

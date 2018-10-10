@@ -28,7 +28,6 @@ class Balances extends Component {
         </Header>
         <Divider />
         <Divider hidden />
-        <Link to="/me"><Button size="large" floated='left'>Back to Home</Button></Link>
         {balances.length > 0
         ? <Container>
           <Bar
