@@ -141,7 +141,7 @@ class PurchasePlanner extends React.Component {
 		      		) : (
 		      		<div>
 		      		<Card.Content><Card.Meta><h4 className="padding black bold font-body">Purchase added to budget</h4></Card.Meta></Card.Content>
-		      		<Button as={Link} to={`/budget/${this.props.user.id}`} fluid color="blue" size ="large">See my new budget</Button>
+		      		<Button as={Link} to={`/budget/${this.props.user.id}`} fluid size ="large">See my new budget</Button>
 		      		</div>
 		      		)}
 		      		</div>

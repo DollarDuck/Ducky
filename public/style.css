@@ -446,3 +446,11 @@ main {
 .padded {
   margin: 1rem;
 }
+
+.link-row {
+  height: 350px;
+}
+
+.ui.label {
+  margin-right: 0;
+}
