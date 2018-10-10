@@ -1,7 +1,7 @@
 import React from 'react'
-import {Link, Route, Switch} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {Menu, Container, Divider, Grid, Button } from 'semantic-ui-react'
+import {Menu, Container, Divider, Button } from 'semantic-ui-react'
 import Transactions from './transactions'
 import SpendingDoughnut from './SpendingDoughnut'
 
@@ -37,12 +37,8 @@ class SpendingMenu extends React.Component {
           <hr />
         </Menu>
         <h1 />
-<<<<<<< HEAD
-
-=======
           <Link to="/me"><Button size="large" floated='left'>Back to Home</Button></Link>
           <br />
->>>>>>> fbd6132c368ac1b2a9af3b3c8362ee49cb5dae65
         {this.state.activeItem === 'transactions'
         ? <Transactions />
         : <SpendingDoughnut />}

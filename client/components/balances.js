@@ -36,7 +36,7 @@ class Balances extends Component {
               datasets: [{
                 label: 'Available Balance ($US)',
                 data: chartData.depository.data,
-                backgroundColor: 'green'
+                backgroundColor: 'rgba(30, 109, 14, 0.7)'
 
               }],
             }}
@@ -47,7 +47,8 @@ class Balances extends Component {
                 display: true,
                 text: 'Checking, Savings, CD, Money Market Accounts (Total Value: ' + commaFormat(Math.round(chartData.depository.total)) + ')',
                 fontColor: 'black',
-                fontSize: 20
+                fontSize: 20,
+                fontFamily: 'K2D'
               },
               scales: {
                 yAxes: [{
@@ -56,7 +57,8 @@ class Balances extends Component {
                       return commaFormat(value)
                     },
                     fontColor: 'green',
-                    beginAtZero: true
+                    beginAtZero: true,
+                    fontFamily: 'K2D'
                     }
                 }],
               },
@@ -89,7 +91,7 @@ class Balances extends Component {
                 datasets: [{
                   label: 'Available Balance ($US)',
                   data: chartData.credit.data,
-                  backgroundColor: 'red'
+                  backgroundColor: 'rgba(206, 0, 0, 0.7)'
 
                 }],
               }}
@@ -100,7 +102,8 @@ class Balances extends Component {
                   display: true,
                   text: 'Credit Card Balance Data (Total Value: ' + commaFormat(Math.round(chartData.credit.total))+')',
                   fontColor: 'black',
-                  fontSize: 20
+                  fontSize: 20,
+                  fontFamily: 'K2D'
                 },
                 scales: {
                   yAxes: [{
@@ -109,7 +112,8 @@ class Balances extends Component {
                       return commaFormat(value)
                       },
                       fontColor: 'red',
-                      beginAtZero: true
+                      beginAtZero: true,
+                      fontFamily: 'K2D'
                       }
                   }],
                 },
