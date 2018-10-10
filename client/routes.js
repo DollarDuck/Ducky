@@ -11,7 +11,7 @@ import {
   Signup,
   Onboarding,
   OnboardingBudget,
-  Plaid,
+  LinkBank,
   Bills,
   NewBillForm,
   OnboardingLink,
@@ -44,7 +44,7 @@ class Routes extends Component {
         <Route path="/onboarding/step2" component={OnboardingBudget} />
         <Route path="/onboarding/step3" component={OnboardingLink} />
         <Route path="/signup" component={Signup} />
-        <Route path="/plaid" component={Plaid} />
+        <Route path="/plaid" component={LinkBank} />
         <Route
           path="/lifeEvents/gradSchool/input"
           component={GradSchoolInput}/>

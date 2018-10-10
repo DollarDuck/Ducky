@@ -87,7 +87,7 @@ class InputGradSchool extends Component {
               </Form.Field>
               <br />
               <Form.Field>
-                <label>Current Annual Salary (Without Grad School)</label>
+                <label>Current Annual Salary</label>
                 <input
                   placeholder="Enter Current Salary"
                   name="currentSalary"
@@ -95,7 +95,7 @@ class InputGradSchool extends Component {
                 />
               </Form.Field>
               <Form.Input
-                label={`And I expect my salary (without grad school) to grow ${csGrowth}% per year`}
+                label={`And I expect my salary without grad school to grow ${csGrowth}% per year`}
                 min={-2}
                 max={12}
                 name="csGrowth"
@@ -103,6 +103,7 @@ class InputGradSchool extends Component {
                 step={1}
                 type="range"
                 value={this.state.csGrowth}
+                className="padding-left"
               />
               <br />
               <Form.Field>

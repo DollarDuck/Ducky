@@ -50,7 +50,7 @@ class SidebarMenu extends Component {
           </Menu.Item>
           <Menu.Item as={Link} to="/lifeevents/gradschool/input">
             <Icon name="university" />
-            Grad School Calculator
+            Grad School Analyzer
           </Menu.Item>
         </Sidebar>
         <Routes />
