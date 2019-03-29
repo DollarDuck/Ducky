@@ -111,7 +111,7 @@ class Onboarding extends Component {
             <br />
             <Form.Field className="padding-left">
               <label>
-                Mobile Number (optional)
+                Mobile Number
                 <Popup
                   trigger={
                     <Label style={{marginLeft: '1rem'}} circular>
